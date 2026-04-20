@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" fill="none">
+  <rect width="900" height="700" rx="48" fill="#d8c69f" />
+  <rect x="80" y="90" width="740" height="520" rx="36" fill="#f7f2e8" />
+  <circle cx="280" cy="280" r="120" fill="#c2ad79" opacity="0.85" />
+  <circle cx="505" cy="235" r="90" fill="#b19f6b" opacity="0.9" />
+  <circle cx="520" cy="390" r="140" fill="#efdfb9" />
+  <path d="M510 370c40 20 95 10 110-30" stroke="#8a7a56" stroke-width="24" stroke-linecap="round" />
+  <path d="M300 370c-42 24-96 12-113-30" stroke="#8a7a56" stroke-width="24" stroke-linecap="round" />
+  <text x="100" y="620" fill="#6c5842" font-size="64" font-weight="700" font-family="Arial, sans-serif">Lumpia</text>
+</svg>

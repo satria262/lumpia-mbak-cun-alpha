@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" fill="none">
+  <rect width="1200" height="900" rx="48" fill="#dfe8d9" />
+  <rect x="80" y="72" width="1040" height="756" rx="40" fill="#fff" />
+  <path d="M280 220c150 120 230 85 320 160 80 65 140 215 240 230 80 12 140-60 190-100" stroke="#a9b78c" stroke-width="36" stroke-linecap="round" />
+  <circle cx="520" cy="360" r="32" fill="#d4b07d" />
+  <circle cx="820" cy="490" r="28" fill="#d4b07d" />
+  <circle cx="360" cy="540" r="28" fill="#d4b07d" />
+  <text x="110" y="780" fill="#7d7059" font-size="64" font-weight="700" font-family="Arial, sans-serif">Semarang</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" fill="none">
+  <rect width="900" height="700" rx="48" fill="#f6f0df" />
+  <rect x="100" y="80" width="700" height="500" rx="44" fill="#fff8ef" />
+  <path d="M120 240h660v260H120z" fill="#d8c3a5" />
+  <path d="M120 240l330-140 330 140" fill="#e6d3b5" />
+  <path d="M220 320h180v140H220z" fill="#f5e8d2" />
+  <path d="M500 320h180v140H500z" fill="#f5e8d2" />
+  <text x="100" y="620" fill="#7c6d50" font-size="60" font-weight="700" font-family="Arial, sans-serif">Galeri</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" fill="none">
+  <rect width="900" height="700" rx="48" fill="#f7f0e0" />
+  <rect x="80" y="120" width="740" height="420" rx="40" fill="#fdf8f1" />
+  <rect x="140" y="200" width="620" height="200" rx="30" fill="#d7bea8" />
+  <rect x="180" y="260" width="520" height="100" rx="24" fill="#fff4e5" />
+  <path d="M180 200v-40c0-15 12-27 27-27h486c15 0 27 12 27 27v40" fill="#d7bea8" />
+  <text x="100" y="620" fill="#7b6a51" font-size="60" font-weight="700" font-family="Arial, sans-serif">Toko</text>
+</svg>
