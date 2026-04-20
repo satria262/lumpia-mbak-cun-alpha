@@ -326,7 +326,7 @@ export default function Home() {
                   <h2 className="text-4xl">Lokasi Kedai Kami</h2>
                   <p className="text-[#CEC76F]">Jl. Pandanaran 12 No 4</p>
                 </div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp" height="450" style={{border: 0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="rounded-lg w-full"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp" height="450" style={{border: 0}} allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="rounded-lg w-full"></iframe>
               </div>
         </div>
       </section>
