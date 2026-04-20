@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import TestimonialCarousel from "./components/TestimonialCarousel";
+import Navbar from "./components/Navbar";
 import { products, site } from "../lib/siteData";
 
 const homeProductTitles: Record<string, string> = {
@@ -22,37 +23,7 @@ function formatCompactPrice(price: string) {
 export default function Home() {
   return (
     <div className="theme-shell">
-      <header className="theme-header border-b backdrop-blur-sm">
-        <div className="mx-auto flex max-w-[1360px] items-center justify-between px-3 py-5 sm:px-4 lg:px-3">
-          <Link href="/" className="text-lg font-semibold text-[#1d1b16]">
-            {site.name}
-          </Link>
-          <nav className="hidden items-center gap-3 text-sm md:flex">
-            <Link
-              href="/"
-              aria-current="page"
-              className="nav-link rounded-full border border-[color-mix(in_srgb,var(--primary)_48%,white)] bg-[color-mix(in_srgb,var(--primary)_18%,white)] px-4 py-2 font-semibold text-[#5a5222] shadow-[0_12px_28px_-22px_var(--shadow)]"
-            >
-              Beranda
-            </Link>
-            <Link href="#about" className="nav-link rounded-full px-4 py-2">
-              Tentang
-            </Link>
-            <Link href="#products" className="nav-link rounded-full px-4 py-2">
-              Menu
-            </Link>
-            <Link href="#location" className="nav-link rounded-full px-4 py-2">
-              Lokasi
-            </Link>
-          </nav>
-          <Link
-            href="/location"
-            className="rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
-          >
-            Pesan Sekarang
-          </Link>
-        </div>
-      </header>
+      <Navbar />
 
       <section className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
         <div className="mx-auto grid max-w-[1360px] gap-12 px-3 sm:px-4 lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-28 lg:px-3">
@@ -316,7 +287,7 @@ export default function Home() {
       </section>
 
       <section className="bg-white pt-20">
-        <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3 grid grid-cols-2 py-20 gap-16">
+        <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3 grid lg:grid-cols-2 py-20 gap-16">
               <div className="space-y-8">
                 <h2 className="text-4xl">Apa Kata Tamu Kami</h2>
                 <TestimonialCarousel />

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "../components/Navbar";
 import { locationInfo, products, site } from "../../lib/siteData";
 
 export const metadata = {
@@ -10,28 +11,7 @@ export const metadata = {
 export default function LocationPage() {
   return (
     <div className="theme-shell">
-      <header className="theme-header border-b backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <Link href="/" className="text-lg font-semibold text-[#1d1b16]">
-            {site.name}
-          </Link>
-          <nav className="flex items-center gap-3 text-sm">
-            <Link href="/" className="nav-link rounded-full px-4 py-2">
-              Home
-            </Link>
-            <Link
-              href="/location"
-              aria-current="page"
-              className="nav-link rounded-full border border-[color-mix(in_srgb,var(--primary)_48%,white)] bg-[color-mix(in_srgb,var(--primary)_18%,white)] px-4 py-2 font-semibold text-[#5a5222] shadow-[0_12px_28px_-22px_var(--shadow)]"
-            >
-              Lokasi
-            </Link>
-            <Link href="/products/tahu-bakso-khas-semarang" className="nav-link rounded-full px-4 py-2">
-              Menu
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="mx-auto max-w-6xl px-6 py-10">
         <section className="mb-12 rounded-[32px] bg-[rgba(255,253,247,0.94)] p-10 shadow-lg shadow-[var(--shadow)]">
