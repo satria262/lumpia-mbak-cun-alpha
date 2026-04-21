@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const testimonials = [
   {
@@ -28,43 +28,97 @@ const testimonials = [
 ];
 
 export default function TestimonialCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const active = testimonials[activeIndex];
+  const [displayIndex, setDisplayIndex] = useState(0);
+  const [leavingIndex, setLeavingIndex] = useState<number | null>(null);
+  const animationTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (animationTimeoutRef.current !== null) {
+        window.clearTimeout(animationTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function transitionTo(nextIndex: number) {
+    if (nextIndex === displayIndex) {
+      return;
+    }
+
+    setLeavingIndex(displayIndex);
+    setDisplayIndex(nextIndex);
+
+    if (animationTimeoutRef.current !== null) {
+      window.clearTimeout(animationTimeoutRef.current);
+    }
+
+    animationTimeoutRef.current = window.setTimeout(() => {
+      setLeavingIndex(null);
+      animationTimeoutRef.current = null;
+    }, 320);
+  }
 
   function goToPrevious() {
-    setActiveIndex((current) =>
-      current === 0 ? testimonials.length - 1 : current - 1,
+    transitionTo(
+      displayIndex === 0 ? testimonials.length - 1 : displayIndex - 1,
     );
   }
 
   function goToNext() {
-    setActiveIndex((current) =>
-      current === testimonials.length - 1 ? 0 : current + 1,
+    transitionTo(
+      displayIndex === testimonials.length - 1 ? 0 : displayIndex + 1,
     );
   }
 
+  const active = testimonials[displayIndex];
+  const leaving = leavingIndex === null ? null : testimonials[leavingIndex];
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-col bg-[#F8F2F0] p-8 rounded-lg space-y-4 relative min-h-[320px]">
-        <p className="absolute -top-4 -left-2 opacity-25 text-[#CEC76F] text-4xl font-extrabold">
-          99
+      <div className="testimonial-stage relative min-h-[280px] rounded-lg bg-[#F8F2F0]">
+        <p className="testimonial-mark absolute left-6 top-5 text-6xl font-semibold">
+          &ldquo;
         </p>
-        <p className="text-xl leading-8 text-[#231f19]">{active.quote}</p>
-        <div className="mt-auto flex items-center space-x-4">
-          <Image
-            src={active.image}
-            alt={active.name}
-            width={52}
-            height={52}
-            className="h-[52px] w-[52px] rounded-lg object-cover object-center"
-          />
-          <div>
-            <p className="text-xl font-semibold">{active.name}</p>
-            <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
-              {active.role}
-            </p>
+
+        <article className="testimonial-card testimonial-card-current flex h-full flex-col gap-6 p-8 pt-12">
+          <p className="text-xl leading-8 text-[#231f19]">{active.quote}</p>
+          <div className="flex items-center space-x-4">
+            <Image
+              src={active.image}
+              alt={active.name}
+              width={52}
+              height={52}
+              className="h-[52px] w-[52px] rounded-lg object-cover object-center"
+            />
+            <div>
+              <p className="text-xl font-semibold">{active.name}</p>
+              <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
+                {active.role}
+              </p>
+            </div>
           </div>
-        </div>
+        </article>
+
+        {leaving && (
+          <article className="testimonial-card testimonial-card-leaving flex h-full flex-col gap-6 p-8 pt-12">
+            <p className="text-xl leading-8 text-[#231f19]">{leaving.quote}</p>
+            <div className="flex items-center space-x-4">
+              <Image
+                src={leaving.image}
+                alt={leaving.name}
+                width={52}
+                height={52}
+                className="h-[52px] w-[52px] rounded-lg object-cover object-center"
+              />
+              <div>
+                <p className="text-xl font-semibold">{leaving.name}</p>
+                <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
+                  {leaving.role}
+                </p>
+              </div>
+            </div>
+          </article>
+        )}
       </div>
 
       <div className="flex items-center gap-3">

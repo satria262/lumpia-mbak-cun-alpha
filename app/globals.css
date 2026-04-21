@@ -75,6 +75,51 @@ h6 {
   box-shadow: 0 16px 40px -28px var(--shadow);
 }
 
+.normal-navbar {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 260ms ease 80ms,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1) 80ms,
+    visibility 0ms linear 0ms;
+  visibility: visible;
+}
+
+.normal-navbar.is-hidden {
+  opacity: 0;
+  transform: translateY(-1.35rem);
+  transition:
+    opacity 220ms ease,
+    transform 300ms cubic-bezier(0.64, 0, 0.78, 0),
+    visibility 0ms linear 300ms;
+  visibility: hidden;
+}
+
+.sticky-navbar-shell {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-1.35rem);
+  transition:
+    opacity 240ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0ms linear 320ms;
+  visibility: hidden;
+}
+
+.sticky-navbar-shell.is-visible {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 110ms, 110ms, 0ms;
+  visibility: visible;
+}
+
+.sticky-navbar {
+  background: color-mix(in srgb, white 84%, var(--background));
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
 .nav-link {
   color: var(--muted);
   transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
@@ -120,6 +165,54 @@ h6 {
   color: #6b6330;
 }
 
+@keyframes testimonialCardReveal {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes testimonialCardLiftAway {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.testimonial-stage {
+  isolation: isolate;
+  box-shadow: 0 20px 46px -34px rgba(70, 52, 26, 0.28);
+}
+
+.testimonial-mark {
+  color: rgba(206, 199, 111, 0.42);
+  line-height: 0.8;
+  pointer-events: none;
+  font-family: var(--font-noto-serif);
+}
+
+.testimonial-card {
+  position: absolute;
+  inset: 0;
+}
+
+.testimonial-card-current {
+  z-index: 1;
+  animation: testimonialCardReveal 260ms ease-out both;
+}
+
+.testimonial-card-leaving {
+  z-index: 2;
+  animation: testimonialCardLiftAway 320ms ease-out both;
+  pointer-events: none;
+}
+
 @keyframes locationHeroRise {
   from {
     opacity: 0;
@@ -143,6 +236,20 @@ h6 {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .sticky-navbar-shell {
+    transform: none;
+    transition: none;
+  }
+
+  .normal-navbar {
+    transition: none;
+  }
+
+  .testimonial-card-current,
+  .testimonial-card-leaving {
+    animation: none;
   }
 
   .location-hero-copy,

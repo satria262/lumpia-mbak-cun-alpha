@@ -78,7 +78,7 @@ export default function LocationPage() {
                   </div>
                 </div>
                 <button className="inline-flex items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]">
-                    <a href="#">Get Direction</a>
+                    <a href="https://maps.app.goo.gl/JqA6jZ9V1qVewHeL8">Get Direction</a>
                 </button>
               </div>
             </div>
@@ -94,12 +94,13 @@ export default function LocationPage() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
-              <div className="absolute left-5 bottom-5 rounded-2xl bg-[rgba(255,252,247,0.94)] px-5 py-4 shadow-[0_18px_40px_-28px_rgba(70,52,26,0.42)] backdrop-blur-sm">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
-                  Lokasi Kami
-                </p>
-                <p className="mt-2 text-sm leading-6 text-[#4f493d]">
-                  Lumpia Mbak Cun, Semarang
+              <div className="absolute left-13 bottom-13 rounded-md rounded-bl-none w-80 bg-[rgba(255,252,247,0.94)] px-5 py-4 shadow-[0_18px_40px_-28px_rgba(70,52,26,0.42)] backdrop-blur-sm">
+                <h1 className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
+                  &ldquo;The best lumpia in town, still maintaining its authentic
+                  bambo shoot crunch.&rdquo;
+                </h1>
+                <p className="mt-2 uppercase text-sm leading-6 text-[#4f493d]">
+                  - Local Reviewer
                 </p>
               </div>
             </div>
