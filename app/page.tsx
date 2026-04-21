@@ -47,13 +47,13 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
-                href="#products"
+                href="/#products"
                 className="inline-flex items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
               >
                 Jelajahi Menu
               </Link>
               <Link
-                href="#about"
+                href="/#about"
                 className="inline-flex items-center justify-center rounded-2xl border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.9)] px-6 py-4 text-sm font-semibold text-[#4e483e] transition hover:border-[var(--primary)] hover:bg-[var(--primary-ghost)] hover:text-[#373119]"
               >
                 Kisah Kami
@@ -306,9 +306,9 @@ export default function Home() {
         <div className="mx-auto flex max-w-[1360px] flex-col gap-4 px-3 text-sm text-[#5f5a4b] sm:px-4 md:flex-row md:items-center md:justify-between lg:px-3">
           <p>&copy; 2026 {site.name}. Semua hak cipta dilindungi.</p>
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="#about">Tentang</Link>
-            <Link href="#products">Menu</Link>
-            <Link href="#location">Lokasi</Link>
+            <Link href="/#about">Tentang</Link>
+            <Link href="/#products">Menu</Link>
+            <Link href="/location">Lokasi</Link>
           </div>
         </div>
       </footer>

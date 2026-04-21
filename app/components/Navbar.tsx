@@ -1,24 +1,34 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "../../lib/siteData";
 
-const navItems = [
+type NavItem = {
+  label: string;
+  href: string;
+  matches: (pathname: string, hash: string) => boolean;
+};
+
+const navItems: NavItem[] = [
   {
     label: "Beranda",
     href: "/",
-    matches: (pathname: string) => pathname === "/",
+    matches: (pathname: string, hash: string) => pathname === "/" && hash === "",
   },
   {
     label: "Tentang",
     href: "/#about",
-    matches: () => false,
+    matches: (pathname: string, hash: string) =>
+      pathname === "/" && hash === "#about",
   },
   {
     label: "Menu",
     href: "/#products",
-    matches: (pathname: string) => pathname.startsWith("/products"),
+    matches: (pathname: string, hash: string) =>
+      pathname.startsWith("/products") ||
+      (pathname === "/" && hash === "#products"),
   },
   {
     label: "Lokasi",
@@ -29,6 +39,16 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    const syncHash = () => setHash(window.location.hash);
+
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, [pathname]);
 
   return (
     <header className="theme-header border-b backdrop-blur-sm">
@@ -39,7 +59,7 @@ export default function Navbar() {
 
         <nav className="hidden items-center gap-3 text-sm md:flex">
           {navItems.map((item) => {
-            const isActive = item.matches(pathname);
+            const isActive = item.matches(pathname, hash);
 
             return (
               <Link

@@ -14,6 +14,10 @@
   --shadow: rgba(175, 165, 88, 0.18);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -81,9 +85,7 @@ h6 {
 }
 
 .nav-link-active {
-  border: 1px solid color-mix(in srgb, var(--primary) 48%, white);
-  background: color-mix(in srgb, var(--primary) 18%, white);
-  color: #5a5222;
+  color: #B1AA57;
   box-shadow: 0 12px 28px -22px var(--shadow);
 }
 
@@ -116,4 +118,35 @@ h6 {
 .accent-chip {
   background: color-mix(in srgb, var(--primary) 28%, white);
   color: #6b6330;
+}
+
+@keyframes locationHeroRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.location-hero-copy {
+  animation: locationHeroRise 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.location-hero-map {
+  animation: locationHeroRise 860ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .location-hero-copy,
+  .location-hero-map {
+    animation: none;
+  }
 }
