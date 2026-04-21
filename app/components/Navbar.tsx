@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "../../lib/siteData";
+import Image from "next/image";
 
 type NavItem = {
   label: string;
@@ -144,7 +145,7 @@ export default function Navbar() {
               href={item.href}
               aria-current={isActive ? "page" : undefined}
               className={[
-                "nav-link rounded-full px-4 py-2",
+                "nav-link px-1 py-2",
                 isActive
                   ? "nav-link-active font-semibold"
                   : "",
@@ -156,12 +157,49 @@ export default function Navbar() {
         })}
       </nav>
 
-      <Link
-        href="/location"
-        className="button-primary rounded-full px-5 py-3 text-sm font-semibold"
-      >
-        Pesan Sekarang
-      </Link>
+      <div className="hidden items-center gap-3 text-sm md:flex">
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noreferrer"
+          className="desktop-anchor-link"
+        >
+          instagram
+        </a>
+        <span className="desktop-anchor-bullet" aria-hidden="true">
+          •
+        </span>
+        <a
+          href="https://tiktok.com"
+          target="_blank"
+          rel="noreferrer"
+          className="desktop-anchor-link"
+        >
+          TikTok
+        </a>
+        <span className="desktop-anchor-bullet" aria-hidden="true">
+          •
+        </span>
+        <a
+          href="https://gofood.co.id"
+          target="_blank"
+          rel="noreferrer"
+          className="desktop-anchor-link"
+        >
+          GoFood
+        </a>
+        <span className="desktop-anchor-bullet" aria-hidden="true">
+          •
+        </span>
+        <a
+          href="https://linktr.ee"
+          target="_blank"
+          rel="noreferrer"
+          className="desktop-anchor-link"
+        >
+          Linktree
+        </a>
+      </div>
     </div>
   );
 

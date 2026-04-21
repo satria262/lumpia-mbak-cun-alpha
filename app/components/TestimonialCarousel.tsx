@@ -75,12 +75,12 @@ export default function TestimonialCarousel() {
 
   return (
     <div className="space-y-6">
-      <div className="testimonial-stage relative min-h-[280px] rounded-lg bg-[#F8F2F0]">
+      <div className="testimonial-stage relative min-h-[360px] rounded-lg bg-[#F8F2F0] sm:min-h-[320px] lg:min-h-[280px]">
         <p className="testimonial-mark absolute left-6 top-5 text-6xl font-semibold">
           &ldquo;
         </p>
 
-        <article className="testimonial-card testimonial-card-current flex h-full flex-col gap-6 p-8 pt-12">
+        <article className="testimonial-card testimonial-card-current flex h-full flex-col justify-between gap-5 p-8 pt-12 sm:gap-6">
           <p className="text-xl leading-8 text-[#231f19]">{active.quote}</p>
           <div className="flex items-center space-x-4">
             <Image
@@ -90,7 +90,7 @@ export default function TestimonialCarousel() {
               height={52}
               className="h-[52px] w-[52px] rounded-lg object-cover object-center"
             />
-            <div>
+            <div className="min-w-0">
               <p className="text-xl font-semibold">{active.name}</p>
               <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
                 {active.role}
@@ -100,7 +100,7 @@ export default function TestimonialCarousel() {
         </article>
 
         {leaving && (
-          <article className="testimonial-card testimonial-card-leaving flex h-full flex-col gap-6 p-8 pt-12">
+          <article className="testimonial-card testimonial-card-leaving flex h-full flex-col justify-between gap-5 p-8 pt-12 sm:gap-6">
             <p className="text-xl leading-8 text-[#231f19]">{leaving.quote}</p>
             <div className="flex items-center space-x-4">
               <Image
@@ -110,7 +110,7 @@ export default function TestimonialCarousel() {
                 height={52}
                 className="h-[52px] w-[52px] rounded-lg object-cover object-center"
               />
-              <div>
+              <div className="min-w-0">
                 <p className="text-xl font-semibold">{leaving.name}</p>
                 <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
                   {leaving.role}
