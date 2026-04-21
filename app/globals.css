@@ -120,6 +120,76 @@ h6 {
   backdrop-filter: blur(18px);
 }
 
+.mobile-nav-shell {
+  pointer-events: none;
+}
+
+.mobile-nav-dock {
+  pointer-events: auto;
+  border: 1px solid color-mix(in srgb, var(--primary) 34%, white);
+  background:
+    linear-gradient(180deg, rgba(255, 254, 250, 0.94) 0%, rgba(247, 243, 233, 0.96) 100%);
+  box-shadow: 0 24px 46px -26px rgba(70, 52, 26, 0.28);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border-radius: 1.75rem;
+  padding: 0.55rem;
+}
+
+.mobile-nav-link {
+  background: rgba(255, 252, 247, 0.68);
+  color: #7a735f;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.mobile-nav-link:hover {
+  color: #3b352b;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: color-mix(in srgb, var(--primary) 32%, white);
+  box-shadow: 0 14px 26px -22px rgba(70, 52, 26, 0.35);
+  transform: translateY(-1px);
+}
+
+.mobile-nav-link:focus-visible {
+  outline: none;
+  color: #2d2819;
+  background: rgba(255, 255, 255, 0.96);
+  border-color: color-mix(in srgb, var(--primary) 50%, white);
+  box-shadow:
+    0 0 0 3px rgba(206, 199, 111, 0.28),
+    0 16px 30px -24px rgba(70, 52, 26, 0.38);
+}
+
+.mobile-nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.1rem;
+  width: 2.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.mobile-nav-link-active {
+  color: #2d2819;
+  background: rgba(255, 255, 255, 0.96);
+  border-color: color-mix(in srgb, var(--primary) 42%, white);
+  box-shadow: 0 16px 30px -24px rgba(70, 52, 26, 0.42);
+  transform: translateY(-1px);
+}
+
+.mobile-nav-link-active .mobile-nav-icon {
+  background: linear-gradient(180deg, var(--primary-soft) 0%, rgba(206, 199, 111, 0.86) 100%);
+  color: #2f2b16;
+}
+
 .nav-link {
   color: var(--muted);
   transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
@@ -255,5 +325,11 @@ h6 {
   .location-hero-copy,
   .location-hero-map {
     animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(6.75rem + env(safe-area-inset-bottom));
   }
 }

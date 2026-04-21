@@ -4,9 +4,9 @@ import Navbar from "../../components/Navbar";
 import { products } from "../../../lib/siteData";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
@@ -15,8 +15,9 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
-export default function ProductPage({ params }: Props) {
-  const product = products.find((item) => item.slug === params.slug);
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+  const product = products.find((item) => item.slug === slug);
 
   if (!product) {
     notFound();
