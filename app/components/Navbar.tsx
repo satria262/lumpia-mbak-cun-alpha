@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "../../lib/siteData";
-import Image from "next/image";
 
 type NavItem = {
   label: string;

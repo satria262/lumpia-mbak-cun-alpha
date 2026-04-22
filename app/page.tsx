@@ -77,38 +77,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-8">
+      <section className="bg-white py-8" id="about">
         <div className="mx-auto grid max-w-[1360px] gap-14 px-3 sm:px-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20 lg:px-3">
           <section id="about" className="contents">
             <div className="relative min-h-[520px]">
-              <div className="absolute left-2 top-4 w-[62%] rotate-[-4deg] rounded-[6px] bg-white p-4 shadow-[0_30px_60px_-36px_rgba(67,48,21,0.35)] sm:w-[56%]">
+              <div className="absolute left-2 top-4 w-[62%] rotate-[-4deg] bg-gray-200 p-4 shadow-[0_30px_60px_-36px_rgba(67,48,21,0.35)] sm:w-[56%]">
                 <div className="overflow-hidden bg-[#9d9988]">
                   <Image
-                    src="/store-1.svg"
+                    src="/system/amazing-semarang.jpg"
                     alt="Poster warisan Lumpia Mbak Cun"
                     width={700}
                     height={900}
                     className="h-[360px] w-full object-cover"
                   />
                 </div>
-                <p className="pt-5 text-center font-[var(--font-noto-serif)] text-[1.7rem] text-[#6c6455]">
-                  Dapur Pertama, 1988
-                </p>
+                <h1 className="pt-5 text-center font-[var(--font-noto-serif)] text-xl text-[#6c6455]">
+                  Semarang Heritage
+                </h1>
               </div>
 
-              <div className="absolute bottom-4 left-[36%] z-10 w-[42%] rotate-[6deg] rounded-[6px] bg-white p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
+              <div className="absolute top-[5rem] left-[20%] z-10 w-[42%] rotate-[6deg] bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
                 <div className="overflow-hidden bg-[#26211b]">
                   <Image
-                    src="/lumpia-semarang.jpg"
+                    src="/products/lumpiasemarang.jpg"
                     alt="Resep warisan Lumpia Mbak Cun"
                     width={620}
                     height={760}
                     className="h-[240px] w-full object-cover"
                   />
                 </div>
-                <p className="pt-4 text-center font-[var(--font-noto-serif)] text-[1.35rem] text-[#6c6455]">
+                <h1 className="pt-4 text-center font-[var(--font-noto-serif)] text-lg text-[#6c6455]">
                   Resep Warisan
-                </p>
+                </h1>
               </div>
             </div>
 
@@ -171,7 +171,7 @@ export default function Home() {
             {products.map((product) => (
               <article
                 key={product.slug}
-                className="overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="flex flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <Image
                   src={product.image}
@@ -180,18 +180,18 @@ export default function Home() {
                   height={420}
                   className="h-56 w-full object-cover"
                 />
-                <div className="p-6">
-                  <div className="mb-3 flex items-start justify-between gap-4">
-                    <h3 className="text-2xl font-semibold text-[#1f1b15]">
+                <div className="flex-1 flex flex-col justify-between p-6">
+                  <div className="mb-3 grid grid-cols-2 gap-4">
+                    <h3 className="text-2xl font-semibold text-[#1f1b15] whitespace-nowrap">
                       {homeProductTitles[product.slug] ?? product.name}
                     </h3>
-                    <p className="text-lg font-bold text-[var(--primary-strong)] sm:text-xl">
+                    <p className="text-lg text-right font-bold text-[var(--primary-strong)] sm:text-xl">
                       {formatCompactPrice(product.price)}
                     </p>
+                    <p className="col-span-2 mb-6 text-sm leading-7 text-[#5f5a4b]">
+                      {product.description}
+                    </p>
                   </div>
-                  <p className="mb-6 text-sm leading-7 text-[#5f5a4b]">
-                    {product.description}
-                  </p>
                   <Link
                     href={`/products/${product.slug}`}
                     className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"

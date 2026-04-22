@@ -6,13 +6,18 @@ export type Product = {
   highlights: string[];
   image: string;
   badge: string;
+  portion: string;
+  philosophy: string;
+  ingredients: string[];
+  storageTip: string;
+  imageNote: string;
 };
 
 export const products: Product[] = [
   {
     slug: "tahu-bakso-khas-semarang",
     name: "Tahu Bakso Khas Semarang",
-    price: "Rp45.000",
+    price: "Rp20.000",
     description:
       "Perpaduan tahu lembut dan bakso berbumbu khas Semarang, disajikan dengan kuah hangat dan sambal jeruk segar.",
     highlights: [
@@ -20,28 +25,49 @@ export const products: Product[] = [
       "Bahan lokal pilihan",
       "Sajian hangat siap saji",
     ],
-    image: "/bakso-card.svg",
+    image: "/products/tahubakso.jpg",
     badge: "Best Seller",
+    portion: "Per porsi hangat",
+    philosophy:
+      "Tahu lembut dan adonan bakso berbumbu diracik agar setiap gigitan terasa gurih, ringan, dan tetap nyaman disantap kapan pun.",
+    ingredients: ["Tahu lembut", "Bakso sapi", "Sambal jeruk"],
+    storageTip:
+      "Simpan dalam wadah tertutup di chiller. Hangatkan dengan kukusan atau air fryer beberapa menit agar teksturnya kembali lembut.",
+    imageNote: "Visual penyajian tahu bakso khas Semarang yang dibuat segar setiap hari.",
   },
   {
     slug: "lumpia-semarang-asli",
     name: "Lumpia Semarang Asli",
-    price: "Rp18.000",
+    price: "Rp22.000",
     description:
       "Lumpia renyah berisi daging, sayuran, dan rempah tradisional yang dibuat menurut resep keluarga.",
     highlights: ["Kulit renyah dan tipis", "Isian harum dan gurih", "Bumbu legendaris"],
-    image: "/lumpia-card.svg",
+    image: "/products/lumpiasemarang.jpg",
     badge: "Pilihan Favorit",
+    portion: "Per potong ukuran jumbo",
+    philosophy:
+      "Perpaduan harmonis antara manisnya rebung pilihan, gurih ayam kampung, dan kesegaran udang laut. Dibungkus dalam kulit renyah yang dibuat manual untuk menjaga tekstur legendaris Semarang.",
+    ingredients: ["Rebung muda", "Udang segar", "Ayam pilihan"],
+    storageTip:
+      "Nikmati dalam kondisi hangat. Jika disimpan, taruh dalam wadah tertutup di lemari pendingin maks. 2 hari lalu panaskan kembali dengan oven atau wajan tanpa banyak minyak.",
+    imageNote: "Visual representasi keaslian resep lumpia Semarang racikan turun-temurun.",
   },
   {
     slug: "lumpia-spesial-semarang",
     name: "Lumpia Spesial Semarang",
-    price: "Rp22.000",
+    price: "Rp20.000",
     description:
       "Varian spesial dengan cita rasa unik, cocok untuk koleksi cemilan harian dan oleh-oleh keluarga.",
     highlights: ["Isian spesial premium", "Kemasannya menarik", "Cemilan siap santap"],
-    image: "/hero-lumpia.svg",
+    image: "/products/pisangcoklat.jpg",
     badge: "Varian Unggulan",
+    portion: "Per box siap santap",
+    philosophy:
+      "Varian yang lebih playful dengan sentuhan manis gurih, tetap mempertahankan karakter kulit lumpia yang tipis dan renyah saat disantap.",
+    ingredients: ["Kulit lumpia tipis", "Isian premium", "Balutan gurih"],
+    storageTip:
+      "Simpan di tempat sejuk dan kering bila belum dibuka. Untuk sensasi terbaik, panaskan singkat sebelum disajikan agar aroma dan tekstur lebih hidup.",
+    imageNote: "Visual penyajian lumpia spesial yang cocok untuk teman santai dan buah tangan.",
   },
 ];
 

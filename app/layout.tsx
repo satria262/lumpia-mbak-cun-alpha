@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Lumpia Mbak Cun",
   description:
     "Cita rasa otentik Semarang - Lumpia, Tahu Bakso, dan makanan tradisional khas nusantara.",
+  icons: {
+    icon: "/system/lumpia-logo.png",
+    shortcut: "/system/lumpia-logo.png",
+    apple: "/system/lumpia-logo.png",
+  },
 };
 
 const notoSerif = Noto_Serif({

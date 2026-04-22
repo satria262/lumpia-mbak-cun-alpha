@@ -82,7 +82,7 @@ export default function LocationPage() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
-              <div className="absolute left-13 bottom-13 rounded-md rounded-bl-none w-80 bg-[rgba(255,252,247,0.94)] px-5 py-4 shadow-[0_18px_40px_-28px_rgba(70,52,26,0.42)] backdrop-blur-sm">
+              <div className="hidden md:block absolute left-13 bottom-13 rounded-md rounded-bl-none w-80 bg-[rgba(255,252,247,0.94)] px-5 py-4 shadow-[0_18px_40px_-28px_rgba(70,52,26,0.42)] backdrop-blur-sm">
                 <h1 className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
                   &ldquo;The best lumpia in town, still maintaining its authentic
                   bambo shoot crunch.&rdquo;
