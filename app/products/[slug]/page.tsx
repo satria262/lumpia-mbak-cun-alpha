@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { CSSProperties } from "react";
 import Navbar from "../../components/Navbar";
-import { products } from "../../../lib/siteData";
+import ShareProductButton from "./ShareProductButton";
+import { getProductBySlug, getProducts } from "../../../lib/content";
 
 type Props = {
   params: Promise<{
@@ -60,22 +62,6 @@ function CartIcon() {
   );
 }
 
-function BackIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-      aria-hidden="true"
-    >
-      <path d="M10 7 5 12l5 5" />
-      <path d="M6 12h13" />
-    </svg>
-  );
-}
-
 function CameraIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#7a7365" className="hidden md:block size-4">
@@ -85,23 +71,15 @@ function CameraIcon() {
   )
 }
 
-function ShareIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-    </svg>
-  )
-}
-
 export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+  return getProducts().map((product) => ({ slug: product.slug }));
 }
 
 export const dynamicParams = false;
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
+  const product = getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -110,34 +88,39 @@ export default async function ProductPage({ params }: Props) {
   const whatsappMessage = encodeURIComponent(
     `Halo, saya ingin pesan ${product.name}. Boleh minta info ketersediaan dan cara pemesanannya?`,
   );
+  const revealStyle = (delay: string) =>
+    ({ "--product-delay": delay } as CSSProperties);
 
   return (
     <div className="theme-shell">
       <Navbar />
 
       <main className="mx-auto max-w-[1360px] px-4 pb-16 pt-8 sm:px-5 lg:px-6 lg:pb-24 lg:pt-12">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.98fr)] lg:items-start lg:gap-14">
-          <section className="space-y-4">
-            <div className="overflow-hidden rounded-[30px] bg-[#e8decb] shadow-[0_28px_64px_-34px_rgba(70,52,26,0.42)]">
+        <div className="product-detail-stage grid gap-10 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.98fr)] lg:items-start lg:gap-14">
+          <section className="product-detail-visual space-y-4">
+            <div className="product-detail-image-shell overflow-hidden rounded-[30px] bg-[#e8decb] shadow-[0_28px_64px_-34px_rgba(70,52,26,0.42)]">
               <Image
                 src={product.image}
                 alt={product.name}
                 width={1200}
                 height={960}
-                className="h-[360px] w-full object-cover sm:h-[480px] lg:h-[640px]"
+                className="product-detail-image h-[360px] w-full object-cover sm:h-[480px] lg:h-[640px]"
                 priority
               />
             </div>
-            <div className="flex md:items-center space-x-2">
+            <div className="product-detail-caption flex md:items-center space-x-2">
               <CameraIcon />
               <p className="text-xs text-center md:text-start italic text-[#7a7365] ">{product.imageNote}</p>
             </div>
           </section>
 
           <section className="max-w-[36rem] space-y-7 lg:pt-8">
-            <div className="space-y-4">
+            <div
+              className="product-detail-block space-y-4"
+              style={revealStyle("120ms")}
+            >
               <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--secondary)]">
-                <a href="/#products"><span>Produk</span></a>
+                <Link href="/#products"><span>Produk</span></Link>
                 <span className="text-[#b4ab90]">/</span>
                 <span><b>{product.badge}</b></span>
               </div>
@@ -155,7 +138,10 @@ export default async function ProductPage({ params }: Props) {
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div
+              className="product-detail-block space-y-3"
+              style={revealStyle("220ms")}
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
                 Filosofi Rasa
               </p>
@@ -164,15 +150,19 @@ export default async function ProductPage({ params }: Props) {
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div
+              className="product-detail-block space-y-4"
+              style={revealStyle("320ms")}
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
                 Bahan Baku Utama
               </p>
               <div className="grid gap-3 grid-cols-3">
-                {product.ingredients.map((item) => (
+                {product.ingredients.map((item, index) => (
                   <article
                     key={item}
-                    className="rounded-[18px] border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.82)] px-4 py-4 text-center shadow-[0_16px_30px_-28px_rgba(70,52,26,0.35)]"
+                    className="product-detail-ingredient rounded-[18px] border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.82)] px-4 py-4 text-center shadow-[0_16px_30px_-28px_rgba(70,52,26,0.35)]"
+                    style={revealStyle(`${420 + index * 90}ms`)}
                   >
                     <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--primary-ghost)] text-[var(--primary-strong)]">
                       <IngredientIcon />
@@ -183,7 +173,10 @@ export default async function ProductPage({ params }: Props) {
               </div>
             </div>
 
-            <article className="bg-[#CEC76F] pl-[2px] rounded-[22px]">
+            <article
+              className="product-detail-block bg-[#CEC76F] pl-[2px] rounded-[22px]"
+              style={revealStyle("520ms")}
+            >
               <div className="rounded-[22px] bg-[#FEFBF4] px-5 py-5 shadow-[0_18px_32px_-28px_rgba(70,52,26,0.35)]">
               <div className="flex items-start gap-4">
                 <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--primary-ghost)] text-[var(--primary-strong)]">
@@ -201,7 +194,10 @@ export default async function ProductPage({ params }: Props) {
               </div>
             </article>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div
+              className="product-detail-block flex flex-col gap-3 sm:flex-row"
+              style={revealStyle("620ms")}
+            >
               <Link
                 href={`https://api.whatsapp.com/send?text=${whatsappMessage}`}
                 className="button-primary inline-flex min-h-14 flex-1 items-center justify-center gap-3 rounded-2xl px-6 text-sm font-semibold"
@@ -211,16 +207,18 @@ export default async function ProductPage({ params }: Props) {
                 <CartIcon />
                 Pesan Sekarang
               </Link>
-              <Link
-                href="/#products"
-                className="button-secondary inline-flex min-h-14 items-center justify-center rounded-2xl px-5 text-sm font-semibold sm:w-14"
-                aria-label="Kembali ke daftar produk"
-              >
-                <ShareIcon />
-              </Link>
+              <ShareProductButton
+                productName={product.name}
+                sharePath={`/products/${product.slug}`}
+              />
             </div>
 
-            <p className="hidden md:block text-sm leading-7 text-[#6e685c]">{product.description}</p>
+            <p
+              className="product-detail-block hidden text-sm leading-7 text-[#6e685c] md:block"
+              style={revealStyle("720ms")}
+            >
+              {product.description}
+            </p>
           </section>
         </div>
       </main>

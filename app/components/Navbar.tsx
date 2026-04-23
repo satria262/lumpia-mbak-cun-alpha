@@ -3,8 +3,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { site } from "../../lib/siteData";
 
 type NavItem = {
   label: string;
@@ -130,8 +130,16 @@ export default function Navbar() {
 
   const navContent = (
     <div className="mx-auto flex max-w-[1360px] items-center justify-between px-3 py-5 sm:px-4 lg:px-3">
-      <Link href="/" className="text-lg font-semibold text-[#1d1b16]">
-        {site.name}
+      <Link href="/" className="flex items-center">
+        <Image
+          src="/system/lumpia-logo.png"
+          alt="Lumpia Mbak Cun"
+          width={132}
+          height={40}
+          className="w-auto object-left object-cover"
+          priority
+        />
+        <h1 className="italic font-semibold text-xl -ml-24">Lumpia Mbak Cun</h1>
       </Link>
 
       <nav className="hidden items-center gap-3 text-sm md:flex">

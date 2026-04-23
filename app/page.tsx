@@ -1,33 +1,83 @@
 import Image from "next/image";
 import Link from "next/link";
-import TestimonialCarousel from "./components/TestimonialCarousel";
 import Navbar from "./components/Navbar";
-import { products, site } from "../lib/siteData";
+import RevealOnScroll from "./components/RevealOnScroll";
+import TestimonialCarousel from "./components/TestimonialCarousel";
+import {
+  formatCompactPrice,
+  getHomeProductTitle,
+  getProducts,
+  getSiteContent,
+} from "../lib/content";
 
-const homeProductTitles: Record<string, string> = {
-  "tahu-bakso-khas-semarang": "Tahu Bakso",
-  "lumpia-semarang-asli": "Lumpia Rebung",
-  "lumpia-spesial-semarang": "Pisang Coklat",
-};
-
-function formatCompactPrice(price: string) {
-  const digits = Number(price.replace(/[^\d]/g, ""));
-
-  if (Number.isNaN(digits)) {
-    return price;
-  }
-
-  return `Rp ${Math.round(digits / 1000)}K`;
-}
+const highlightItems = [
+  {
+    title: "Rebung Segar",
+    description:
+      "Didatangkan setiap hari dari dataran tinggi Jawa Tengah, memastikan tekstur renyah manis tanpa aroma yang menyengat.",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="h-7 w-7"
+        aria-hidden="true"
+      >
+        <path d="M18.5 5.5c-7 0-12 5-12 10.2 0 2.1 1.7 3.8 3.8 3.8 5.2 0 10.2-5 10.2-12 0-1.1-.9-2-2-2Z" />
+        <path d="M9 15c1.5-1.4 3.2-2.7 5-3.8" />
+      </svg>
+    ),
+  },
+  {
+    title: "Telur Pilihan",
+    description:
+      "Kami hanya menggunakan telur bebek angon untuk isian, menciptakan tekstur yang lebih kaya dan gurih yang mengikat cita rasa.",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="h-7 w-7"
+        aria-hidden="true"
+      >
+        <path d="M12 4.5c-2.7 3-4.8 5.8-4.8 8.7a4.8 4.8 0 0 0 9.6 0c0-3-2.1-5.7-4.8-8.7Z" />
+        <path d="M12 11.2c-.8.7-1.2 1.5-1.2 2.4" />
+      </svg>
+    ),
+  },
+  {
+    title: "Tanpa Pengawet",
+    description:
+      "Komitmen terhadap kesehatan dan kemurnian. Lumpia kami dibuat segar setiap pagi, setia pada etika kuliner tradisional.",
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        className="h-7 w-7"
+        aria-hidden="true"
+      >
+        <path d="m12 3 2 2.2 3-.2.8 2.9 2.6 1.4-1 2.8 1 2.8-2.6 1.4-.8 2.9-3-.2L12 21l-2-2.2-3 .2-.8-2.9-2.6-1.4 1-2.8-1-2.8 2.6-1.4.8-2.9 3 .2L12 3Z" />
+        <path d="m9.6 12 1.6 1.6 3.4-3.5" />
+      </svg>
+    ),
+  },
+];
 
 export default function Home() {
+  const products = getProducts();
+  const site = getSiteContent();
+
   return (
     <div className="theme-shell">
       <Navbar />
 
       <section className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
         <div className="mx-auto grid max-w-[1360px] gap-12 px-3 sm:px-4 lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-28 lg:px-3">
-          <div className="max-w-xl space-y-8">
+          <RevealOnScroll className="max-w-xl space-y-8" delay={60}>
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--secondary)]">
                 Sejak 1998 - Semarang
@@ -59,11 +109,15 @@ export default function Home() {
                 Kisah Kami
               </Link>
             </div>
-          </div>
+          </RevealOnScroll>
 
-          <div className="relative lg:mr-[calc(50%-50vw)] lg:pl-10">
+          <RevealOnScroll
+            className="relative lg:mr-[calc(50%-50vw)] lg:pl-10"
+            delay={180}
+            variant="right"
+          >
             <div className="absolute -inset-6 hidden rounded-[48px] bg-[radial-gradient(circle_at_top_right,rgba(206,199,111,0.2),transparent_55%)] lg:block" />
-            <div className="relative overflow-hidden rounded-l-[40px] rounded-r-none bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
+            <div className="home-hero-image relative overflow-hidden rounded-l-[40px] rounded-r-none bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
               <Image
                 src="/lumpia-pinterest.jpg"
                 alt="Lumpia goreng hangat di atas piring saji"
@@ -73,14 +127,14 @@ export default function Home() {
                 priority
               />
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
       <section className="bg-white py-8" id="about">
         <div className="mx-auto grid max-w-[1360px] gap-14 px-3 sm:px-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20 lg:px-3">
           <section id="about" className="contents">
-            <div className="relative min-h-[520px]">
+            <RevealOnScroll className="relative min-h-[520px]" variant="left">
               <div className="absolute left-2 top-4 w-[62%] rotate-[-4deg] bg-gray-200 p-4 shadow-[0_30px_60px_-36px_rgba(67,48,21,0.35)] sm:w-[56%]">
                 <div className="overflow-hidden bg-[#9d9988]">
                   <Image
@@ -110,9 +164,9 @@ export default function Home() {
                   Resep Warisan
                 </h1>
               </div>
-            </div>
+            </RevealOnScroll>
 
-            <div className="max-w-2xl space-y-8">
+            <RevealOnScroll className="max-w-2xl space-y-8" delay={140}>
               <div className="space-y-6">
                 <h2 className="max-w-xl text-4xl leading-[1.02] font-semibold tracking-[-0.04em] text-[#231f19] sm:text-[3.4rem]">
                   Dibuat oleh Sejarah,
@@ -122,7 +176,8 @@ export default function Home() {
                 <div className="max-w-xl border-l-2 border-[var(--primary)] pl-5 text-lg leading-8 text-[#6c6455]">
                   &ldquo;Mbak Cun memulai dengan warung kecil di dekat pelabuhan.
                   Beliau percaya bahwa rahasianya bukan hanya pada bumbu,
-                  melainkan pada kesabaran dalam proses memasak yang perlahan.&rdquo;
+                  melainkan pada kesabaran dalam proses memasak yang
+                  perlahan.&rdquo;
                 </div>
               </div>
 
@@ -140,18 +195,17 @@ export default function Home() {
               >
                 Baca Biografi Selengkapnya
                 <span aria-hidden="true" className="text-xl leading-none">
-                  →
+                  &rarr;
                 </span>
               </Link>
-            </div>
+            </RevealOnScroll>
           </section>
         </div>
       </section>
 
       <main className="mx-auto max-w-[1360px] px-3 py-10 sm:px-4 lg:px-3">
-
         <section id="products" className="mt-16">
-          <div className="text-center">
+          <RevealOnScroll className="text-center">
             <p
               className="text-4xl font-normal tracking-[-0.04em] text-[#111111] sm:text-5xl"
               style={{ fontFamily: "var(--font-noto-serif)" }}
@@ -164,141 +218,100 @@ export default function Home() {
               Kami
             </p>
             <h2 className="mt-8 text-2xl font-semibold text-[#111111] sm:text-xl">
-              Dipilih dengan cermat, disiapkan dengan hormat. Pilih pengalaman warisan Anda.
+              Dipilih dengan cermat, disiapkan dengan hormat. Pilih pengalaman
+              warisan Anda.
             </h2>
-          </div>
+          </RevealOnScroll>
+
           <div className="mt-8 grid gap-16 md:grid-cols-2 xl:grid-cols-3">
-            {products.map((product) => (
-              <article
-                key={product.slug}
-                className="flex flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={600}
-                  height={420}
-                  className="h-56 w-full object-cover"
-                />
-                <div className="flex-1 flex flex-col justify-between p-6">
-                  <div className="mb-3 grid grid-cols-2 gap-4">
-                    <h3 className="text-2xl font-semibold text-[#1f1b15] whitespace-nowrap">
-                      {homeProductTitles[product.slug] ?? product.name}
-                    </h3>
-                    <p className="text-lg text-right font-bold text-[var(--primary-strong)] sm:text-xl">
-                      {formatCompactPrice(product.price)}
-                    </p>
-                    <p className="col-span-2 mb-6 text-sm leading-7 text-[#5f5a4b]">
-                      {product.description}
-                    </p>
+            {products.map((product, index) => (
+              <RevealOnScroll key={product.slug} delay={index * 110}>
+                <article className="home-product-card flex h-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={600}
+                    height={420}
+                    className="h-56 w-full object-cover"
+                  />
+                  <div className="flex flex-1 flex-col justify-between p-6">
+                    <div className="mb-3 grid grid-cols-2 gap-4">
+                      <h3 className="whitespace-nowrap text-2xl font-semibold text-[#1f1b15]">
+                        {getHomeProductTitle(product)}
+                      </h3>
+                      <p className="text-lg font-bold text-right text-[var(--primary-strong)] sm:text-xl">
+                        {formatCompactPrice(product.price)}
+                      </p>
+                      <p className="col-span-2 mb-6 text-sm leading-7 text-[#5f5a4b]">
+                        {product.description}
+                      </p>
+                    </div>
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
+                    >
+                      Lihat Detail
+                    </Link>
                   </div>
-                  <Link
-                    href={`/products/${product.slug}`}
-                    className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
-                  >
-                    Lihat Detail
-                  </Link>
-                </div>
-              </article>
+                </article>
+              </RevealOnScroll>
             ))}
           </div>
         </section>
-
       </main>
 
       <section className="mt-20 bg-white py-10 sm:py-12">
         <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3">
-          <div className="rounded-[44px] bg-[#E7E1DF] px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
+          <RevealOnScroll
+            className="rounded-[44px] bg-[#E7E1DF] px-6 py-10 sm:px-8 lg:px-12 lg:py-14"
+            variant="zoom"
+          >
             <div className="grid gap-10 md:grid-cols-3 md:gap-8">
-              {[
-                {
-                  title: "Rebung Segar",
-                  description:
-                    "Didatangkan setiap hari dari dataran tinggi Jawa Tengah, memastikan tekstur renyah manis tanpa aroma yang menyengat.",
-                  icon: (
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      className="h-7 w-7"
-                      aria-hidden="true"
+              {highlightItems.map((item, index) => (
+                <RevealOnScroll key={item.title} className="h-full" delay={index * 120}>
+                  <article className="home-feature-card flex h-full flex-col items-center text-center">
+                    <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgba(255,252,247,0.92)] text-[var(--primary-strong)] shadow-[0_16px_28px_-22px_rgba(90,70,36,0.35)]">
+                      {item.icon}
+                    </div>
+                    <h3
+                      className="text-3xl font-semibold text-[#1f1b15]"
+                      style={{ fontFamily: "var(--font-noto-serif)" }}
                     >
-                      <path d="M18.5 5.5c-7 0-12 5-12 10.2 0 2.1 1.7 3.8 3.8 3.8 5.2 0 10.2-5 10.2-12 0-1.1-.9-2-2-2Z" />
-                      <path d="M9 15c1.5-1.4 3.2-2.7 5-3.8" />
-                    </svg>
-                  ),
-                },
-                {
-                  title: "Telur Pilihan",
-                  description:
-                    "Kami hanya menggunakan telur bebek angon untuk isian, menciptakan tekstur yang lebih kaya dan gurih yang mengikat cita rasa.",
-                  icon: (
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      className="h-7 w-7"
-                      aria-hidden="true"
-                    >
-                      <path d="M12 4.5c-2.7 3-4.8 5.8-4.8 8.7a4.8 4.8 0 0 0 9.6 0c0-3-2.1-5.7-4.8-8.7Z" />
-                      <path d="M12 11.2c-.8.7-1.2 1.5-1.2 2.4" />
-                    </svg>
-                  ),
-                },
-                {
-                  title: "Tanpa Pengawet",
-                  description:
-                    "Komitmen terhadap kesehatan dan kemurnian. Lumpia kami dibuat segar setiap pagi, setia pada etika kuliner tradisional.",
-                  icon: (
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.8"
-                      className="h-7 w-7"
-                      aria-hidden="true"
-                    >
-                      <path d="m12 3 2 2.2 3-.2.8 2.9 2.6 1.4-1 2.8 1 2.8-2.6 1.4-.8 2.9-3-.2L12 21l-2-2.2-3 .2-.8-2.9-2.6-1.4 1-2.8-1-2.8 2.6-1.4.8-2.9 3 .2L12 3Z" />
-                      <path d="m9.6 12 1.6 1.6 3.4-3.5" />
-                    </svg>
-                  ),
-                },
-              ].map((item) => (
-                <article key={item.title} className="flex flex-col items-center text-center">
-                  <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgba(255,252,247,0.92)] text-[var(--primary-strong)] shadow-[0_16px_28px_-22px_rgba(90,70,36,0.35)]">
-                    {item.icon}
-                  </div>
-                  <h3
-                    className="text-3xl font-semibold text-[#1f1b15]"
-                    style={{ fontFamily: "var(--font-noto-serif)" }}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="mt-5 max-w-[20rem] text-base leading-8 text-[#5f5a4b]">
-                    {item.description}
-                  </p>
-                </article>
+                      {item.title}
+                    </h3>
+                    <p className="mt-5 max-w-[20rem] text-base leading-8 text-[#5f5a4b]">
+                      {item.description}
+                    </p>
+                  </article>
+                </RevealOnScroll>
               ))}
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 
       <section className="bg-white pt-20">
-        <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3 grid lg:grid-cols-2 py-20 gap-16">
-              <div className="space-y-8">
-                <h2 className="text-4xl">Apa Kata Tamu Kami</h2>
-                <TestimonialCarousel />
-              </div>
-              <div>
-                <div className="flex justify-between">
-                  <h2 className="text-4xl">Lokasi Kedai Kami</h2>
-                  <p className="text-[#CEC76F]">Jl. Pandanaran 12 No 4</p>
-                </div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp" height="450" style={{border: 0}} allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="rounded-lg w-full"></iframe>
-              </div>
+        <div className="mx-auto grid max-w-[1360px] gap-16 px-3 py-20 sm:px-4 lg:grid-cols-2 lg:px-3">
+          <RevealOnScroll className="space-y-8">
+            <h2 className="text-4xl">Apa Kata Tamu Kami</h2>
+            <TestimonialCarousel />
+          </RevealOnScroll>
+
+          <RevealOnScroll className="home-map-shell" delay={140} variant="right">
+            <div className="flex justify-between">
+              <h2 className="text-4xl">Lokasi Kedai Kami</h2>
+              <p className="text-[#CEC76F]">Jl. Pandanaran 12 No 4</p>
+            </div>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="rounded-lg w-full"
+            />
+          </RevealOnScroll>
         </div>
       </section>
 

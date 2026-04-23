@@ -1,7 +1,10 @@
 import Navbar from "../components/Navbar";
-import { locationInfo, site } from "../../lib/siteData";
 import Image from "next/image";
 import fork from "../../public/fork.svg";
+import { getLocationContent, getSiteContent } from "../../lib/content";
+
+const site = getSiteContent();
+const locationInfo = getLocationContent();
 
 export const metadata = {
   title: `${site.name} — Lokasi & Galeri`,
@@ -34,8 +37,13 @@ export default function LocationPage() {
             </div>
 
             <div className="rounded-[28px] border border-[rgba(231,223,196,0.9)] bg-[rgba(255,252,247,0.88)] p-6 shadow-[0_18px_38px_-30px_var(--shadow)]">
-              <div className="grid gap-6 ">
-                <Image src={fork} alt="" className="size-16 absolute right-6 opacity-5" aria-hidden="true" />
+                <div className="grid gap-6 ">
+                <Image
+                  src={fork}
+                  alt=""
+                  className="absolute right-6 h-16 w-16 opacity-5"
+                  aria-hidden="true"
+                />
                 <div className="flex space-x-4">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#CEC76F" className="bg-[#CEC76F]/10 p-2 rounded-lg size-10">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -63,10 +71,13 @@ export default function LocationPage() {
                     </p>
                   </div>
                 </div>
-                <a href="https://maps.app.goo.gl/JqA6jZ9V1qVewHeL8" target="_blank">
-                  <button className="inline-flex items-center w-full justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]">
-                      Get Direction
-                  </button>
+                <a
+                  href="https://maps.app.goo.gl/JqA6jZ9V1qVewHeL8"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
+                >
+                  Get Direction
                 </a>
               </div>
             </div>
