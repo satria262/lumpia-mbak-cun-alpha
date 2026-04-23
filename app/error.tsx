@@ -8,8 +8,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   return (
-    <html lang="id">
-      <body className="min-h-screen bg-[var(--background)] px-4 py-16 text-[var(--foreground)]">
+      <div className="min-h-screen bg-[var(--background)] px-4 py-16 text-[var(--foreground)]" lang="id">
         <main className="mx-auto flex max-w-xl flex-col items-start rounded-[32px] border border-[var(--border)] bg-[rgba(255,253,247,0.94)] p-8 shadow-[0_28px_60px_-38px_rgba(70,52,26,0.28)]">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--secondary)]">
             Terjadi Kendala
@@ -35,7 +34,6 @@ export default function GlobalError({
             </p>
           ) : null}
         </main>
-      </body>
-    </html>
+      </div>
   );
 }
