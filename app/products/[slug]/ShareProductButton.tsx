@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useMounted } from "../../../lib/useMounted";
 
 function ShareIcon() {
   return (
@@ -32,10 +33,10 @@ export default function ShareProductButton({
   productName,
   sharePath,
 }: ShareProductButtonProps) {
+  const mounted = useMounted();
   const [isOpen, setIsOpen] = useState(false);
   const [pageUrl, setPageUrl] = useState(sharePath);
   const [hasCopied, setHasCopied] = useState(false);
-  const canUsePortal = typeof document !== "undefined";
 
   function openModal() {
     setHasCopied(false);
@@ -94,7 +95,7 @@ export default function ShareProductButton({
         <ShareIcon />
       </button>
 
-      {canUsePortal && isOpen && createPortal(
+      {mounted && isOpen && createPortal(
         <div
           className="fixed inset-0 z-[90] grid place-items-center bg-[rgba(33,27,19,0.2)] px-4 py-6 backdrop-blur-lg"
           role="dialog"

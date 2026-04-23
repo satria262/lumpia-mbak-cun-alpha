@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useMounted } from "../../lib/useMounted";
 
 type NavItem = {
   label: string;
@@ -109,6 +110,7 @@ const navItems: NavItem[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const mounted = useMounted();
   const [hash, setHash] = useState("");
   const [isStickyVisible, setIsStickyVisible] = useState(false);
 
@@ -128,6 +130,9 @@ export default function Navbar() {
     };
   }, [pathname]);
 
+  const activeHash = mounted ? hash : "";
+  const stickyVisible = mounted ? isStickyVisible : false;
+
   const navContent = (
     <div className="mx-auto flex max-w-[1360px] items-center justify-between px-3 py-5 sm:px-4 lg:px-3">
       <Link href="/" className="flex items-center">
@@ -144,7 +149,7 @@ export default function Navbar() {
 
       <nav className="hidden items-center gap-3 text-sm md:flex">
         {navItems.map((item) => {
-          const isActive = item.matches(pathname, hash);
+          const isActive = item.matches(pathname, activeHash);
 
           return (
             <Link
@@ -213,7 +218,7 @@ export default function Navbar() {
   const mobileNavContent = (
     <nav className="mx-auto grid max-w-md grid-cols-4 gap-2">
       {navItems.map((item) => {
-        const isActive = item.matches(pathname, hash);
+        const isActive = item.matches(pathname, activeHash);
 
         return (
           <a
@@ -238,17 +243,17 @@ export default function Navbar() {
       <header
         className={[
           "theme-header normal-navbar hidden border-b backdrop-blur-sm md:block",
-          isStickyVisible ? "is-hidden" : "",
+          stickyVisible ? "is-hidden" : "",
         ].join(" ")}
       >
         {navContent}
       </header>
 
       <div
-        aria-hidden={!isStickyVisible}
+        aria-hidden={!stickyVisible}
         className={[
           "sticky-navbar-shell fixed inset-x-0 top-0 z-50 hidden md:block",
-          isStickyVisible ? "is-visible" : "",
+          stickyVisible ? "is-visible" : "",
         ].join(" ")}
       >
         <header className="theme-header sticky-navbar border-b shadow-[0_22px_48px_-28px_rgba(70,52,26,0.38)]">
