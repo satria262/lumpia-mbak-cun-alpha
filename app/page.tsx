@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
-import RevealOnScroll from "./components/RevealOnScroll";
 import TestimonialCarousel from "./components/TestimonialCarousel";
 import {
   formatCompactPrice,
@@ -77,7 +76,7 @@ export default function Home() {
 
       <section className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
         <div className="mx-auto grid max-w-[1360px] gap-12 px-3 sm:px-4 lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-28 lg:px-3">
-          <RevealOnScroll className="max-w-xl space-y-8" delay={60}>
+          <div className="max-w-xl space-y-8 location-hero-copy">
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--secondary)]">
                 Sejak 1998 - Semarang
@@ -109,13 +108,9 @@ export default function Home() {
                 Kisah Kami
               </Link>
             </div>
-          </RevealOnScroll>
+          </div>
 
-          <RevealOnScroll
-            className="relative lg:mr-[calc(50%-50vw)] lg:pl-10"
-            delay={180}
-            variant="right"
-          >
+          <div className="relative lg:mr-[calc(50%-50vw)] lg:pl-10 location-hero-map">
             <div className="absolute -inset-6 hidden rounded-[48px] bg-[radial-gradient(circle_at_top_right,rgba(206,199,111,0.2),transparent_55%)] lg:block" />
             <div className="home-hero-image relative overflow-hidden rounded-l-[40px] rounded-r-none bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
               <Image
@@ -127,14 +122,14 @@ export default function Home() {
                 priority
               />
             </div>
-          </RevealOnScroll>
+          </div>
         </div>
       </section>
 
       <section className="bg-white py-8" id="about">
         <div className="mx-auto grid max-w-[1360px] gap-14 px-3 sm:px-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20 lg:px-3">
           <section id="about" className="contents">
-            <RevealOnScroll className="relative min-h-[520px]" variant="left">
+            <div className="relative min-h-[520px]">
               <div className="absolute left-2 top-4 w-[62%] rotate-[-4deg] bg-gray-200 p-4 shadow-[0_30px_60px_-36px_rgba(67,48,21,0.35)] sm:w-[56%]">
                 <div className="overflow-hidden bg-[#9d9988]">
                   <Image
@@ -164,9 +159,9 @@ export default function Home() {
                   Resep Warisan
                 </h1>
               </div>
-            </RevealOnScroll>
+            </div>
 
-            <RevealOnScroll className="max-w-2xl space-y-8" delay={140}>
+            <div className="max-w-2xl space-y-8">
               <div className="space-y-6">
                 <h2 className="max-w-xl text-4xl leading-[1.02] font-semibold tracking-[-0.04em] text-[#231f19] sm:text-[3.4rem]">
                   Dibuat oleh Sejarah,
@@ -198,14 +193,14 @@ export default function Home() {
                   &rarr;
                 </span>
               </Link>
-            </RevealOnScroll>
+            </div>
           </section>
         </div>
       </section>
 
       <main className="mx-auto max-w-[1360px] px-3 py-10 sm:px-4 lg:px-3">
         <section id="products" className="mt-16">
-          <RevealOnScroll className="text-center">
+          <div className="text-center">
             <p
               className="text-4xl font-normal tracking-[-0.04em] text-[#111111] sm:text-5xl"
               style={{ fontFamily: "var(--font-noto-serif)" }}
@@ -221,12 +216,14 @@ export default function Home() {
               Dipilih dengan cermat, disiapkan dengan hormat. Pilih pengalaman
               warisan Anda.
             </h2>
-          </RevealOnScroll>
+          </div>
 
           <div className="mt-8 grid gap-16 md:grid-cols-2 xl:grid-cols-3">
-            {products.map((product, index) => (
-              <RevealOnScroll key={product.slug} delay={index * 110}>
-                <article className="home-product-card flex h-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+            {products.map((product) => (
+                <article
+                  key={product.slug}
+                  className="home-product-card flex h-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                >
                   <Image
                     src={product.image}
                     alt={product.name}
@@ -254,7 +251,6 @@ export default function Home() {
                     </Link>
                   </div>
                 </article>
-              </RevealOnScroll>
             ))}
           </div>
         </section>
@@ -262,14 +258,13 @@ export default function Home() {
 
       <section className="mt-20 bg-white py-10 sm:py-12">
         <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3">
-          <RevealOnScroll
-            className="rounded-[44px] bg-[#E7E1DF] px-6 py-10 sm:px-8 lg:px-12 lg:py-14"
-            variant="zoom"
-          >
+          <div className="rounded-[44px] bg-[#E7E1DF] px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
             <div className="grid gap-10 md:grid-cols-3 md:gap-8">
-              {highlightItems.map((item, index) => (
-                <RevealOnScroll key={item.title} className="h-full" delay={index * 120}>
-                  <article className="home-feature-card flex h-full flex-col items-center text-center">
+              {highlightItems.map((item) => (
+                  <article
+                    key={item.title}
+                    className="home-feature-card flex h-full flex-col items-center text-center"
+                  >
                     <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgba(255,252,247,0.92)] text-[var(--primary-strong)] shadow-[0_16px_28px_-22px_rgba(90,70,36,0.35)]">
                       {item.icon}
                     </div>
@@ -283,21 +278,20 @@ export default function Home() {
                       {item.description}
                     </p>
                   </article>
-                </RevealOnScroll>
               ))}
             </div>
-          </RevealOnScroll>
+          </div>
         </div>
       </section>
 
       <section className="bg-white pt-20">
         <div className="mx-auto grid max-w-[1360px] gap-16 px-3 py-20 sm:px-4 lg:grid-cols-2 lg:px-3">
-          <RevealOnScroll className="space-y-8">
+          <div className="space-y-8">
             <h2 className="text-4xl">Apa Kata Tamu Kami</h2>
             <TestimonialCarousel />
-          </RevealOnScroll>
+          </div>
 
-          <RevealOnScroll className="home-map-shell" delay={140} variant="right">
+          <div className="home-map-shell">
             <div className="flex justify-between">
               <h2 className="text-4xl">Lokasi Kedai Kami</h2>
               <p className="text-[#CEC76F]">Jl. Pandanaran 12 No 4</p>
@@ -311,7 +305,7 @@ export default function Home() {
               referrerPolicy="no-referrer-when-downgrade"
               className="rounded-lg w-full"
             />
-          </RevealOnScroll>
+          </div>
         </div>
       </section>
 
