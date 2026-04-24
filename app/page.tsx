@@ -311,7 +311,7 @@ export default function Home() {
 
       <footer className="border-t border-[var(--border)] bg-[rgba(255,253,247,0.9)] py-8">
         <div className="mx-auto flex max-w-[1360px] flex-col gap-4 px-3 text-sm text-[#5f5a4b] sm:px-4 md:flex-row md:items-center md:justify-between lg:px-3">
-          <p>&copy; 2026 {site.name}. Semua hak cipta dilindungi.</p>
+          <p>&copy; 2026 {site.name}. All right reserved.</p>
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/#about">Tentang</Link>
             <Link href="/#products">Menu</Link>
