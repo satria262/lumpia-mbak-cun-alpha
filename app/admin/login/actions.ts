@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
@@ -36,7 +37,7 @@ export async function loginAdmin(
     await signIn("credentials", {
       email,
       password,
-      redirectTo: "/admin",
+      redirect: false,
     });
   } catch (error) {
     if (error instanceof AuthError) {
@@ -56,8 +57,5 @@ export async function loginAdmin(
     throw error;
   }
 
-  return {
-    email: "",
-    error: "",
-  };
+  redirect("/admin");
 }
