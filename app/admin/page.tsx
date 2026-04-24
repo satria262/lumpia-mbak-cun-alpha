@@ -12,7 +12,7 @@ export default async function AdminDashboardPage() {
   const session = await requireAdminSession();
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(206,199,111,0.14),_transparent_30%),linear-gradient(180deg,_#fbf8ef_0%,_#f7f3e9_50%,_#efe6d4_100%)] px-4 py-8">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(252,220,49,0.14),_transparent_30%),linear-gradient(180deg,_#fbf8ef_0%,_#f7f3e9_50%,_#efe6d4_100%)] px-4 py-8">
       <div className="mx-auto max-w-5xl space-y-6">
         <header className="rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-[0_20px_60px_-40px_rgba(70,52,26,0.45)] backdrop-blur">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -31,7 +31,7 @@ export default async function AdminDashboardPage() {
             <form action={logoutAdmin}>
               <button
                 type="submit"
-                className="rounded-2xl border border-[#d8cfb5] bg-[#faf7ef] px-5 py-3 text-sm font-semibold text-[#413a2c] transition hover:border-[#b9af87] hover:bg-white"
+                className="rounded-2xl border border-[#d8cfb5] bg-[#faf7ef] px-5 py-3 text-sm font-semibold text-[#413a2c] transition hover:border-[#FCDC31] hover:bg-white"
               >
                 Logout
               </button>

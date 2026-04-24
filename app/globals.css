@@ -5,13 +5,13 @@
   --foreground: #26221b;
   --surface: #fffdf7;
   --muted: #5f5a4b;
-  --primary: #cec76f;
-  --primary-strong: #b1aa57;
-  --primary-soft: #ece4a5;
-  --primary-ghost: #f5f1d0;
+  --primary: #fcdc31;
+  --primary-strong: #e6c814;
+  --primary-soft: #f7e67a;
+  --primary-ghost: #fff7cf;
   --secondary: #8a7d53;
   --border: #e7dfc4;
-  --shadow: rgba(175, 165, 88, 0.18);
+  --shadow: rgba(252, 220, 49, 0.28);
 }
 
 html {
@@ -27,7 +27,7 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top, rgba(206, 199, 111, 0.18), transparent 35%),
+    radial-gradient(circle at top, rgba(252, 220, 49, 0.18), transparent 35%),
     linear-gradient(180deg, #fbf8ef 0%, var(--background) 42%, #f4efdd 100%);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
@@ -62,7 +62,7 @@ h6 {
 .theme-shell {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(206, 199, 111, 0.16), transparent 30%),
+    radial-gradient(circle at top, rgba(252, 220, 49, 0.16), transparent 30%),
     linear-gradient(180deg, rgba(255, 253, 247, 0.94) 0%, rgba(247, 243, 233, 0.98) 45%, #f3eedc 100%);
   color: var(--foreground);
 }
@@ -162,7 +162,7 @@ h6 {
   background: rgba(255, 255, 255, 0.96);
   border-color: color-mix(in srgb, var(--primary) 50%, white);
   box-shadow:
-    0 0 0 3px rgba(206, 199, 111, 0.28),
+    0 0 0 3px rgba(252, 220, 49, 0.28),
     0 16px 30px -24px rgba(70, 52, 26, 0.38);
 }
 
@@ -186,7 +186,7 @@ h6 {
 }
 
 .mobile-nav-link-active .mobile-nav-icon {
-  background: linear-gradient(180deg, var(--primary-soft) 0%, rgba(206, 199, 111, 0.86) 100%);
+  background: linear-gradient(180deg, var(--primary-soft) 0%, rgba(252, 220, 49, 0.88) 100%);
   color: #2f2b16;
 }
 
@@ -219,7 +219,7 @@ h6 {
 }
 
 .nav-link-active {
-  color: #B1AA57;
+  color: var(--primary);
 }
 
 .desktop-anchor-link {
@@ -244,7 +244,7 @@ h6 {
 
 .button-primary:hover {
   background: var(--primary-strong);
-  box-shadow: 0 20px 36px -20px rgba(138, 125, 83, 0.28);
+  box-shadow: 0 20px 36px -20px rgba(202, 166, 10, 0.38);
   transform: translateY(-1px);
 }
 
@@ -292,7 +292,7 @@ h6 {
 }
 
 .testimonial-mark {
-  color: rgba(206, 199, 111, 0.42);
+  color: rgba(252, 220, 49, 0.42);
   line-height: 0.8;
   pointer-events: none;
   font-family: var(--font-noto-serif);
@@ -383,7 +383,7 @@ h6 {
   height: min(24rem, 46vw);
   border-radius: 999px;
   background:
-    radial-gradient(circle, rgba(206, 199, 111, 0.2) 0%, rgba(206, 199, 111, 0.08) 38%, transparent 72%);
+    radial-gradient(circle, rgba(252, 220, 49, 0.2) 0%, rgba(252, 220, 49, 0.08) 38%, transparent 72%);
   filter: blur(10px);
   animation: productDetailGlow 900ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
   pointer-events: none;

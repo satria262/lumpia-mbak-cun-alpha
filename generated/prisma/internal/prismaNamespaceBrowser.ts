@@ -51,7 +51,12 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Admin: 'Admin'
+  Admin: 'Admin',
+  User: 'User',
+  WebConfig: 'WebConfig',
+  Product: 'Product',
+  Order: 'Order',
+  Testimonial: 'Testimonial'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -80,6 +85,74 @@ export const AdminScalarFieldEnum = {
 } as const
 
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  username: 'username',
+  email: 'email',
+  password: 'password',
+  role: 'role',
+  createdAt: 'createdAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const WebConfigScalarFieldEnum = {
+  id: 'id',
+  siteName: 'siteName',
+  logo: 'logo',
+  whatsappNumber: 'whatsappNumber',
+  address: 'address',
+  heroBanner: 'heroBanner'
+} as const
+
+export type WebConfigScalarFieldEnum = (typeof WebConfigScalarFieldEnum)[keyof typeof WebConfigScalarFieldEnum]
+
+
+export const ProductScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  price: 'price',
+  description: 'description',
+  highlights: 'highlights',
+  image: 'image',
+  badge: 'badge',
+  portion: 'portion',
+  philosophy: 'philosophy',
+  ingredients: 'ingredients',
+  storageTip: 'storageTip',
+  imageNote: 'imageNote'
+} as const
+
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const OrderScalarFieldEnum = {
+  id: 'id',
+  invoice: 'invoice',
+  userId: 'userId',
+  productId: 'productId',
+  body: 'body',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const TestimonialScalarFieldEnum = {
+  id: 'id',
+  testimonial: 'testimonial',
+  userName: 'userName',
+  userOccupation: 'userOccupation',
+  userAvatar: 'userAvatar'
+} as const
+
+export type TestimonialScalarFieldEnum = (typeof TestimonialScalarFieldEnum)[keyof typeof TestimonialScalarFieldEnum]
 
 
 export const SortOrder = {

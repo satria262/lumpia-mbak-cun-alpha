@@ -174,7 +174,7 @@ export default async function ProductPage({ params }: Props) {
             </div>
 
             <article
-              className="product-detail-block bg-[#CEC76F] pl-[2px] rounded-[22px]"
+              className="product-detail-block rounded-[22px] bg-[#FCDC31] pl-[2px]"
               style={revealStyle("520ms")}
             >
               <div className="rounded-[22px] bg-[#FEFBF4] px-5 py-5 shadow-[0_18px_32px_-28px_rgba(70,52,26,0.35)]">

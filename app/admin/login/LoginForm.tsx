@@ -31,7 +31,7 @@ export function LoginForm() {
           autoComplete="email"
           defaultValue={state.email}
           placeholder="admin@email.com"
-          className="w-full rounded-2xl border border-[#d8cfb5] bg-white px-4 py-3 text-sm text-[#2f2b24] outline-none transition focus:border-[#a39a64] focus:ring-4 focus:ring-[#cec76f]/20"
+          className="w-full rounded-2xl border border-[#d8cfb5] bg-white px-4 py-3 text-sm text-[#2f2b24] outline-none transition focus:border-[#FCDC31] focus:ring-4 focus:ring-[#FCDC31]/20"
           required
         />
       </div>
@@ -49,7 +49,7 @@ export function LoginForm() {
           type="password"
           autoComplete="current-password"
           placeholder="Enter your password"
-          className="w-full rounded-2xl border border-[#d8cfb5] bg-white px-4 py-3 text-sm text-[#2f2b24] outline-none transition focus:border-[#a39a64] focus:ring-4 focus:ring-[#cec76f]/20"
+          className="w-full rounded-2xl border border-[#d8cfb5] bg-white px-4 py-3 text-sm text-[#2f2b24] outline-none transition focus:border-[#FCDC31] focus:ring-4 focus:ring-[#FCDC31]/20"
           required
         />
       </div>

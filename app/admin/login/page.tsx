@@ -20,7 +20,7 @@ export default async function AdminLoginPage() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(206,199,111,0.18),_transparent_35%),linear-gradient(180deg,_#fbf8ef_0%,_#f7f3e9_45%,_#f0e8d6_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(252,220,49,0.18),_transparent_35%),linear-gradient(180deg,_#fbf8ef_0%,_#f7f3e9_45%,_#f0e8d6_100%)]" />
       <div className="absolute inset-x-0 top-0 h-2 bg-[#4a44bd]" />
 
       <div className="relative z-10 w-full max-w-md overflow-hidden rounded-[2rem] border border-white/70 bg-white/95 shadow-[0_24px_80px_-40px_rgba(70,52,26,0.42)] backdrop-blur">

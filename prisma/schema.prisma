@@ -1,7 +1,7 @@
 generator client {
-  provider            = "prisma-client"
-  output              = "../generated/prisma"
-  runtime             = "nodejs"
+  provider               = "prisma-client"
+  output                 = "../generated/prisma"
+  runtime                = "nodejs"
   moduleFormat        = "esm"
   generatedFileExtension = "ts"
   importFileExtension = "ts"
@@ -20,4 +20,76 @@ model Admin {
   updatedAt DateTime @updatedAt
 
   @@map("admins")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String
+  email     String   @unique
+  password  String
+  role      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  orders    Order[]
+
+  @@map("users")
+}
+
+model WebConfig {
+  id             Int    @id @default(autoincrement())
+  siteName       String @map("site_name")
+  logo           String
+  whatsappNumber String @map("whatsapp_number")
+  address        String
+  heroBanner     String @map("hero_banner")
+
+  @@map("web_configs")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  name        String
+  price       String
+  description String
+  highlights  String[]
+  image       String
+  badge       String
+  portion     String
+  philosophy  String
+  ingredients String
+  storageTip  String
+  imageNote   String
+
+  orders      Order[]
+
+  @@map("products")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  invoice   Int
+  userId    Int      @map("user_id")
+  productId Int      @map("product_id")
+  body      String   @db.Text
+  status    String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@index([userId])
+  @@index([productId])
+  @@map("orders")
+}
+
+model Testimonial {
+  id             Int    @id @default(autoincrement())
+  testimonial    String
+  userName       String @map("user_name")
+  userOccupation String @map("user_occupation")
+  userAvatar     String @map("user_avatar")
+
+  @@map("testimonials")
 }

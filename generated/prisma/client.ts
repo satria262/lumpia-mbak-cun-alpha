@@ -46,3 +46,28 @@ export { Prisma }
  * 
  */
 export type Admin = Prisma.AdminModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model WebConfig
+ * 
+ */
+export type WebConfig = Prisma.WebConfigModel
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model Testimonial
+ * 
+ */
+export type Testimonial = Prisma.TestimonialModel

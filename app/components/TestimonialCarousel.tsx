@@ -126,7 +126,7 @@ export default function TestimonialCarousel() {
           type="button"
           onClick={goToPrevious}
           aria-label="Testimoni sebelumnya"
-          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D9CFAF] bg-white text-[#6A624D] transition hover:bg-[#CEC76F] hover:text-[#231f19]"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D9CFAF] bg-white text-[#6A624D] transition hover:border-[#e6c814] hover:bg-[#FCDC31] hover:text-[#231f19]"
         >
           <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
             <path
@@ -142,7 +142,7 @@ export default function TestimonialCarousel() {
           type="button"
           onClick={goToNext}
           aria-label="Testimoni berikutnya"
-          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D9CFAF] bg-white text-[#6A624D] transition hover:bg-[#CEC76F] hover:text-[#231f19]"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D9CFAF] bg-white text-[#6A624D] transition hover:border-[#e6c814] hover:bg-[#FCDC31] hover:text-[#231f19]"
         >
           <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
             <path

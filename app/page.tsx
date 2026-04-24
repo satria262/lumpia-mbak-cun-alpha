@@ -97,7 +97,7 @@ export default function Home() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/#products"
-                className="inline-flex items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
+                className="inline-flex items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
               >
                 Jelajahi Menu
               </Link>
@@ -111,7 +111,7 @@ export default function Home() {
           </div>
 
           <div className="relative lg:mr-[calc(50%-50vw)] lg:pl-10 location-hero-map">
-            <div className="absolute -inset-6 hidden rounded-[48px] bg-[radial-gradient(circle_at_top_right,rgba(206,199,111,0.2),transparent_55%)] lg:block" />
+            <div className="absolute -inset-6 hidden rounded-[48px] bg-[radial-gradient(circle_at_top_right,rgba(252,220,49,0.2),transparent_55%)] lg:block" />
             <div className="home-hero-image relative overflow-hidden rounded-l-[40px] rounded-r-none bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
               <Image
                 src="/lumpia-pinterest.jpg"
@@ -186,7 +186,7 @@ export default function Home() {
 
               <Link
                 href="/location"
-                className="inline-flex items-center gap-3 text-base font-semibold text-[var(--primary-strong)] transition hover:text-[#938a39]"
+                className="inline-flex items-center gap-3 text-base font-semibold text-[var(--primary-strong)] transition hover:text-[#ccad00]"
               >
                 Baca Biografi Selengkapnya
                 <span aria-hidden="true" className="text-xl leading-none">
@@ -208,7 +208,7 @@ export default function Home() {
               Varian{" "}
               <span className="relative inline-block">
                 Unggulan
-                <span className="absolute inset-x-0 -bottom-4 h-[4px] rounded-full bg-[rgba(206,199,111,0.75)]" />
+                <span className="absolute inset-x-0 -bottom-4 h-[4px] rounded-full bg-[rgba(252,220,49,0.78)]" />
               </span>{" "}
               Kami
             </p>
@@ -245,7 +245,7 @@ export default function Home() {
                     </div>
                     <Link
                       href={`/products/${product.slug}`}
-                      className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(138,125,83,0.28)]"
+                      className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
                     >
                       Lihat Detail
                     </Link>
@@ -294,7 +294,7 @@ export default function Home() {
           <div className="home-map-shell">
             <div className="flex justify-between">
               <h2 className="text-4xl">Lokasi Kedai Kami</h2>
-              <p className="text-[#CEC76F]">Jl. Pandanaran 12 No 4</p>
+              <p className="text-[#FCDC31]">Jl. Pandanaran 12 No 4</p>
             </div>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp"
