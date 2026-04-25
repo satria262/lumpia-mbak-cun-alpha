@@ -8,10 +8,11 @@ import { useState } from "react";
 import { AdminIcon } from "./AdminIcons";
 
 const navItems = [
-  { label: "Dashboard", href: "/admin", icon: "dashboard" },
-  { label: "Inventory", href: "/admin/products/create", icon: "inventory" },
-  { label: "Orders", href: "#", icon: "orders" },
-  { label: "Settings", href: "#", icon: "settings" },
+  { label: "Dasbor", href: "/admin", icon: "dashboard" },
+  { label: "Inventaris", href: "/admin/products", icon: "inventory" },
+  { label: "Testimoni", href: "/admin/testimonials", icon: "message" },
+  { label: "Pesanan", href: "#", icon: "orders" },
+  { label: "Pengaturan", href: "#", icon: "settings" },
 ] as const;
 
 type AdminSidebarProps = {
@@ -38,7 +39,7 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
             Lumpia Mbak Cun
           </p>
           <p className="truncate text-xs font-bold text-[#526b2d] lg:hidden">
-            Lumpia Delish
+            Admin Kuliner
           </p>
         </div>
         <button
@@ -49,7 +50,7 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
           className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-[#526b2d] shadow-[0_12px_26px_-22px_rgba(70,52,26,0.45)] transition hover:bg-[#eef3da] lg:hidden"
         >
           <span className="sr-only">
-            {isMobileExpanded ? "Minimize navigation" : "Open navigation"}
+            {isMobileExpanded ? "Tutup navigasi" : "Buka navigasi"}
           </span>
           <AdminIcon
             name={isMobileExpanded ? "x" : "menu"}
@@ -72,10 +73,10 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
           />
           <div className="min-w-0">
             <p className="truncate font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
-              Artisan Admin
+              Admin Kuliner
             </p>
             <p className="truncate text-xs text-[#6f6a5c]">
-              {email ?? "Culinary Management"}
+              {email ?? "Manajemen Dapur"}
             </p>
           </div>
         </div>
@@ -117,11 +118,11 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
 
         <div className="mt-6 rounded-xl bg-white px-4 py-4 shadow-[0_14px_34px_-30px_rgba(70,52,26,0.35)] lg:mt-auto">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#526b2d]">
-            Kitchen Status
+            Status Dapur
           </p>
           <div className="mt-2 flex items-center gap-2 text-sm text-[#6f6a5c]">
             <span className="h-2 w-2 rounded-full bg-[#92a25f]" />
-            Live for Orders
+            Menerima Pesanan
           </div>
         </div>
       </div>

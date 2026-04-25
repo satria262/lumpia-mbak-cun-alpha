@@ -9,29 +9,70 @@ type ProductAvailabilityCardProps = {
   products: ProductAvailability[];
 };
 
+const MAX_ACTIVE_PRODUCTS = 3;
+
+function enforceActiveProductLimit(products: ProductAvailability[]) {
+  let activeCount = 0;
+
+  return products.map((product) => {
+    if (!product.enabled) {
+      return product;
+    }
+
+    activeCount += 1;
+
+    return {
+      ...product,
+      enabled: activeCount <= MAX_ACTIVE_PRODUCTS,
+    };
+  });
+}
+
 export function ProductAvailabilityCard({
   products,
 }: ProductAvailabilityCardProps) {
   const [availability, setAvailability] = useState(() =>
-    products.map((product) => ({
-      ...product,
-      enabled: product.enabled,
-    })),
+    enforceActiveProductLimit(products),
   );
+  const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
+
+  function showLimitWarning() {
+    setIsLimitModalOpen(true);
+  }
 
   function toggleProduct(productId: string) {
-    setAvailability((currentProducts) =>
-      currentProducts.map((product) =>
+    setAvailability((currentProducts) => {
+      const selectedProduct = currentProducts.find(
+        (product) => product.id === productId,
+      );
+      const activeCount = currentProducts.filter(
+        (product) => product.enabled,
+      ).length;
+
+      if (!selectedProduct) {
+        return currentProducts;
+      }
+
+      if (!selectedProduct.enabled && activeCount >= MAX_ACTIVE_PRODUCTS) {
+        showLimitWarning();
+        return currentProducts;
+      }
+
+      return currentProducts.map((product) =>
         product.id === productId
           ? { ...product, enabled: !product.enabled }
           : product,
-      ),
-    );
+      );
+    });
   }
 
   function enableAllProducts() {
+    showLimitWarning();
     setAvailability((currentProducts) =>
-      currentProducts.map((product) => ({ ...product, enabled: true })),
+      currentProducts.map((product, index) => ({
+        ...product,
+        enabled: index < MAX_ACTIVE_PRODUCTS,
+      })),
     );
   }
 
@@ -49,7 +90,7 @@ export function ProductAvailabilityCard({
           onClick={enableAllProducts}
           className="text-sm font-bold text-[#526b2d] transition hover:text-[#2f3f18]"
         >
-          Update All
+          Aktifkan 3
         </button>
       </div>
 
@@ -117,6 +158,57 @@ export function ProductAvailabilityCard({
             No products are available to manage yet.
           </div>
         )}
+      </div>
+
+      <div
+        className={`fixed inset-0 z-50 grid place-items-center bg-[#211d16]/28 px-4 backdrop-blur-sm transition duration-200 ${
+          isLimitModalOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
+        aria-hidden={!isLimitModalOpen}
+        onClick={() => setIsLimitModalOpen(false)}
+      >
+        <div
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="availability-limit-title"
+          aria-describedby="availability-limit-description"
+          className={`w-full max-w-sm rounded-xl border border-[#eee8dc] bg-white p-6 shadow-[0_24px_60px_-28px_rgba(70,52,26,0.55)] transition duration-200 ${
+            isLimitModalOpen
+              ? "translate-y-0 scale-100 opacity-100"
+              : "translate-y-3 scale-95 opacity-0"
+          }`}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <div className="flex items-start gap-4">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#fff4d4] text-xl font-bold text-[#9a6a00]">
+              !
+            </div>
+            <div>
+              <h3
+                id="availability-limit-title"
+                className="font-[var(--font-noto-serif)] text-lg font-semibold text-[#211d16]"
+              >
+                Batas Produk Aktif
+              </h3>
+              <p
+                id="availability-limit-description"
+                className="mt-2 text-sm leading-6 text-[#6f6a5c]"
+              >
+                Maksimal 3 produk bisa aktif di etalase. Nonaktifkan salah satu
+                produk aktif sebelum menambahkan produk lain.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsLimitModalOpen(false)}
+            className="mt-6 inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#526b2d] px-4 text-sm font-bold text-white transition hover:bg-[#435724]"
+          >
+            Mengerti
+          </button>
+        </div>
       </div>
     </section>
   );

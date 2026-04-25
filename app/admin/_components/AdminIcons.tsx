@@ -11,13 +11,17 @@ export function AdminIcon({
     | "bell"
     | "cash"
     | "dashboard"
+    | "edit"
+    | "eye"
     | "inventory"
     | "menu"
+    | "message"
     | "orders"
     | "plus"
     | "search"
     | "settings"
     | "tag"
+    | "trash"
     | "user"
     | "x";
 }) {
@@ -66,6 +70,20 @@ export function AdminIcon({
           <path d="M14 14h6v6h-6z" />
         </svg>
       );
+    case "edit":
+      return (
+        <svg {...commonProps}>
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4 11.5-11.5Z" />
+        </svg>
+      );
+    case "eye":
+      return (
+        <svg {...commonProps}>
+          <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      );
     case "inventory":
       return (
         <svg {...commonProps}>
@@ -80,6 +98,14 @@ export function AdminIcon({
           <path d="M4 7h16" />
           <path d="M4 12h16" />
           <path d="M4 17h16" />
+        </svg>
+      );
+    case "message":
+      return (
+        <svg {...commonProps}>
+          <path d="M5 5h14v10H8l-3 3V5Z" />
+          <path d="M8.5 9h7" />
+          <path d="M8.5 12h4.5" />
         </svg>
       );
     case "orders":
@@ -117,6 +143,16 @@ export function AdminIcon({
         <svg {...commonProps}>
           <path d="M20 13.5 13.5 20 4 10.5V4h6.5L20 13.5Z" />
           <path d="M8 8h.01" />
+        </svg>
+      );
+    case "trash":
+      return (
+        <svg {...commonProps}>
+          <path d="M4 7h16" />
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+          <path d="M6 7l1 14h10l1-14" />
+          <path d="M9 7V4h6v3" />
         </svg>
       );
     case "user":
