@@ -1,6 +1,7 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "../generated/prisma/client";
+import { products } from "../lib/siteData";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
@@ -8,16 +9,23 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
-async function main() {
+function parsePrice(price: string) {
+  const value = Number(price.replace(/[^\d]/g, ""));
+
+  if (!Number.isFinite(value)) {
+    throw new Error(`Invalid product price: ${price}`);
+  }
+
+  return value;
+}
+
+async function seedAdmin() {
   const email = process.env.ADMIN_SEED_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_SEED_PASSWORD?.trim();
 
-  if (!email) {
-    throw new Error("Missing ADMIN_SEED_EMAIL in environment variables.");
-  }
-
-  if (!password) {
-    throw new Error("Missing ADMIN_SEED_PASSWORD in environment variables.");
+  if (!email || !password) {
+    console.log("Admin seed skipped. ADMIN_SEED_EMAIL or ADMIN_SEED_PASSWORD is missing.");
+    return;
   }
 
   if (password.length < 8) {
@@ -29,9 +37,8 @@ async function main() {
   });
 
   if (existingAdmin) {
-    throw new Error(
-      `Admin already exists (${existingAdmin.email}). Seed aborted to prevent duplicates.`,
-    );
+    console.log(`Admin seed skipped. Admin already exists (${existingAdmin.email}).`);
+    return;
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
@@ -45,6 +52,50 @@ async function main() {
   });
 
   console.log(`Admin created successfully for ${email}.`);
+}
+
+async function seedProducts() {
+  for (const product of products) {
+    await prisma.product.upsert({
+      where: { slug: product.slug },
+      update: {
+        name: product.name,
+        price: parsePrice(product.price),
+        description: product.description,
+        highlights: product.highlights,
+        image: product.image,
+        availability: true,
+        badge: product.badge,
+        portion: product.portion,
+        philosophy: product.philosophy,
+        ingredients: product.ingredients,
+        storageTip: product.storageTip,
+        imageNote: product.imageNote,
+      },
+      create: {
+        slug: product.slug,
+        name: product.name,
+        price: parsePrice(product.price),
+        description: product.description,
+        highlights: product.highlights,
+        image: product.image,
+        availability: true,
+        badge: product.badge,
+        portion: product.portion,
+        philosophy: product.philosophy,
+        ingredients: product.ingredients,
+        storageTip: product.storageTip,
+        imageNote: product.imageNote,
+      },
+    });
+  }
+
+  console.log(`Seeded ${products.length} products.`);
+}
+
+async function main() {
+  await seedAdmin();
+  await seedProducts();
 }
 
 main()

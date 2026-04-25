@@ -56,6 +56,7 @@ export const ModelName = {
   WebConfig: 'WebConfig',
   Product: 'Product',
   Order: 'Order',
+  OrderItem: 'OrderItem',
   Testimonial: 'Testimonial'
 } as const
 
@@ -117,9 +118,11 @@ export const ProductScalarFieldEnum = {
   slug: 'slug',
   name: 'name',
   price: 'price',
+  stock: 'stock',
   description: 'description',
   highlights: 'highlights',
   image: 'image',
+  availability: 'availability',
   badge: 'badge',
   portion: 'portion',
   philosophy: 'philosophy',
@@ -135,13 +138,35 @@ export const OrderScalarFieldEnum = {
   id: 'id',
   invoice: 'invoice',
   userId: 'userId',
-  productId: 'productId',
-  body: 'body',
+  customerName: 'customerName',
+  customerPhone: 'customerPhone',
+  deliveryAddress: 'deliveryAddress',
+  notes: 'notes',
   status: 'status',
-  createdAt: 'createdAt'
+  subtotal: 'subtotal',
+  deliveryFee: 'deliveryFee',
+  totalPrice: 'totalPrice',
+  paymentMethod: 'paymentMethod',
+  paymentStatus: 'paymentStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+
+
+export const OrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  productName: 'productName',
+  productPrice: 'productPrice',
+  quantity: 'quantity',
+  subtotal: 'subtotal',
+  createdAt: 'createdAt'
+} as const
+
+export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
 export const TestimonialScalarFieldEnum = {
@@ -169,4 +194,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

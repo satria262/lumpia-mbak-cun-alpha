@@ -25,7 +25,7 @@ export default async function AdminLoginPage() {
 
       <div className="relative z-10 w-full max-w-md overflow-hidden rounded-[2rem] border border-white/70 bg-white/95 shadow-[0_24px_80px_-40px_rgba(70,52,26,0.42)] backdrop-blur">
         <div className="px-8 pt-10 text-center">
-          <p className="font-serif text-lg text-[#6f6a59]">Lumpia Delish</p>
+          <p className="font-serif text-lg text-[#6f6a59]">Lumpia Mbak Cun</p>
           <div className="mx-auto mt-3 h-px w-16 bg-[#dfd6bd]" />
           <h1 className="mt-6 font-serif text-3xl text-[#2f2b24]">Admin Portal</h1>
           <p className="mt-3 text-sm leading-6 text-[#6a6454]">

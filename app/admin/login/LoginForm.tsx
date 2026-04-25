@@ -30,7 +30,7 @@ export function LoginForm() {
           type="email"
           autoComplete="email"
           defaultValue={state.email}
-          placeholder="admin@email.com"
+          placeholder="Masukan email admin"
           className="w-full rounded-2xl border border-[#d8cfb5] bg-white px-4 py-3 text-sm text-[#2f2b24] outline-none transition focus:border-[#FCDC31] focus:ring-4 focus:ring-[#FCDC31]/20"
           required
         />
@@ -48,7 +48,7 @@ export function LoginForm() {
           name="password"
           type="password"
           autoComplete="current-password"
-          placeholder="Enter your password"
+          placeholder="Masukan password admin"
           className="w-full rounded-2xl border border-[#d8cfb5] bg-white px-4 py-3 text-sm text-[#2f2b24] outline-none transition focus:border-[#FCDC31] focus:ring-4 focus:ring-[#FCDC31]/20"
           required
         />

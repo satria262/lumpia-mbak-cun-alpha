@@ -140,7 +140,7 @@ export default function Home() {
                     className="h-[360px] w-full object-cover"
                   />
                 </div>
-                <h1 className="pt-5 text-center font-[var(--font-noto-serif)] text-xl text-[#6c6455]">
+                <h1 className="pt-5 text-center italic font-[var(--font-noto-serif)] text-xl text-[#6c6455]">
                   Semarang Heritage
                 </h1>
               </div>
@@ -155,7 +155,7 @@ export default function Home() {
                     className="h-[240px] w-full object-cover"
                   />
                 </div>
-                <h1 className="pt-4 text-center font-[var(--font-noto-serif)] text-lg text-[#6c6455]">
+                <h1 className="pt-4 text-center italic font-[var(--font-noto-serif)] text-lg text-[#6c6455]">
                   Resep Warisan
                 </h1>
               </div>
@@ -169,24 +169,17 @@ export default function Home() {
                   Dijaga dengan Cinta
                 </h2>
                 <div className="max-w-xl border-l-2 border-[var(--primary)] pl-5 text-lg leading-8 text-[#6c6455]">
-                  &ldquo;Mbak Cun memulai dengan warung kecil di dekat pelabuhan.
-                  Beliau percaya bahwa rahasianya bukan hanya pada bumbu,
-                  melainkan pada kesabaran dalam proses memasak yang
-                  perlahan.&rdquo;
+                  &ldquo;Lumpia Mbak Cun sudah berdiri sejak tahun 2013 dan selalu menjaga rasa dan kualitas makanan kami. Kami memiliki banyak pelanggan setia dan kerjasama dengan berbagai warung di sekitar Semarang.&rdquo;
                 </div>
               </div>
 
               <p className="max-w-2xl text-base leading-8 text-[#655f52]">
-                Setiap lumpia yang keluar dari dapur kami membawa serta tiga
-                puluh tahun jiwa kuliner Semarang. Kami menggunakan bahan-bahan
-                terbaik dan jalur pasokan rebung yang sama seperti yang kami
-                lakukan sejak awal merintis, menjadikan setiap sajian bukan cuma
-                makanan, tetapi narasi sebuah kota.
+                Komitmen kami adalah tetap memberikan kualitas rasa terbaik dan harga yang terjangkau bagi semua pelanggan. Kami juga memfasilitasi pemesanan untuk dikirim ke luar kota dan dapat bertahan hingga 2 hari pada suhu ruangan, atau hingga 7-10 hari jika dalam kondisi beku.
               </p>
 
               <Link
                 href="/location"
-                className="inline-flex items-center gap-3 text-base font-semibold text-[var(--primary-strong)] transition hover:text-[#ccad00]"
+                className="inline-flex items-center gap-3 text-base font-semibold text-[var(--primary-strong)] transition hover:text-[#FCDC31]"
               >
                 Baca Biografi Selengkapnya
                 <span aria-hidden="true" className="text-xl leading-none">
