@@ -3,31 +3,54 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const testimonials = [
-  {
-    quote:
-      '"Kulitnya begitu tipis dan renyah, namun mampu menahan sari rebung dengan sempurna. Ini adalah lumpia terbaik yang pernah saya makan selama 20 tahun berkunjung ke Semarang."',
-    name: "Andi Wijaya",
-    role: "Kritikus Kuliner",
-    image: "/lumpia-pinterest.jpg",
-  },
-  {
-    quote:
-      '"Rasa rebungnya bersih dan manis, bumbunya terasa tenang tapi dalam. Setiap gigitan terasa seperti resep yang dijaga dengan sepenuh hati."',
-    name: "Marisa Tan",
-    role: "Pecinta Kuliner",
-    image: "/lumpia-semarang.jpg",
-  },
-  {
-    quote:
-      '"Saya datang karena rekomendasi teman, lalu kembali karena konsistensinya. Hangat, renyah, dan isinya selalu terasa segar setiap kali dibeli."',
-    name: "Bimo Hartono",
-    role: "Pelanggan Setia",
-    image: "/lumpia-pinterest.jpg",
-  },
-];
+export type TestimonialItem = {
+  id: number;
+  quote: string;
+  name: string;
+  role: string;
+  image: string;
+};
 
-export default function TestimonialCarousel() {
+type TestimonialCarouselProps = {
+  testimonials: TestimonialItem[];
+};
+
+function getInitials(name: string) {
+  const initials = name
+    .split(" ")
+    .map((part) => part[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  return initials || "LC";
+}
+
+function getSafeImage(src: string | null | undefined) {
+  const value = src?.trim();
+
+  if (!value) {
+    return "";
+  }
+
+  if (value.startsWith("/")) {
+    return value;
+  }
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.hostname === "res.cloudinary.com"
+      ? value
+      : "";
+  } catch {
+    return "";
+  }
+}
+
+export default function TestimonialCarousel({
+  testimonials,
+}: TestimonialCarouselProps) {
   const [displayIndex, setDisplayIndex] = useState(0);
   const [leavingIndex, setLeavingIndex] = useState<number | null>(null);
   const animationTimeoutRef = useRef<number | null>(null);
@@ -39,6 +62,34 @@ export default function TestimonialCarousel() {
       }
     };
   }, []);
+
+  if (testimonials.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="testimonial-stage relative h-[360px] overflow-hidden rounded-lg bg-[#F8F2F0] sm:h-[320px] lg:h-[280px]">
+          <p className="testimonial-mark absolute left-6 top-5 text-6xl font-semibold">
+            &ldquo;
+          </p>
+          <article className="testimonial-card testimonial-card-current flex h-full flex-col justify-between gap-5 p-8 pt-12 sm:gap-6">
+            <p className="testimonial-quote text-xl leading-8 text-[#231f19]">
+              Belum ada testimoni yang ditampilkan.
+            </p>
+            <div className="flex items-center space-x-4">
+              <div className="grid h-[52px] w-[52px] place-items-center rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
+                LC
+              </div>
+              <div className="min-w-0">
+                <p className="text-xl font-semibold">Lumpia Mbak Cun</p>
+                <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
+                  Testimoni
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    );
+  }
 
   function transitionTo(nextIndex: number) {
     if (nextIndex === displayIndex) {
@@ -72,26 +123,36 @@ export default function TestimonialCarousel() {
 
   const active = testimonials[displayIndex];
   const leaving = leavingIndex === null ? null : testimonials[leavingIndex];
+  const activeImage = getSafeImage(active.image);
+  const leavingImage = getSafeImage(leaving?.image);
 
   return (
     <div className="space-y-6">
-      <div className="testimonial-stage relative min-h-[360px] rounded-lg bg-[#F8F2F0] sm:min-h-[320px] lg:min-h-[280px]">
+      <div className="testimonial-stage relative h-[360px] overflow-hidden rounded-lg bg-[#F8F2F0] sm:h-[320px] lg:h-[280px]">
         <p className="testimonial-mark absolute left-6 top-5 text-6xl font-semibold">
           &ldquo;
         </p>
 
         <article className="testimonial-card testimonial-card-current flex h-full flex-col justify-between gap-5 p-8 pt-12 sm:gap-6">
-          <p className="text-xl leading-8 text-[#231f19]">{active.quote}</p>
+          <p className="testimonial-quote text-xl leading-8 text-[#231f19]">
+            {active.quote}
+          </p>
           <div className="flex items-center space-x-4">
-            <Image
-              src={active.image}
-              alt={active.name}
-              width={52}
-              height={52}
-              className="h-[52px] w-[52px] rounded-lg object-cover object-center"
-            />
+            {activeImage ? (
+              <Image
+                src={activeImage}
+                alt={active.name}
+                width={52}
+                height={52}
+                className="h-[52px] w-[52px] rounded-lg object-cover object-center"
+              />
+            ) : (
+              <div className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
+                {getInitials(active.name)}
+              </div>
+            )}
             <div className="min-w-0">
-              <p className="text-xl font-semibold">{active.name}</p>
+              <p className="truncate text-xl font-semibold">{active.name}</p>
               <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
                 {active.role}
               </p>
@@ -101,17 +162,25 @@ export default function TestimonialCarousel() {
 
         {leaving && (
           <article className="testimonial-card testimonial-card-leaving flex h-full flex-col justify-between gap-5 p-8 pt-12 sm:gap-6">
-            <p className="text-xl leading-8 text-[#231f19]">{leaving.quote}</p>
+            <p className="testimonial-quote text-xl leading-8 text-[#231f19]">
+              {leaving.quote}
+            </p>
             <div className="flex items-center space-x-4">
-              <Image
-                src={leaving.image}
-                alt={leaving.name}
-                width={52}
-                height={52}
-                className="h-[52px] w-[52px] rounded-lg object-cover object-center"
-              />
+              {leavingImage ? (
+                <Image
+                  src={leavingImage}
+                  alt={leaving.name}
+                  width={52}
+                  height={52}
+                  className="h-[52px] w-[52px] rounded-lg object-cover object-center"
+                />
+              ) : (
+                <div className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
+                  {getInitials(leaving.name)}
+                </div>
+              )}
               <div className="min-w-0">
-                <p className="text-xl font-semibold">{leaving.name}</p>
+                <p className="truncate text-xl font-semibold">{leaving.name}</p>
                 <p className="text-[#8A726C] uppercase tracking-[0.18em] text-xs">
                   {leaving.role}
                 </p>

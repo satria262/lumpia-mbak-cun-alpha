@@ -1,9 +1,7 @@
 import {
   highlights,
   locationInfo,
-  products,
   site,
-  type Product,
 } from "./siteData";
 
 const homeProductTitles: Record<string, string> = {
@@ -24,25 +22,7 @@ export function getHighlightsContent() {
   return highlights;
 }
 
-export function getProducts(): Product[] {
-  try {
-    return products;
-  } catch (error) {
-    console.error("Failed to read products content.", error);
-    return [];
-  }
-}
-
-export function getProductBySlug(slug: string): Product | null {
-  try {
-    return products.find((product) => product.slug === slug) ?? null;
-  } catch (error) {
-    console.error(`Failed to read product content for slug "${slug}".`, error);
-    return null;
-  }
-}
-
-export function getHomeProductTitle(product: Pick<Product, "slug" | "name">) {
+export function getHomeProductTitle(product: { slug: string; name: string }) {
   return homeProductTitles[product.slug] ?? product.name;
 }
 

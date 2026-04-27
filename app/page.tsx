@@ -2,12 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
 import TestimonialCarousel from "./components/TestimonialCarousel";
+import type { TestimonialItem } from "./components/TestimonialCarousel";
 import {
   formatCompactPrice,
   getHomeProductTitle,
   getSiteContent,
 } from "../lib/content";
 import { prisma } from "@/lib/prisma";
+
+type HomeProduct = {
+  slug: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+};
 
 const highlightItems = [
   {
@@ -66,19 +75,85 @@ const highlightItems = [
   },
 ];
 
+export const dynamic = "force-dynamic";
+
+const fallbackProductImage = "/system/lumpia-logo.png";
+
+function getProductImage(src: string | null | undefined) {
+  const value = src?.trim();
+
+  if (!value) {
+    return fallbackProductImage;
+  }
+
+  if (value.startsWith("/")) {
+    return value;
+  }
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.hostname === "res.cloudinary.com"
+      ? value
+      : fallbackProductImage;
+  } catch {
+    return fallbackProductImage;
+  }
+}
+
+async function getHomeProducts(): Promise<HomeProduct[]> {
+  try {
+    return await prisma.product.findMany({
+      where: {
+        availability: true,
+        slug: { not: "" },
+      },
+      orderBy: { id: "asc" },
+      take: 4,
+      select: {
+        slug: true,
+        name: true,
+        price: true,
+        description: true,
+        image: true,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch home products.", error);
+    return [];
+  }
+}
+
+async function getHomeTestimonials(): Promise<TestimonialItem[]> {
+  try {
+    const testimonials = await prisma.testimonial.findMany({
+      orderBy: { id: "desc" },
+      select: {
+        id: true,
+        testimonial: true,
+        userName: true,
+        userOccupation: true,
+        userAvatar: true,
+      },
+    });
+
+    return testimonials.map((testimonial) => ({
+      id: testimonial.id,
+      quote: testimonial.testimonial,
+      name: testimonial.userName,
+      role: testimonial.userOccupation,
+      image: testimonial.userAvatar,
+    }));
+  } catch (error) {
+    console.error("Failed to fetch home testimonials.", error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const products = await prisma.product.findMany({
-    where: { availability: true },
-    orderBy: { id: "asc" },
-    take: 4,
-    select: {
-      slug: true,
-      name: true,
-      price: true,
-      description: true,
-      image: true,
-    },
-  });
+  const [products, testimonials] = await Promise.all([
+    getHomeProducts(),
+    getHomeTestimonials(),
+  ]);
   const site = getSiteContent();
 
   return (
@@ -222,14 +297,15 @@ export default async function Home() {
             </h2>
           </div>
 
-          <div className="mt-8 flex flex-wrap lg:flex-nowrap justify-center items-stretch gap-8 lg:gap-4">
-            {products.map((product) => (
+          {products.length > 0 ? (
+            <div className="mt-8 flex flex-wrap lg:flex-nowrap justify-center items-stretch gap-8 lg:gap-4">
+              {products.map((product) => (
                 <article
                   key={product.slug}
                   className="home-product-card flex w-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                 >
                   <Image
-                    src={product.image}
+                    src={getProductImage(product.image)}
                     alt={product.name}
                     width={600}
                     height={420}
@@ -248,15 +324,20 @@ export default async function Home() {
                       </p>
                     </div>
                     <Link
-                      href={`/products/${product.slug}`}
+                      href={`/products/${encodeURIComponent(product.slug)}`}
                       className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
                     >
                       Lihat Detail
                     </Link>
                   </div>
                 </article>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-8 rounded-[28px] border border-[rgba(231,223,196,0.92)] bg-[rgba(255,253,247,0.96)] p-8 text-center text-[#5f5a4b] shadow-sm">
+              Belum ada produk yang tersedia untuk ditampilkan.
+            </div>
+          )}
         </section>
       </main>
 
@@ -292,7 +373,7 @@ export default async function Home() {
         <div className="mx-auto grid max-w-[1360px] gap-16 px-3 py-20 sm:px-4 lg:grid-cols-2 lg:px-3">
           <div className="space-y-8">
             <h2 className="text-4xl">Apa Kata Tamu Kami</h2>
-            <TestimonialCarousel />
+            <TestimonialCarousel testimonials={testimonials} />
           </div>
 
           <div className="home-map-shell">

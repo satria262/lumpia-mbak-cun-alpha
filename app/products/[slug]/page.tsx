@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 import Navbar from "../../components/Navbar";
 import ShareProductButton from "./ShareProductButton";
-import { getProductBySlug, getProducts } from "../../../lib/content";
+import { prisma } from "@/lib/prisma";
 
 type Props = {
   params: Promise<{
@@ -71,22 +71,135 @@ function CameraIcon() {
   )
 }
 
-export function generateStaticParams() {
-  return getProducts().map((product) => ({ slug: product.slug }));
+export const dynamic = "force-dynamic";
+
+function formatProductPrice(value: number | null | undefined) {
+  const price = Number(value ?? 0);
+
+  if (!Number.isFinite(price)) {
+    return "Rp0";
+  }
+
+  return `Rp${price.toLocaleString("id-ID")}`;
 }
 
-export const dynamicParams = false;
+const fallbackProductImage = "/system/lumpia-logo.png";
+
+function getProductImage(src: string | null | undefined) {
+  const value = src?.trim();
+
+  if (!value) {
+    return fallbackProductImage;
+  }
+
+  if (value.startsWith("/")) {
+    return value;
+  }
+
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.hostname === "res.cloudinary.com"
+      ? value
+      : fallbackProductImage;
+  } catch {
+    return fallbackProductImage;
+  }
+}
+
+function getDisplayText(value: string | null | undefined, fallback: string) {
+  const text = value?.trim();
+  return text && text.length > 0 ? text : fallback;
+}
+
+function getDisplayList(value: string[] | null | undefined) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
+
+function getSlugCandidates(value: string) {
+  const candidates = new Set<string>();
+  candidates.add(value);
+
+  try {
+    candidates.add(decodeURIComponent(value));
+  } catch {
+    // Keep the original route param when decoding fails.
+  }
+
+  for (const candidate of Array.from(candidates)) {
+    candidates.add(candidate.trim());
+  }
+
+  return Array.from(candidates).filter((candidate) => candidate.length > 0);
+}
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const slugCandidates = getSlugCandidates(slug);
+  const numericId = Number(slugCandidates[0]);
+  const product = await prisma.product
+    .findFirst({
+      where: {
+        OR: [
+          ...slugCandidates.map((candidate) => ({ slug: candidate })),
+          ...(Number.isInteger(numericId) ? [{ id: numericId }] : []),
+        ],
+      },
+      select: {
+        slug: true,
+        name: true,
+        price: true,
+        description: true,
+        image: true,
+        badge: true,
+        portion: true,
+        philosophy: true,
+        ingredients: true,
+        storageTip: true,
+        imageNote: true,
+      },
+    })
+    .catch((error) => {
+      console.error(
+        `Failed to fetch product detail for route param "${slug}".`,
+        error,
+      );
+      return null;
+    });
 
   if (!product) {
     notFound();
   }
 
+  const displayProduct = {
+    slug: product.slug,
+    name: getDisplayText(product.name, "Produk Lumpia Mbak Cun"),
+    price: product.price,
+    description: getDisplayText(
+      product.description,
+      "Informasi produk belum tersedia.",
+    ),
+    image: getProductImage(product.image),
+    badge: getDisplayText(product.badge, "Produk"),
+    portion: getDisplayText(product.portion, "per porsi"),
+    philosophy: getDisplayText(
+      product.philosophy,
+      "Rasa khas Lumpia Mbak Cun yang dibuat segar dan dijaga kualitasnya.",
+    ),
+    ingredients: getDisplayList(product.ingredients),
+    storageTip: getDisplayText(
+      product.storageTip,
+      "Simpan produk di tempat sejuk dan panaskan kembali sebelum disajikan.",
+    ),
+    imageNote: getDisplayText(product.imageNote, "Foto produk Lumpia Mbak Cun."),
+  };
   const whatsappMessage = encodeURIComponent(
-    `Halo, saya ingin pesan ${product.name}. Boleh minta info ketersediaan dan cara pemesanannya?`,
+    `Halo, saya ingin pesan ${displayProduct.name}. Boleh minta info ketersediaan dan cara pemesanannya?`,
   );
   const revealStyle = (delay: string) =>
     ({ "--product-delay": delay } as CSSProperties);
@@ -100,8 +213,8 @@ export default async function ProductPage({ params }: Props) {
           <section className="product-detail-visual space-y-4">
             <div className="product-detail-image-shell overflow-hidden rounded-[30px] bg-[#e8decb] shadow-[0_28px_64px_-34px_rgba(70,52,26,0.42)]">
               <Image
-                src={product.image}
-                alt={product.name}
+                src={displayProduct.image}
+                alt={displayProduct.name}
                 width={1200}
                 height={960}
                 className="product-detail-image h-[360px] w-full object-cover sm:h-[480px] lg:h-[640px]"
@@ -110,7 +223,7 @@ export default async function ProductPage({ params }: Props) {
             </div>
             <div className="product-detail-caption flex md:items-center space-x-2">
               <CameraIcon />
-              <p className="text-xs text-center md:text-start italic text-[#7a7365] ">{product.imageNote}</p>
+              <p className="text-xs text-center md:text-start italic text-[#7a7365] ">{displayProduct.imageNote}</p>
             </div>
           </section>
 
@@ -122,18 +235,18 @@ export default async function ProductPage({ params }: Props) {
               <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--secondary)]">
                 <Link href="/#products"><span>Produk</span></Link>
                 <span className="text-[#b4ab90]">/</span>
-                <span><b>{product.badge}</b></span>
+                <span><b>{displayProduct.badge}</b></span>
               </div>
 
               <div className="space-y-3">
                 <h1 className=" text-4xl leading-[0.98] font-semibold tracking-[-0.05em] text-[#211b13] sm:text-5xl">
-                  {product.name}
+                  {displayProduct.name}
                 </h1>
                 <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
                   <p className="text-3xl font-semibold text-[var(--primary-strong)]">
-                    {product.price}
+                    {formatProductPrice(displayProduct.price)}
                   </p>
-                  <p className="pb-1 text-sm text-[#6e685c]">/ {product.portion}</p>
+                  <p className="pb-1 text-sm text-[#6e685c]">/ {displayProduct.portion}</p>
                 </div>
               </div>
             </div>
@@ -146,32 +259,34 @@ export default async function ProductPage({ params }: Props) {
                 Filosofi Rasa
               </p>
               <p className="text-base leading-8 text-[#5b5549]">
-                {product.philosophy}
+                {displayProduct.philosophy}
               </p>
             </div>
 
-            <div
-              className="product-detail-block space-y-4"
-              style={revealStyle("320ms")}
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
-                Bahan Baku Utama
-              </p>
-              <div className="grid gap-3 grid-cols-3">
-                {product.ingredients.map((item, index) => (
-                  <article
-                    key={item}
-                    className="product-detail-ingredient rounded-[18px] border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.82)] px-4 py-4 text-center shadow-[0_16px_30px_-28px_rgba(70,52,26,0.35)]"
-                    style={revealStyle(`${420 + index * 90}ms`)}
-                  >
-                    <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--primary-ghost)] text-[var(--primary-strong)]">
-                      <IngredientIcon />
-                    </div>
-                    <p className="mt-3 text-sm font-medium text-[#423c31]">{item}</p>
-                  </article>
-                ))}
+            {displayProduct.ingredients.length > 0 ? (
+              <div
+                className="product-detail-block space-y-4"
+                style={revealStyle("320ms")}
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
+                  Bahan Baku Utama
+                </p>
+                <div className="grid gap-3 grid-cols-3">
+                  {displayProduct.ingredients.map((item, index) => (
+                    <article
+                      key={`${item}-${index}`}
+                      className="product-detail-ingredient rounded-[18px] border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.82)] px-4 py-4 text-center shadow-[0_16px_30px_-28px_rgba(70,52,26,0.35)]"
+                      style={revealStyle(`${420 + index * 90}ms`)}
+                    >
+                      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[var(--primary-ghost)] text-[var(--primary-strong)]">
+                        <IngredientIcon />
+                      </div>
+                      <p className="mt-3 text-sm font-medium text-[#423c31]">{item}</p>
+                    </article>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
 
             <article
               className="product-detail-block rounded-[22px] bg-[#FCDC31] pl-[2px]"
@@ -187,7 +302,7 @@ export default async function ProductPage({ params }: Props) {
                     Panduan Penyimpanan
                   </p>
                   <p className="mt-2 text-sm leading-7 text-[#5b5549]">
-                    {product.storageTip}
+                    {displayProduct.storageTip}
                   </p>
                 </div>
               </div>
@@ -208,8 +323,8 @@ export default async function ProductPage({ params }: Props) {
                 Pesan Sekarang
               </Link>
               <ShareProductButton
-                productName={product.name}
-                sharePath={`/products/${product.slug}`}
+                productName={displayProduct.name}
+                sharePath={`/products/${encodeURIComponent(displayProduct.slug)}`}
               />
             </div>
 
@@ -217,7 +332,7 @@ export default async function ProductPage({ params }: Props) {
               className="product-detail-block hidden text-sm leading-7 text-[#6e685c] md:block"
               style={revealStyle("720ms")}
             >
-              {product.description}
+              {displayProduct.description}
             </p>
           </section>
         </div>
