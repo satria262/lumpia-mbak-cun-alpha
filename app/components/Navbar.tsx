@@ -171,7 +171,7 @@ export default function Navbar() {
 
       <div className="hidden items-center gap-3 text-sm md:flex">
         <a
-          href="https://instagram.com"
+          href="https://www.instagram.com/lumpiambakcun?igsh=M2N6dWtnanJ5YTFn"
           target="_blank"
           rel="noreferrer"
           className="desktop-anchor-link"
@@ -182,18 +182,7 @@ export default function Navbar() {
           •
         </span>
         <a
-          href="https://tiktok.com"
-          target="_blank"
-          rel="noreferrer"
-          className="desktop-anchor-link"
-        >
-          TikTok
-        </a>
-        <span className="desktop-anchor-bullet" aria-hidden="true">
-          •
-        </span>
-        <a
-          href="https://gofood.co.id"
+          href="https://gofood.link/a/C2kf5TE"
           target="_blank"
           rel="noreferrer"
           className="desktop-anchor-link"
@@ -204,7 +193,7 @@ export default function Navbar() {
           •
         </span>
         <a
-          href="https://linktr.ee"
+          href="https://linktr.ee/lumpiambakcun"
           target="_blank"
           rel="noreferrer"
           className="desktop-anchor-link"

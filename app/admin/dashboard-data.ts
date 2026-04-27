@@ -69,7 +69,7 @@ export const latestOrders: LatestOrder[] = [
 export const dashboardSummary: DashboardSummary[] = [
   {
     id: "revenue",
-    label: "Revenue Today",
+    label: "Total Revenue",
     value: "Rp 1.420.000",
     tone: "primary",
     icon: "cash",

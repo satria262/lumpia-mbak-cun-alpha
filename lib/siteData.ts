@@ -91,7 +91,7 @@ export const highlights = [
 
 export const locationInfo = {
   title: "Lokasi Kedai Kami",
-  address: "Jl. Pemuda No. 14, Semarang",
+  address: "Jl. Meranti Barat 1 no. 322 banyumanik semarang",
   note: "Terletak dekat pusat kota, mudah dijangkau dan selalu ramai pengunjung.",
   gallery: ["/store-1.svg", "/store-2.svg"],
 };

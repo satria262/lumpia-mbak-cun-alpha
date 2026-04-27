@@ -21,7 +21,7 @@ export default function LocationPage() {
           <div className="location-hero-copy max-w-xl space-y-8">
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--secondary)]">
-                Visit Our Kitchen
+                Kunjungi Dapur Kami
               </p>
               <h1 className="max-w-md text-5xl leading-[0.96] font-semibold tracking-[-0.05em] text-[#231f19] sm:text-6xl">
                 The Original
@@ -51,7 +51,7 @@ export default function LocationPage() {
                   </svg>
                   <div>
                     <h3 className="italic mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
-                      Address
+                      Alamat
                     </h3>
                     <p className="text-base leading-7 text-[#4f493d]">
                       {locationInfo.address}
@@ -64,7 +64,7 @@ export default function LocationPage() {
                   </svg>
                   <div>
                     <h3 className="italic mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
-                      Operational Hours
+                      Jam Beroprasi
                     </h3>
                     <p className="text-base leading-7 text-[#4f493d]">
                       Daily: 09:00 - 20:00
@@ -95,8 +95,8 @@ export default function LocationPage() {
               />
               <div className="hidden md:block absolute left-13 bottom-13 rounded-md rounded-bl-none w-80 bg-[rgba(255,252,247,0.94)] px-5 py-4 shadow-[0_18px_40px_-28px_rgba(70,52,26,0.42)] backdrop-blur-sm">
                 <h1 className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
-                  &ldquo;The best lumpia in town, still maintaining its authentic
-                  bambo shoot crunch.&rdquo;
+                  &ldquo;Lumpia terenak yg pernah saya coba. murah, enak dan terjangkau.
+                  Recommended👍&rdquo;
                 </h1>
                 <p className="mt-2 uppercase text-sm leading-6 text-[#4f493d]">
                   - Local Reviewer

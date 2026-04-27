@@ -11,8 +11,7 @@ const navItems = [
   { label: "Dasbor", href: "/admin", icon: "dashboard" },
   { label: "Inventaris", href: "/admin/products", icon: "inventory" },
   { label: "Testimoni", href: "/admin/testimonials", icon: "message" },
-  { label: "Pesanan", href: "#", icon: "orders" },
-  { label: "Pengaturan", href: "#", icon: "settings" },
+  { label: "Pesanan", href: "#", icon: "orders" }
 ] as const;
 
 type AdminSidebarProps = {
@@ -35,9 +34,11 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
         } lg:border-b lg:pb-5`}
       >
         <div className="min-w-0">
-          <p className="truncate font-[var(--font-noto-serif)] text-xl italic text-[#526b2d]">
-            Lumpia Mbak Cun
-          </p>
+          <a href="/">
+            <p className="truncate font-[var(--font-noto-serif)] text-xl italic text-[#526b2d]">
+              Lumpia Mbak Cun
+            </p>
+          </a>
           <p className="truncate text-xs font-bold text-[#526b2d] lg:hidden">
             Admin Kuliner
           </p>
