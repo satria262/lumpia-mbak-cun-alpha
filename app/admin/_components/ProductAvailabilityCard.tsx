@@ -9,72 +9,155 @@ type ProductAvailabilityCardProps = {
   products: ProductAvailability[];
 };
 
-const MAX_ACTIVE_PRODUCTS = 3;
-
-function enforceActiveProductLimit(products: ProductAvailability[]) {
-  let activeCount = 0;
-
-  return products.map((product) => {
-    if (!product.enabled) {
-      return product;
-    }
-
-    activeCount += 1;
-
-    return {
-      ...product,
-      enabled: activeCount <= MAX_ACTIVE_PRODUCTS,
-    };
-  });
-}
+const MAX_ACTIVE_PRODUCTS = 4;
 
 export function ProductAvailabilityCard({
   products,
 }: ProductAvailabilityCardProps) {
-  const [availability, setAvailability] = useState(() =>
-    enforceActiveProductLimit(products),
+  const [availability, setAvailability] = useState(products);
+  const [loadingProductIds, setLoadingProductIds] = useState<Set<string>>(
+    () => new Set(),
   );
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
 
   function showLimitWarning() {
     setIsLimitModalOpen(true);
   }
 
-  function toggleProduct(productId: string) {
-    setAvailability((currentProducts) => {
-      const selectedProduct = currentProducts.find(
-        (product) => product.id === productId,
-      );
-      const activeCount = currentProducts.filter(
-        (product) => product.enabled,
-      ).length;
-
-      if (!selectedProduct) {
-        return currentProducts;
-      }
-
-      if (!selectedProduct.enabled && activeCount >= MAX_ACTIVE_PRODUCTS) {
-        showLimitWarning();
-        return currentProducts;
-      }
-
-      return currentProducts.map((product) =>
-        product.id === productId
-          ? { ...product, enabled: !product.enabled }
-          : product,
-      );
-    });
-  }
-
-  function enableAllProducts() {
-    showLimitWarning();
-    setAvailability((currentProducts) =>
-      currentProducts.map((product, index) => ({
-        ...product,
-        enabled: index < MAX_ACTIVE_PRODUCTS,
-      })),
+  async function updateProductAvailability(
+    productId: string,
+    nextEnabled: boolean,
+  ) {
+    const response = await fetch(
+      `/api/admin/products/${productId}/availability`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ availability: nextEnabled }),
+      },
     );
+    const result = (await response.json()) as {
+      availability?: boolean;
+      error?: string;
+    };
+
+    if (!response.ok || typeof result.availability !== "boolean") {
+      throw new Error(result.error ?? "Status produk gagal diperbarui.");
+    }
+
+    return result.availability;
   }
+
+  async function toggleProduct(productId: string) {
+    if (loadingProductIds.has(productId)) {
+      return;
+    }
+
+    const selectedProduct = availability.find(
+      (product) => product.id === productId,
+    );
+
+    if (!selectedProduct) {
+      return;
+    }
+
+    const activeCount = availability.filter((product) => product.enabled).length;
+    const previousEnabled = selectedProduct.enabled;
+    const nextEnabled = !selectedProduct.enabled;
+
+    if (!selectedProduct.enabled && activeCount >= MAX_ACTIVE_PRODUCTS) {
+      showLimitWarning();
+      return;
+    }
+
+    setErrorMessage("");
+    setLoadingProductIds((currentIds) => new Set(currentIds).add(productId));
+    setAvailability((currentProducts) =>
+      currentProducts.map((product) =>
+        product.id === productId ? { ...product, enabled: nextEnabled } : product,
+      ),
+    );
+
+    try {
+      const savedAvailability = await updateProductAvailability(
+        productId,
+        nextEnabled,
+      );
+
+      setAvailability((currentProducts) =>
+        currentProducts.map((product) =>
+          product.id === productId
+            ? { ...product, enabled: savedAvailability }
+            : product,
+        ),
+      );
+    } catch (error) {
+      setAvailability((currentProducts) =>
+        currentProducts.map((product) =>
+          product.id === productId
+            ? { ...product, enabled: previousEnabled }
+            : product,
+        ),
+      );
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Status produk gagal diperbarui.",
+      );
+    } finally {
+      setLoadingProductIds((currentIds) => {
+        const nextIds = new Set(currentIds);
+        nextIds.delete(productId);
+        return nextIds;
+      });
+    }
+  }
+
+  async function enableAllProducts() {
+    if (loadingProductIds.size > 0) {
+      return;
+    }
+
+    showLimitWarning();
+    const previousAvailability = availability;
+    const nextAvailability = availability.map((product, index) => ({
+      ...product,
+      enabled: index < MAX_ACTIVE_PRODUCTS,
+    }));
+    const changedProducts = nextAvailability.filter((product, index) => {
+      return product.enabled !== previousAvailability[index]?.enabled;
+    });
+
+    if (changedProducts.length === 0) {
+      return;
+    }
+
+    setErrorMessage("");
+    setLoadingProductIds(new Set(changedProducts.map((product) => product.id)));
+    setAvailability(nextAvailability);
+
+    try {
+      await Promise.all(
+        changedProducts.map((product) =>
+          updateProductAvailability(product.id, product.enabled),
+        ),
+      );
+    } catch (error) {
+      setAvailability(previousAvailability);
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Status produk gagal diperbarui.",
+      );
+    } finally {
+      setLoadingProductIds(new Set());
+    }
+  }
+
+  const isAnyProductLoading = loadingProductIds.size > 0;
 
   return (
     <section aria-labelledby="product-availability-title">
@@ -88,16 +171,27 @@ export function ProductAvailabilityCard({
         <button
           type="button"
           onClick={enableAllProducts}
-          className="text-sm font-bold text-[#526b2d] transition hover:text-[#2f3f18]"
+          disabled={isAnyProductLoading}
+          className="text-sm font-bold text-[#526b2d] transition hover:text-[#2f3f18] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Aktifkan 3
+          Aktifkan 4
         </button>
       </div>
 
       <div className="space-y-6">
+        {errorMessage ? (
+          <div
+            role="alert"
+            className="rounded-lg border border-[#f0d0c4] bg-[#fff7f3] px-4 py-3 text-sm font-semibold text-[#9a3f24]"
+          >
+            {errorMessage}
+          </div>
+        ) : null}
+
         {availability.length > 0 ? (
           availability.map((product) => {
             const status = product.enabled ? "available" : "sold-out";
+            const isLoading = loadingProductIds.has(product.id);
 
             return (
             <article
@@ -135,8 +229,9 @@ export function ProductAvailabilityCard({
                   type="button"
                   aria-label={`Toggle ${product.name} availability`}
                   aria-pressed={product.enabled}
+                  disabled={isLoading}
                   onClick={() => toggleProduct(product.id)}
-                  className={`relative h-8 w-14 rounded-full transition ${
+                  className={`relative h-8 w-14 rounded-full transition disabled:cursor-not-allowed disabled:opacity-70 ${
                     product.enabled ? "bg-[#92a25f]" : "bg-[#d8d6d2]"
                   }`}
                 >
@@ -196,7 +291,7 @@ export function ProductAvailabilityCard({
                 id="availability-limit-description"
                 className="mt-2 text-sm leading-6 text-[#6f6a5c]"
               >
-                Maksimal 3 produk bisa aktif di etalase. Nonaktifkan salah satu
+                Maksimal 4 produk bisa aktif di etalase. Nonaktifkan salah satu
                 produk aktif sebelum menambahkan produk lain.
               </p>
             </div>

@@ -5,9 +5,9 @@ import TestimonialCarousel from "./components/TestimonialCarousel";
 import {
   formatCompactPrice,
   getHomeProductTitle,
-  getProducts,
   getSiteContent,
 } from "../lib/content";
+import { prisma } from "@/lib/prisma";
 
 const highlightItems = [
   {
@@ -66,8 +66,19 @@ const highlightItems = [
   },
 ];
 
-export default function Home() {
-  const products = getProducts();
+export default async function Home() {
+  const products = await prisma.product.findMany({
+    where: { availability: true },
+    orderBy: { id: "asc" },
+    take: 4,
+    select: {
+      slug: true,
+      name: true,
+      price: true,
+      description: true,
+      image: true,
+    },
+  });
   const site = getSiteContent();
 
   return (
@@ -211,11 +222,11 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="mt-8 grid gap-16 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-8 flex flex-wrap lg:flex-nowrap justify-center items-stretch gap-8 lg:gap-4">
             {products.map((product) => (
                 <article
                   key={product.slug}
-                  className="home-product-card flex h-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                  className="home-product-card flex w-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                 >
                   <Image
                     src={product.image}
@@ -226,7 +237,7 @@ export default function Home() {
                   />
                   <div className="flex flex-1 flex-col justify-between p-6">
                     <div className="mb-3 grid grid-cols-2 gap-4">
-                      <h3 className="whitespace-nowrap text-2xl font-semibold text-[#1f1b15]">
+                      <h3 className="text-2xl font-semibold text-[#1f1b15]">
                         {getHomeProductTitle(product)}
                       </h3>
                       <p className="text-lg font-bold text-right text-[var(--primary-strong)] sm:text-xl">

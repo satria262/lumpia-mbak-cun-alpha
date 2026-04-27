@@ -83,13 +83,13 @@ export default async function AdminTestimonialsPage() {
                       key={testimonial.id}
                       className="overflow-hidden rounded-xl border border-[#eee8dc] bg-white shadow-[0_18px_45px_-36px_rgba(70,52,26,0.45)] transition hover:-translate-y-1 hover:shadow-[0_26px_55px_-38px_rgba(70,52,26,0.5)]"
                     >
-                      <div className="relative min-h-72 bg-[#F8F2F0] p-8 pt-12">
-                        <p className="pointer-events-none absolute left-6 top-5 font-[var(--font-noto-serif)] text-6xl font-semibold leading-[0.8] text-[#92a25f]/35">
+                      <div className="relative bg-[#F8F2F0] p-5 pt-9">
+                        <p className="pointer-events-none absolute left-5 top-4 font-[var(--font-noto-serif)] text-5xl font-semibold leading-[0.8] text-[#92a25f]/35">
                           &ldquo;
                         </p>
 
-                        <div className="flex min-h-52 flex-col justify-between gap-6">
-                          <p className="line-clamp-5 text-xl leading-8 text-[#231f19]">
+                        <div className="flex min-h-44 flex-col justify-between gap-5">
+                          <p className="line-clamp-3 text-lg leading-7 text-[#231f19]">
                             {testimonial.testimonial ||
                               "Belum ada isi testimoni."}
                           </p>

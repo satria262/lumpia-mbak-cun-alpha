@@ -42,15 +42,16 @@ export function getProductBySlug(slug: string): Product | null {
   }
 }
 
-export function getHomeProductTitle(product: Product) {
+export function getHomeProductTitle(product: Pick<Product, "slug" | "name">) {
   return homeProductTitles[product.slug] ?? product.name;
 }
 
-export function formatCompactPrice(price: string) {
-  const digits = Number(price.replace(/[^\d]/g, ""));
+export function formatCompactPrice(price: number | string) {
+  const digits =
+    typeof price === "number" ? price : Number(price.replace(/[^\d]/g, ""));
 
   if (Number.isNaN(digits)) {
-    return price;
+    return String(price);
   }
 
   return `Rp ${Math.round(digits / 1000)}K`;
