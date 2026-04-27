@@ -67,7 +67,7 @@ export default function LocationPage() {
                       Operational Hours
                     </h3>
                     <p className="text-base leading-7 text-[#4f493d]">
-                      Daily: 09:00 - 21:00
+                      Daily: 09:00 - 20:00
                     </p>
                   </div>
                 </div>

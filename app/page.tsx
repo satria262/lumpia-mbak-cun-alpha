@@ -200,11 +200,11 @@ export default async function Home() {
             <div className="absolute -inset-6 hidden rounded-[48px] bg-[radial-gradient(circle_at_top_right,rgba(252,220,49,0.2),transparent_55%)] lg:block" />
             <div className="home-hero-image relative overflow-hidden rounded-l-[40px] rounded-r-none bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
               <Image
-                src="/lumpia-pinterest.jpg"
+                src="/system/hero.jpg"
                 alt="Lumpia goreng hangat di atas piring saji"
                 width={1200}
                 height={880}
-                className="h-[320px] w-full rounded-l-[40px] rounded-r-none object-cover object-center sm:h-[420px] lg:h-[500px]"
+                className="h-[320px] w-[710px] rounded-l-[40px] rounded-r-none object-cover object-center sm:h-full"
                 priority
               />
             </div>
@@ -226,7 +226,7 @@ export default async function Home() {
                     className="h-[360px] w-full object-cover"
                   />
                 </div>
-                <h1 className="pt-5 text-center italic font-[var(--font-noto-serif)] text-xl text-[#6c6455]">
+                <h1 className="pt-2 pb-4 text-center italic font-[var(--font-noto-serif)] text-xl text-[#6c6455]">
                   Semarang Heritage
                 </h1>
               </div>
@@ -241,7 +241,7 @@ export default async function Home() {
                     className="h-[240px] w-full object-cover"
                   />
                 </div>
-                <h1 className="pt-4 text-center italic font-[var(--font-noto-serif)] text-lg text-[#6c6455]">
+                <h1 className="pt-2 pb-4 text-center italic font-[var(--font-noto-serif)] text-lg text-[#6c6455]">
                   Resep Warisan
                 </h1>
               </div>
@@ -254,7 +254,7 @@ export default async function Home() {
                   <br />
                   Dijaga dengan Cinta
                 </h2>
-                <div className="max-w-xl border-l-2 border-[var(--primary)] pl-5 text-lg leading-8 text-[#6c6455]">
+                <div className="max-w-xl border-l-2 border-[var(--primary)] pl-5 text-lg leading-8 text-[#6c6455] italic">
                   &ldquo;Lumpia Mbak Cun sudah berdiri sejak tahun 2013 dan selalu menjaga rasa dan kualitas makanan kami. Kami memiliki banyak pelanggan setia dan kerjasama dengan berbagai warung di sekitar Semarang.&rdquo;
                 </div>
               </div>
@@ -267,7 +267,7 @@ export default async function Home() {
                 href="/location"
                 className="inline-flex items-center gap-3 text-base font-semibold text-[var(--primary-strong)] transition hover:text-[#FCDC31]"
               >
-                Baca Biografi Selengkapnya
+                Lokasi
                 <span aria-hidden="true" className="text-xl leading-none">
                   &rarr;
                 </span>
@@ -371,15 +371,15 @@ export default async function Home() {
 
       <section className="bg-white pt-20">
         <div className="mx-auto grid max-w-[1360px] gap-16 px-3 py-20 sm:px-4 lg:grid-cols-2 lg:px-3">
-          <div className="space-y-8">
+          <div className="space-y-14">
             <h2 className="text-4xl">Apa Kata Tamu Kami</h2>
             <TestimonialCarousel testimonials={testimonials} />
           </div>
 
-          <div className="home-map-shell">
-            <div className="flex justify-between">
+          <div className="home-map-shell space-y-4">
+            <div className="grid grid-cols-2">
               <h2 className="text-4xl">Lokasi Kedai Kami</h2>
-              <p className="text-[#FCDC31]">Jl. Pandanaran 12 No 4</p>
+              <p className="text-[#FCDC31]">Jl. Meranti Barat 1 no. 322 Banyumanik Semarang </p>
             </div>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp"
