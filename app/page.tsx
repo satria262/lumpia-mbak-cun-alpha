@@ -176,9 +176,7 @@ export default async function Home() {
               </h1>
               <p className="max-w-lg text-base leading-8 text-[#655f52] sm:text-lg">
                 Temukan resep warisan keluarga yang diturunkan lintas generasi.
-                Kulit emas yang renyah membalut rebung pilihan dan bahan-bahan
-                premium segar dari pertanian.
-              </p>
+                Kulit lumpia yang digoreng dengan minyak panas yang pas sehingga menciptakan kulit golden brown yang renyah membalut rebung pilihan dan bahan-bahan premium segar dari pertanian.              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
@@ -231,7 +229,7 @@ export default async function Home() {
                 </h1>
               </div>
 
-              <div className="absolute top-[5rem] left-[20%] z-10 w-[42%] rotate-[6deg] bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
+              <div className="absolute top-[5rem] left-[50%] md:left-[20%] z-10 w-[42%] rotate-[6deg] bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
                 <div className="overflow-hidden bg-[#26211b]">
                   <Image
                     src="/products/lumpiasemarang.jpg"
@@ -260,7 +258,7 @@ export default async function Home() {
               </div>
 
               <p className="max-w-2xl text-base leading-8 text-[#655f52]">
-                Komitmen kami adalah tetap memberikan kualitas rasa terbaik dan harga yang terjangkau bagi semua pelanggan. Kami juga memfasilitasi pemesanan untuk dikirim ke luar kota dan dapat bertahan hingga 2 hari pada suhu ruangan, atau hingga 7-10 hari jika dalam kondisi beku.
+                Mbak Cun memulai dengan warung kecil dari rumah yang sederhana``. Beliau percaya bahwa rahasianya bukan hanya pada bumbu, melainkan pada kesabaran dalam proses memasak yang perlahan.
               </p>
 
               <Link
