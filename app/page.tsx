@@ -16,6 +16,7 @@ type HomeProduct = {
   price: number;
   description: string;
   image: string;
+  badge: string;
 };
 
 const highlightItems = [
@@ -79,6 +80,22 @@ export const dynamic = "force-dynamic";
 
 const fallbackProductImage = "/system/lumpia-logo.png";
 
+function StarIcon () {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#FCDC31" viewBox="0 0 24 24" strokeWidth={1.5} stroke="#FCDC31" className="size-4">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+    </svg>
+  )
+}
+
+function CheckBadgeIcon () {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#00FF8C" className="size-4">
+      <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+    </svg>
+  )
+}
+
 function getProductImage(src: string | null | undefined) {
   const value = src?.trim();
 
@@ -115,6 +132,7 @@ async function getHomeProducts(): Promise<HomeProduct[]> {
         price: true,
         description: true,
         image: true,
+        badge: true
       },
     });
   } catch (error) {
@@ -165,7 +183,7 @@ export default async function Home() {
           <div className="max-w-xl space-y-8 location-hero-copy">
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--secondary)]">
-                Sejak 1998 - Semarang
+                Est. 2013 - Semarang
               </p>
               <h1 className="max-w-md text-5xl leading-[0.96] font-semibold tracking-[-0.05em] text-[#231f19] sm:text-6xl lg:text-[4.6rem]">
                 Cita Rasa
@@ -300,8 +318,18 @@ export default async function Home() {
               {products.map((product) => (
                 <article
                   key={product.slug}
-                  className="home-product-card flex w-full flex-col overflow-hidden rounded-4xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                  className="home-product-card relative flex w-full flex-col overflow-hidden rounded-xl bg-[rgba(255,253,247,0.96)] shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                 >
+                  <div className="absolute top-3 w-full flex justify-center space-x-2">
+                    <div className="flex space-x-1 items-center bg-black/50 px-2 py-1 rounded-md">
+                      <StarIcon />
+                      <p className="text-white font- text-sm">5.0</p>
+                    </div>
+                    <div className="flex space-x-1 items-center bg-black/50 px-2 py-1 rounded-md">
+                      <CheckBadgeIcon />
+                      <p className="text-white font- text-sm">{product.badge}</p>
+                    </div>
+                  </div>
                   <Image
                     src={getProductImage(product.image)}
                     alt={product.name}
@@ -311,19 +339,21 @@ export default async function Home() {
                   />
                   <div className="flex flex-1 flex-col justify-between p-6">
                     <div className="mb-3 grid grid-cols-2 gap-4">
-                      <h3 className="text-2xl font-semibold text-[#1f1b15]">
-                        {getHomeProductTitle(product)}
-                      </h3>
-                      <p className="text-lg font-bold text-right text-[var(--primary-strong)] sm:text-xl">
-                        {formatCompactPrice(product.price)}
-                      </p>
+                      <div className="col-span-2 flex justify-between">
+                        <h3 className=" text-2xl font-semibold text-[#1f1b15]">
+                          {getHomeProductTitle(product)}
+                        </h3>
+                        <p className="whitespace-nowrap text-lg font-bold text-right text-[var(--primary-strong)] sm:text-lg">
+                          {formatCompactPrice(product.price)}
+                        </p>
+                      </div>
                       <p className="col-span-2 mb-6 text-sm leading-7 text-[#5f5a4b]">
-                        {product.description}
+                        {product.description.length > 100 ? product.description.slice(0, 100) + '...' : product.description}
                       </p>
                     </div>
                     <Link
                       href={`/products/${encodeURIComponent(product.slug)}`}
-                      className="inline-flex items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
+                      className="inline-flex items-center justify-center rounded-md bg-[var(--primary)] px-5 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)] -mt-5"
                     >
                       Lihat Detail
                     </Link>
