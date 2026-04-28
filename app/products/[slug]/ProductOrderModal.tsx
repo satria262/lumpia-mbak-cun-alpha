@@ -79,7 +79,7 @@ export default function ProductOrderModal({
     {
       name: "WhatsApp",
       label: "Tanya stok dulu",
-      href: `https://wa.me/?text=${encodedOrderText}`,
+      href: `https://api.whatsapp.com/send/?phone=6281227816101`,
       logo: "/system/whatsapp.svg",
     },
     {
@@ -158,7 +158,7 @@ export default function ProductOrderModal({
                     Pilih Kanal Pesan
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[#5b5549]">
-                    Pilih cara paling nyaman untuk memesan {productName}.
+                    Pilih cara paling nyaman untuk memesan {productName} anda.
                   </p>
                 </div>
                 <button
