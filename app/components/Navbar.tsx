@@ -176,7 +176,14 @@ export default function Navbar() {
           rel="noreferrer"
           className="desktop-anchor-link"
         >
-          instagram
+          <Image
+            src="/system/instagram.svg"
+            alt="Lumpia Mbak Cun"
+            width={65}
+            height={65}
+            className="w-[23px] object-left object-cover"
+            priority
+          />
         </a>
         <span className="desktop-anchor-bullet" aria-hidden="true">
           •
@@ -187,7 +194,14 @@ export default function Navbar() {
           rel="noreferrer"
           className="desktop-anchor-link"
         >
-          GoFood
+          <Image
+            src="/system/gojekmitra.png"
+            alt="Lumpia Mbak Cun"
+            width={26}
+            height={26}
+            className="w-auto object-left object-cover"
+            priority
+          />
         </a>
         <span className="desktop-anchor-bullet" aria-hidden="true">
           •
@@ -198,7 +212,14 @@ export default function Navbar() {
           rel="noreferrer"
           className="desktop-anchor-link"
         >
-          Linktree
+          <Image
+            src="/system/lumpia-ai.png"
+            alt="Lumpia Mbak Cun"
+            width={20}
+            height={20}
+            className="w-auto object-left object-cover rounded-full"
+            priority
+          />
         </a>
       </div>
     </div>

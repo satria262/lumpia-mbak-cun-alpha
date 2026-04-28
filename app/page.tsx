@@ -247,7 +247,7 @@ export default async function Home() {
                 </h1>
               </div>
 
-              <div className="absolute top-[5rem] left-[50%] md:left-[20%] z-10 w-[42%] rotate-[6deg] bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
+              <div className="absolute top-[5rem] left-[50%] md:left-[40%] z-10 w-[42%] rotate-[6deg] bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
                 <div className="overflow-hidden bg-[#26211b]">
                   <Image
                     src="/products/lumpiasemarang.jpg"

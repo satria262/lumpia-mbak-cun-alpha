@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { CSSProperties } from "react";
 import Navbar from "../../components/Navbar";
+import ProductOrderModal from "./ProductOrderModal";
 import ShareProductButton from "./ShareProductButton";
 import { prisma } from "@/lib/prisma";
 
@@ -41,23 +42,6 @@ function StorageIcon() {
       <path d="M7 4.5h10" />
       <path d="M6.5 7.5h11a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-9a1 1 0 0 1 1-1Z" />
       <path d="M9.5 11.2h5" />
-    </svg>
-  );
-}
-
-function CartIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-      aria-hidden="true"
-    >
-      <path d="M4 5h2l2 9h8.8l2-6.5H7.3" />
-      <path d="M10 18.5a1 1 0 1 0 0 .01" />
-      <path d="M17 18.5a1 1 0 1 0 0 .01" />
     </svg>
   );
 }
@@ -198,9 +182,6 @@ export default async function ProductPage({ params }: Props) {
     ),
     imageNote: getDisplayText(product.imageNote, "Foto produk Lumpia Mbak Cun."),
   };
-  const whatsappMessage = encodeURIComponent(
-    `Halo, saya ingin pesan ${displayProduct.name}. Boleh minta info ketersediaan dan cara pemesanannya?`,
-  );
   const revealStyle = (delay: string) =>
     ({ "--product-delay": delay } as CSSProperties);
 
@@ -313,15 +294,7 @@ export default async function ProductPage({ params }: Props) {
               className="product-detail-block flex flex-col gap-3 sm:flex-row"
               style={revealStyle("620ms")}
             >
-              <Link
-                href={`https://api.whatsapp.com/send?text=${whatsappMessage}`}
-                className="button-primary inline-flex min-h-14 flex-1 items-center justify-center gap-3 rounded-2xl px-6 text-sm font-semibold"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <CartIcon />
-                Pesan Sekarang
-              </Link>
+              <ProductOrderModal productName={displayProduct.name} />
               <ShareProductButton
                 productName={displayProduct.name}
                 sharePath={`/products/${encodeURIComponent(displayProduct.slug)}`}
