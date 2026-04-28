@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono, Noto_Serif } from "next/font/google";
+import { AdminToaster } from "./admin/_components/AdminToaster";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,9 +43,9 @@ export default function RootLayout({
     >
       <body className="min-h-full">
         {children}
+        <AdminToaster />
         <Analytics />
-        </body>
+      </body>
     </html>
-    
   );
 }

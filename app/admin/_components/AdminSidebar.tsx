@@ -34,11 +34,11 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
         } lg:border-b lg:pb-5`}
       >
         <div className="min-w-0">
-          <a href="/">
+          <Link href="/">
             <p className="truncate font-[var(--font-noto-serif)] text-xl italic text-[#526b2d]">
               Lumpia Mbak Cun
             </p>
-          </a>
+          </Link>
           <p className="truncate text-xs font-bold text-[#526b2d] lg:hidden">
             Admin Kuliner
           </p>

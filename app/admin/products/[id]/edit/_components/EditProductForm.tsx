@@ -45,6 +45,7 @@ type FieldProps = {
   required?: boolean;
   min?: string;
   step?: string;
+  error?: string;
 };
 
 function TextField({
@@ -57,6 +58,7 @@ function TextField({
   required = false,
   min,
   step,
+  error,
 }: FieldProps) {
   return (
     <div className="space-y-2">
@@ -74,6 +76,7 @@ function TextField({
         placeholder={placeholder}
         className="h-11 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
       />
+      <FieldError message={error} />
     </div>
   );
 }
@@ -90,6 +93,7 @@ function TextAreaField({
   defaultValue,
   rows = 4,
   required = false,
+  error,
 }: TextAreaFieldProps) {
   return (
     <div className="space-y-2">
@@ -105,8 +109,17 @@ function TextAreaField({
         placeholder={placeholder}
         className="w-full resize-y rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 py-3 text-sm leading-6 text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
       />
+      <FieldError message={error} />
     </div>
   );
+}
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) {
+    return null;
+  }
+
+  return <p className="text-xs font-semibold text-[#9a3f1d]">{message}</p>;
 }
 
 function SubmitButton() {
@@ -274,7 +287,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
           </section>
         </aside>
 
-        <form action={formAction} className="space-y-6">
+        <form action={formAction} className="space-y-6" noValidate>
           <div className="flex flex-col gap-4 rounded-xl border border-[#eee8dc] bg-white p-5 shadow-[0_16px_38px_-34px_rgba(70,52,26,0.42)] md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-sm font-semibold text-[#526b2d]">
@@ -312,6 +325,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                 label="Nama Produk"
                 placeholder="Nama produk"
                 defaultValue={product.name}
+                error={state.fieldErrors?.name}
                 required
               />
               <div className="grid gap-5 md:grid-cols-3">
@@ -324,6 +338,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   step="1000"
                   placeholder="22000"
                   defaultValue={getSafeNumber(product.price)}
+                  error={state.fieldErrors?.price}
                   required
                 />
                 <TextField
@@ -335,6 +350,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   step="1"
                   placeholder="0"
                   defaultValue={getSafeNumber(product.stock)}
+                  error={state.fieldErrors?.stock}
                   required
                 />
                 <TextField
@@ -343,6 +359,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   label="Porsi"
                   placeholder="Contoh: Per box isi 12"
                   defaultValue={product.portion}
+                  error={state.fieldErrors?.portion}
                   required
                 />
               </div>
@@ -352,6 +369,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                 label="Deskripsi"
                 placeholder="Jelaskan rasa, tekstur, dan karakter produk..."
                 defaultValue={product.description}
+                error={state.fieldErrors?.description}
                 required
               />
             </div>
@@ -368,6 +386,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                 label="Filosofi & Cerita"
                 placeholder="Ceritakan inspirasi di balik resep ini..."
                 defaultValue={product.philosophy}
+                error={state.fieldErrors?.philosophy}
                 required
               />
               <div className="grid gap-5 md:grid-cols-2">
@@ -390,6 +409,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                       className="h-10 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
                     />
                   ))}
+                  <FieldError message={state.fieldErrors?.ingredients} />
                 </div>
                 <TextAreaField
                   id="storageTip"
@@ -397,6 +417,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   label="Tips Penyimpanan"
                   placeholder="Cara menyimpan agar tetap segar..."
                   defaultValue={product.storageTip}
+                  error={state.fieldErrors?.storageTip}
                   required
                 />
               </div>
@@ -427,11 +448,14 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                       : "border-[#d8cfb5] bg-[#fbfaf6] hover:border-[#92a25f] hover:bg-[#f7faee]"
                   }`}
                 >
-                  <span
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url("${imagePreview}")` }}
-                    aria-hidden="true"
-                  />
+                  {imagePreview ? (
+                    <img
+                      src={imagePreview}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover object-center"
+                      aria-hidden="true"
+                    />
+                  ) : null}
                   <span className="absolute inset-0 bg-[#211d16]/48 transition group-hover:bg-[#211d16]/42" />
                   <span className="relative grid h-11 w-11 place-items-center rounded-full bg-white text-2xl text-[#92a25f] shadow-[0_12px_26px_-22px_rgba(70,52,26,0.45)]">
                     +
@@ -442,16 +466,20 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   <span className="relative mt-1 text-xs text-white/85">
                     Kosongkan jika tidak ingin mengganti gambar
                   </span>
+                  <span className="relative mt-1 text-xs text-white/85">
+                    PNG, JPG, JPEG, atau WebP, maks. 8MB
+                  </span>
                   <input
                     ref={imageInputRef}
                     id="image"
                     name="image"
                     type="file"
-                    accept="image/png,image/jpeg,image/webp"
+                    accept="image/png,image/jpeg,image/jpg,image/webp"
                     onChange={handleImageChange}
                     className="sr-only"
                   />
                 </label>
+                <FieldError message={state.fieldErrors?.image} />
                 <TextAreaField
                   id="imageNote"
                   name="imageNote"
@@ -459,6 +487,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   placeholder="Contoh: Foto utama dengan saus pendamping"
                   defaultValue={product.imageNote}
                   rows={3}
+                  error={state.fieldErrors?.imageNote}
                   required
                 />
               </div>
@@ -508,6 +537,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   label="Badge"
                   placeholder="Contoh: Best Seller"
                   defaultValue={product.badge}
+                  error={state.fieldErrors?.badge}
                   required
                 />
 
@@ -530,6 +560,7 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                       className="h-10 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
                     />
                   ))}
+                  <FieldError message={state.fieldErrors?.highlights} />
                 </div>
               </div>
             </div>

@@ -21,6 +21,7 @@ type FieldProps = {
   required?: boolean;
   min?: string;
   step?: string;
+  error?: string;
 };
 
 function TextField({
@@ -32,6 +33,7 @@ function TextField({
   required = false,
   min,
   step,
+  error,
 }: FieldProps) {
   return (
     <div className="space-y-2">
@@ -48,6 +50,7 @@ function TextField({
         placeholder={placeholder}
         className="h-11 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
       />
+      <FieldError message={error} />
     </div>
   );
 }
@@ -63,6 +66,7 @@ function TextAreaField({
   placeholder,
   rows = 4,
   required = false,
+  error,
 }: TextAreaFieldProps) {
   return (
     <div className="space-y-2">
@@ -77,8 +81,17 @@ function TextAreaField({
         placeholder={placeholder}
         className="w-full resize-y rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 py-3 text-sm leading-6 text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
       />
+      <FieldError message={error} />
     </div>
   );
+}
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) {
+    return null;
+  }
+
+  return <p className="text-xs font-semibold text-[#9a3f1d]">{message}</p>;
 }
 
 type SectionProps = {
@@ -160,7 +173,7 @@ export function CreateProductForm() {
   }
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} className="space-y-6" noValidate>
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-semibold text-[#526b2d]">
@@ -199,6 +212,7 @@ export function CreateProductForm() {
               name="name"
               label="Nama Produk"
               placeholder="Contoh: Lumpia Rebung Spesial"
+              error={state.fieldErrors?.name}
               required
             />
             <div className="grid gap-5 md:grid-cols-3">
@@ -210,6 +224,7 @@ export function CreateProductForm() {
                 min="0"
                 step="1000"
                 placeholder="22000"
+                error={state.fieldErrors?.price}
                 required
               />
               <TextField
@@ -220,6 +235,7 @@ export function CreateProductForm() {
                 min="0"
                 step="1"
                 placeholder="0"
+                error={state.fieldErrors?.stock}
                 required
               />
               <TextField
@@ -227,6 +243,7 @@ export function CreateProductForm() {
                 name="portion"
                 label="Porsi"
                 placeholder="Contoh: Per box isi 12"
+                error={state.fieldErrors?.portion}
                 required
               />
             </div>
@@ -235,6 +252,7 @@ export function CreateProductForm() {
               name="description"
               label="Deskripsi"
               placeholder="Jelaskan rasa, tekstur, dan karakter produk..."
+              error={state.fieldErrors?.description}
               required
             />
           </FormSection>
@@ -256,6 +274,7 @@ export function CreateProductForm() {
               name="philosophy"
               label="Filosofi & Cerita"
               placeholder="Ceritakan inspirasi di balik resep ini..."
+              error={state.fieldErrors?.philosophy}
               required
             />
             <div className="grid gap-5 md:grid-cols-2">
@@ -277,12 +296,14 @@ export function CreateProductForm() {
                     className="h-10 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
                   />
                 ))}
+                <FieldError message={state.fieldErrors?.ingredients} />
               </div>
               <TextAreaField
                 id="storageTip"
                 name="storageTip"
                 label="Tips Penyimpanan"
                 placeholder="Cara menyimpan agar tetap segar..."
+                error={state.fieldErrors?.storageTip}
                 required
               />
             </div>
@@ -328,25 +349,27 @@ export function CreateProductForm() {
                 Tarik gambar ke sini atau klik untuk memilih
               </span>
               <span className="mt-1 text-xs text-[#8b8578]">
-                PNG, JPG, atau WebP, maks. 5MB
+                PNG, JPG, JPEG, atau WebP, maks. 8MB
               </span>
               <input
                 ref={imageInputRef}
                 id="image"
                 name="image"
                 type="file"
-                accept="image/png,image/jpeg,image/webp"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
                 required
                 onChange={handleImageChange}
                 className="sr-only"
               />
             </label>
+            <FieldError message={state.fieldErrors?.image} />
             <TextAreaField
               id="imageNote"
               name="imageNote"
               label="Catatan Gambar"
               placeholder="Contoh: Foto utama dengan saus pendamping"
               rows={3}
+              error={state.fieldErrors?.imageNote}
               required
             />
           </FormSection>
@@ -399,6 +422,7 @@ export function CreateProductForm() {
               name="badge"
               label="Badge"
               placeholder="Contoh: Best Seller"
+              error={state.fieldErrors?.badge}
               required
             />
 
@@ -419,6 +443,7 @@ export function CreateProductForm() {
                   className="h-10 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
                 />
               ))}
+              <FieldError message={state.fieldErrors?.highlights} />
             </div>
           </FormSection>
 

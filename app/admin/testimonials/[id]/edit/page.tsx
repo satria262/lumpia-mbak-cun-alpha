@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import { AdminHeader } from "../../../_components/AdminHeader";
@@ -26,15 +26,22 @@ export default async function EditTestimonialPage({
   const testimonialId = Number(id);
 
   if (!Number.isInteger(testimonialId)) {
-    notFound();
+    redirect("/admin/testimonials");
   }
 
-  const testimonial = await prisma.testimonial.findUnique({
-    where: { id: testimonialId },
-  });
+  let testimonial: Awaited<ReturnType<typeof prisma.testimonial.findUnique>>;
+
+  try {
+    testimonial = await prisma.testimonial.findUnique({
+      where: { id: testimonialId },
+    });
+  } catch (error) {
+    console.error("Failed to load testimonial.", error);
+    redirect("/admin/testimonials");
+  }
 
   if (!testimonial) {
-    notFound();
+    redirect("/admin/testimonials");
   }
 
   return (

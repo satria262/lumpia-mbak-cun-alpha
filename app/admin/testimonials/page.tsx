@@ -25,17 +25,20 @@ function getInitials(name: string | null | undefined) {
   return initials || "LC";
 }
 
-function getAvatarStyle(src: string | null | undefined) {
-  const value = src?.trim();
-
-  return value ? { backgroundImage: `url("${value}")` } : undefined;
-}
-
 export default async function AdminTestimonialsPage() {
   const session = await requireAdminSession();
-  const testimonials = await prisma.testimonial.findMany({
-    orderBy: { id: "desc" },
-  });
+  let testimonials: Awaited<ReturnType<typeof prisma.testimonial.findMany>> =
+    [];
+  let loadFailed = false;
+
+  try {
+    testimonials = await prisma.testimonial.findMany({
+      orderBy: { id: "desc" },
+    });
+  } catch (error) {
+    console.error("Failed to load testimonials.", error);
+    loadFailed = true;
+  }
 
   return (
     <main className="min-h-screen bg-[#fbfaf6] text-[#211d16]">
@@ -69,10 +72,23 @@ export default async function AdminTestimonialsPage() {
               </Link>
             </div>
 
-            {testimonials.length > 0 ? (
+            {loadFailed ? (
+              <div className="rounded-xl border border-[#f0d5c8] bg-[#fff6f1] p-8 text-center shadow-[0_18px_45px_-36px_rgba(70,52,26,0.45)]">
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white text-[#9a3f1d]">
+                  <AdminIcon name="message" className="h-6 w-6" />
+                </div>
+                <h2 className="mt-4 font-[var(--font-noto-serif)] text-xl font-semibold text-[#211d16]">
+                  Data testimoni tidak bisa dimuat.
+                </h2>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#6f6a5c]">
+                  Tidak ada data palsu yang ditampilkan. Coba muat ulang
+                  halaman setelah koneksi database siap.
+                </p>
+              </div>
+            ) : testimonials.length > 0 ? (
               <div className="grid gap-5 xl:grid-cols-2">
                 {testimonials.map((testimonial) => {
-                  const avatarStyle = getAvatarStyle(testimonial.userAvatar);
+                  const avatarSrc = testimonial.userAvatar?.trim();
                   const userName =
                     testimonial.userName?.trim() || "Pelanggan Tanpa Nama";
                   const occupation =
@@ -95,14 +111,16 @@ export default async function AdminTestimonialsPage() {
                           </p>
 
                           <div className="flex items-center space-x-4">
-                            <div
-                              className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-lg bg-[#eef3da] bg-cover bg-center font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]"
-                              style={avatarStyle}
-                              aria-label={
-                                avatarStyle ? `Avatar ${userName}` : undefined
-                              }
-                            >
-                              {avatarStyle ? null : getInitials(userName)}
+                            <div className="grid h-[52px] w-[52px] shrink-0 place-items-center overflow-hidden rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
+                              {avatarSrc ? (
+                                <img
+                                  src={avatarSrc}
+                                  alt={`Avatar ${userName}`}
+                                  className="h-full w-full object-cover object-center"
+                                />
+                              ) : (
+                                getInitials(userName)
+                              )}
                             </div>
                             <div className="min-w-0">
                               <p className="truncate text-xl font-semibold text-[#231f19]">

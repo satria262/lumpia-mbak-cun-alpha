@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
+import { toast } from "sonner";
 
 import { AdminIcon } from "../../_components/AdminIcons";
 import { deleteTestimonial } from "../actions";
@@ -30,6 +32,8 @@ export function DeleteTestimonialButton({
   testimonialId,
   userName,
 }: DeleteTestimonialButtonProps) {
+  const router = useRouter();
+  const [state, formAction] = useActionState(deleteTestimonial, {});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -47,6 +51,20 @@ export function DeleteTestimonialButton({
 
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isModalOpen]);
+
+  useEffect(() => {
+    if (!state.status || !state.message) {
+      return;
+    }
+
+    if (state.status === "success") {
+      toast.success(state.message);
+      router.refresh();
+      return;
+    }
+
+    toast.error(state.message);
+  }, [router, state.message, state.status, state.timestamp]);
 
   return (
     <>
@@ -111,7 +129,11 @@ export function DeleteTestimonialButton({
             >
               Batal
             </button>
-            <form action={deleteTestimonial} className="flex flex-1">
+            <form
+              action={formAction}
+              className="flex flex-1"
+              onSubmit={() => setIsModalOpen(false)}
+            >
               <input
                 type="hidden"
                 name="testimonialId"

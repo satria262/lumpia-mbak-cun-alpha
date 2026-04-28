@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { AdminHeader } from "../_components/AdminHeader";
+import { AdminFlashNotice } from "../_components/AdminFlashNotice";
 import { AdminIcon } from "../_components/AdminIcons";
 import { AdminSidebar } from "../_components/AdminSidebar";
 import { DeleteProductButton } from "./_components/DeleteProductButton";
+import { getFlashFromSearchParams } from "@/lib/admin-query-flash";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
 
@@ -15,6 +17,13 @@ export const metadata: Metadata = {
 };
 
 const fallbackImage = "/system/lumpia-logo.png";
+
+type AdminProductsPageProps = {
+  searchParams?: Promise<{
+    success?: string | string[];
+    error?: string | string[];
+  }>;
+};
 
 function formatPrice(value: number | null | undefined) {
   const price = Number(value ?? 0);
@@ -41,11 +50,27 @@ function getProductImage(src: string | null | undefined) {
   return value && value.length > 0 ? value : fallbackImage;
 }
 
-export default async function AdminProductsPage() {
+export default async function AdminProductsPage({
+  searchParams,
+}: AdminProductsPageProps) {
   const session = await requireAdminSession();
-  const products = await prisma.product.findMany({
-    orderBy: { id: "asc" },
-  });
+  const queryFlash = getFlashFromSearchParams(await searchParams);
+  let flash = queryFlash;
+  let products: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
+  let loadFailed = false;
+
+  try {
+    products = await prisma.product.findMany({
+      orderBy: { id: "asc" },
+    });
+  } catch (error) {
+    console.error("Failed to load products.", error);
+    loadFailed = true;
+    flash ??= {
+      type: "error",
+      message: "Failed to load products",
+    };
+  }
 
   return (
     <main className="min-h-screen bg-[#fbfaf6] text-[#211d16]">
@@ -59,6 +84,8 @@ export default async function AdminProductsPage() {
           />
 
           <section className="px-6 py-8 md:px-10">
+            <AdminFlashNotice flash={flash} />
+
             <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="max-w-2xl">
                 <h1 className="font-[var(--font-noto-serif)] text-2xl font-semibold text-[#211d16]">
@@ -86,7 +113,20 @@ export default async function AdminProductsPage() {
               </div>
             </div>
 
-            {products.length > 0 ? (
+            {loadFailed ? (
+              <div className="rounded-xl border border-[#f0d5c8] bg-[#fff6f1] p-8 text-center shadow-[0_18px_45px_-36px_rgba(70,52,26,0.45)]">
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white text-[#9a3f1d]">
+                  <AdminIcon name="message" className="h-6 w-6" />
+                </div>
+                <h2 className="mt-4 font-[var(--font-noto-serif)] text-xl font-semibold text-[#211d16]">
+                  Data produk tidak bisa dimuat.
+                </h2>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#6f6a5c]">
+                  Tidak ada data palsu yang ditampilkan. Coba muat ulang
+                  halaman setelah koneksi database siap.
+                </p>
+              </div>
+            ) : products.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {products.map((product) => (
                   <article

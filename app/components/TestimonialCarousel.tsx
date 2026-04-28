@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 export type TestimonialItem = {
@@ -139,12 +138,10 @@ export default function TestimonialCarousel({
           </p>
           <div className="flex items-center space-x-4">
             {activeImage ? (
-              <Image
+              <img
                 src={activeImage}
                 alt={active.name}
-                width={52}
-                height={52}
-                className="h-[52px] w-[52px] rounded-lg object-cover object-center"
+                className="h-[52px] w-[52px] shrink-0 rounded-lg object-cover object-center"
               />
             ) : (
               <div className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
@@ -167,12 +164,10 @@ export default function TestimonialCarousel({
             </p>
             <div className="flex items-center space-x-4">
               {leavingImage ? (
-                <Image
+                <img
                   src={leavingImage}
                   alt={leaving.name}
-                  width={52}
-                  height={52}
-                  className="h-[52px] w-[52px] rounded-lg object-cover object-center"
+                  className="h-[52px] w-[52px] shrink-0 rounded-lg object-cover object-center"
                 />
               ) : (
                 <div className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">

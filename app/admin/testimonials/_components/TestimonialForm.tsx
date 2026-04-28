@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ChangeEvent,
   DragEvent,
@@ -10,9 +11,13 @@ import {
   useState,
 } from "react";
 import { useFormStatus } from "react-dom";
+import { toast } from "sonner";
 
 import { AdminIcon } from "../../_components/AdminIcons";
 import { createTestimonial, updateTestimonial } from "../actions";
+
+const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
+const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export type TestimonialFormValues = {
   id?: number;
@@ -125,6 +130,7 @@ function getInitials(name: string) {
 }
 
 export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
+  const router = useRouter();
   const action =
     mode === "edit" && testimonial?.id
       ? updateTestimonial.bind(null, testimonial.id)
@@ -133,6 +139,7 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
   const [isDraggingAvatar, setIsDraggingAvatar] = useState(false);
   const [selectedAvatarName, setSelectedAvatarName] = useState("");
   const [selectedAvatarPreview, setSelectedAvatarPreview] = useState("");
+  const [avatarError, setAvatarError] = useState("");
   const avatarInputRef = useRef<HTMLInputElement>(null);
 
   const previewName = testimonial?.userName?.trim() || "Nama Pelanggan";
@@ -143,9 +150,7 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
     "Testimoni pelanggan akan tampil sebagai pratinjau di panel ini.";
   const avatarPreview =
     selectedAvatarPreview || testimonial?.userAvatar?.trim() || "";
-  const avatarStyle = avatarPreview
-    ? { backgroundImage: `url("${avatarPreview}")` }
-    : undefined;
+  const isAvatarRequired = !testimonial?.userAvatar?.trim();
 
   useEffect(() => {
     return () => {
@@ -155,13 +160,61 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
     };
   }, [selectedAvatarPreview]);
 
+  useEffect(() => {
+    if (!state.status || !state.message) {
+      return;
+    }
+
+    if (state.status === "success") {
+      toast.success(state.message);
+
+      if (state.redirectTo) {
+        router.push(state.redirectTo);
+      }
+
+      return;
+    }
+
+    toast.error(state.message);
+  }, [router, state.message, state.redirectTo, state.status, state.timestamp]);
+
+  function resetAvatarInput() {
+    if (avatarInputRef.current) {
+      avatarInputRef.current.value = "";
+    }
+  }
+
+  function validateAvatarFile(file: File) {
+    if (!ALLOWED_AVATAR_TYPES.has(file.type)) {
+      return "Format avatar harus PNG, JPG, atau WebP.";
+    }
+
+    if (file.size > MAX_AVATAR_SIZE) {
+      return "Ukuran avatar maksimal 5MB.";
+    }
+
+    return "";
+  }
+
   function setPreviewFromFile(file: File | null | undefined) {
     if (!file) {
       setSelectedAvatarName("");
       setSelectedAvatarPreview("");
+      setAvatarError("");
       return;
     }
 
+    const validationError = validateAvatarFile(file);
+
+    if (validationError) {
+      setSelectedAvatarName("");
+      setSelectedAvatarPreview("");
+      setAvatarError(validationError);
+      resetAvatarInput();
+      return;
+    }
+
+    setAvatarError("");
     setSelectedAvatarName(file.name);
     setSelectedAvatarPreview((currentPreview) => {
       if (currentPreview) {
@@ -215,9 +268,9 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
         </div>
       </div>
 
-      {state.error ? (
+      {state.status === "error" && state.message ? (
         <p className="rounded-lg border border-[#f0d5c8] bg-[#fff6f1] px-4 py-3 text-sm font-medium text-[#9a3f1d]">
-          {state.error}
+          {state.message}
         </p>
       ) : null}
 
@@ -282,11 +335,16 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
                     : "border-[#d8cfb5] bg-[#fbfaf6] hover:border-[#92a25f] hover:bg-[#f7faee]"
                 }`}
               >
-                <span
-                  className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#eef3da] bg-cover bg-center font-[var(--font-noto-serif)] text-xl font-semibold text-[#526b2d] ring-4 ring-white"
-                  style={avatarStyle}
-                >
-                  {avatarPreview ? null : getInitials(previewName)}
+                <span className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-full bg-[#eef3da] font-[var(--font-noto-serif)] text-xl font-semibold text-[#526b2d] ring-4 ring-white">
+                  {avatarPreview ? (
+                    <img
+                      src={avatarPreview}
+                      alt={`Avatar ${previewName}`}
+                      className="h-full w-full object-cover object-center"
+                    />
+                  ) : (
+                    getInitials(previewName)
+                  )}
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-semibold text-[#575248]">
@@ -296,8 +354,8 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
                         : "Letakkan avatar di sini")}
                   </span>
                   <span className="mt-1 block text-xs leading-5 text-[#8b8578]">
-                    Opsional. Tarik gambar ke sini atau klik untuk memilih PNG,
-                    JPG, atau WebP.
+                    Wajib. Tarik gambar ke sini atau klik untuk memilih PNG,
+                    JPG, atau WebP. Maks. 5MB.
                   </span>
                 </span>
                 <input
@@ -307,9 +365,15 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
                   onChange={handleAvatarChange}
+                  required={isAvatarRequired}
                   className="sr-only"
                 />
               </label>
+              {avatarError ? (
+                <p className="text-xs font-semibold text-[#9a3f1d]">
+                  {avatarError}
+                </p>
+              ) : null}
             </div>
           </div>
         </section>
@@ -320,12 +384,16 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
           </p>
           <article className="mt-4 rounded-xl bg-[#fbfaf6] p-5">
             <div className="flex items-center gap-3">
-              <div
-                className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[#eef3da] bg-cover bg-center font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d] ring-4 ring-white"
-                style={avatarStyle}
-                aria-label={avatarPreview ? `Avatar ${previewName}` : undefined}
-              >
-                {avatarPreview ? null : getInitials(previewName)}
+              <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d] ring-4 ring-white">
+                {avatarPreview ? (
+                  <img
+                    src={avatarPreview}
+                    alt={`Avatar ${previewName}`}
+                    className="h-full w-full object-cover object-center"
+                  />
+                ) : (
+                  getInitials(previewName)
+                )}
               </div>
               <div className="min-w-0">
                 <h3 className="truncate font-[var(--font-noto-serif)] text-lg font-semibold text-[#211d16]">

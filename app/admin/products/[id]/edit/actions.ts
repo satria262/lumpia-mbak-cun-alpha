@@ -1,42 +1,22 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { requireAdminSession } from "@/lib/admin-session";
+import { uploadProductImage } from "@/lib/product-image-upload";
+import {
+  extractProductFormData,
+  type ProductFormErrors,
+  validateProductFields,
+  validateProductImageInput,
+} from "@/lib/product-validation";
 import { prisma } from "@/lib/prisma";
 
 export type EditProductFormState = {
   error?: string;
+  fieldErrors?: ProductFormErrors;
 };
-
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
-
-type CloudinaryUploadResponse = {
-  secure_url?: string;
-  error?: {
-    message?: string;
-  };
-};
-
-function getRequiredString(formData: FormData, name: string) {
-  const value = formData.get(name);
-
-  if (typeof value !== "string" || value.trim().length === 0) {
-    throw new Error("Lengkapi semua field wajib sebelum menyimpan produk.");
-  }
-
-  return value.trim();
-}
-
-function getStringList(formData: FormData, name: string) {
-  return formData
-    .getAll(name)
-    .filter((value): value is string => typeof value === "string")
-    .map((value) => value.trim())
-    .filter(Boolean);
-}
 
 function createBaseSlug(value: string) {
   const slug = value
@@ -70,64 +50,18 @@ async function createUniqueSlug(name: string, productId: number) {
   }
 }
 
-function parsePrice(value: string) {
-  const numericValue = Number(value);
+function productRedirectUrl(
+  productId: number,
+  type: "success" | "error",
+  message: string,
+) {
+  const params = new URLSearchParams({ [type]: message });
 
-  if (!Number.isFinite(numericValue) || numericValue < 0) {
-    throw new Error("Harga harus berupa angka valid.");
+  if (type === "error") {
+    return `/admin/products/${productId}/edit?${params.toString()}`;
   }
 
-  return Math.round(numericValue);
-}
-
-function parseStock(value: string) {
-  const numericValue = Number(value);
-
-  if (!Number.isInteger(numericValue) || numericValue < 0) {
-    throw new Error("Stok harus berupa angka bulat minimal 0.");
-  }
-
-  return numericValue;
-}
-
-async function uploadProductImage(file: File, slug: string) {
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    throw new Error("Format gambar harus PNG, JPG, atau WebP.");
-  }
-
-  if (file.size > MAX_IMAGE_SIZE) {
-    throw new Error("Ukuran gambar maksimal 5MB.");
-  }
-
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
-
-  if (!cloudName || !uploadPreset) {
-    throw new Error("Konfigurasi Cloudinary belum lengkap.");
-  }
-
-  const uploadData = new FormData();
-  uploadData.append("file", file);
-  uploadData.append("upload_preset", uploadPreset);
-  uploadData.append("folder", "products/image");
-  uploadData.append("public_id", `${slug}-${Date.now()}`);
-
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    {
-      method: "POST",
-      body: uploadData,
-    },
-  );
-  const result = (await response.json()) as CloudinaryUploadResponse;
-
-  if (!response.ok || !result.secure_url) {
-    throw new Error(
-      result.error?.message ?? "Upload gambar ke Cloudinary gagal.",
-    );
-  }
-
-  return result.secure_url;
+  return `/admin/products?${params.toString()}`;
 }
 
 export async function updateProduct(
@@ -136,53 +70,86 @@ export async function updateProduct(
   formData: FormData,
 ): Promise<EditProductFormState> {
   await requireAdminSession();
-
-  const existingProduct = await prisma.product.findUnique({
-    where: { id: productId },
-    select: { id: true, slug: true, image: true },
-  });
-
-  if (!existingProduct) {
-    notFound();
-  }
+  const fallbackErrorPath = Number.isInteger(productId)
+    ? `/admin/products/${productId}/edit`
+    : "/admin/products";
+  let redirectUrl = productRedirectUrl(
+    productId,
+    "success",
+    "Product updated successfully",
+  );
+  let phase: "validation" | "lookup" | "upload" | "database" = "validation";
 
   try {
-    const name = getRequiredString(formData, "name");
-    const slug = await createUniqueSlug(name, productId);
-    const highlights = getStringList(formData, "highlights");
-    const ingredients = getStringList(formData, "ingredients");
-
-    if (highlights.length === 0) {
-      throw new Error("Tambahkan minimal satu keunggulan produk.");
+    if (!Number.isInteger(productId)) {
+      redirectUrl = `${fallbackErrorPath}?${new URLSearchParams({
+        error: "Invalid product",
+      }).toString()}`;
+      throw new Error("Invalid product id.");
     }
 
-    if (ingredients.length === 0) {
-      throw new Error("Tambahkan minimal satu bahan produk.");
+    const rawData = extractProductFormData(formData);
+    const fieldsValidation = validateProductFields(rawData);
+
+    if (!fieldsValidation.success) {
+      redirectUrl = productRedirectUrl(
+        productId,
+        "error",
+        fieldsValidation.error,
+      );
+      throw new Error(fieldsValidation.error);
     }
 
-    const image = formData.get("image");
-    const imagePath =
-      image instanceof File && image.size > 0
-        ? await uploadProductImage(image, slug)
-        : existingProduct.image;
+    phase = "lookup";
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { id: true, slug: true, image: true },
+    });
 
+    if (!existingProduct) {
+      redirectUrl = productRedirectUrl(productId, "error", "Product not found");
+      throw new Error(`Product ${productId} not found.`);
+    }
+
+    const imageValidation = validateProductImageInput(rawData.image, {
+      required: !existingProduct.image,
+    });
+
+    if (!imageValidation.success) {
+      redirectUrl = productRedirectUrl(
+        productId,
+        "error",
+        imageValidation.message,
+      );
+      throw new Error(imageValidation.message);
+    }
+
+    const product = fieldsValidation.data;
+    phase = "database";
+    const slug = await createUniqueSlug(product.name, productId);
+    phase = imageValidation.file ? "upload" : "database";
+    const imagePath = imageValidation.file
+      ? await uploadProductImage(imageValidation.file, slug)
+      : existingProduct.image;
+
+    phase = "database";
     await prisma.product.update({
       where: { id: productId },
       data: {
         slug,
-        name,
-        price: parsePrice(getRequiredString(formData, "price")),
-        stock: parseStock(getRequiredString(formData, "stock")),
-        description: getRequiredString(formData, "description"),
-        highlights,
+        name: product.name,
+        price: product.price,
+        stock: product.stock,
+        description: product.description,
+        highlights: product.highlights,
         image: imagePath,
-        availability: formData.get("availability") === "true",
-        badge: getRequiredString(formData, "badge"),
-        portion: getRequiredString(formData, "portion"),
-        philosophy: getRequiredString(formData, "philosophy"),
-        ingredients,
-        storageTip: getRequiredString(formData, "storageTip"),
-        imageNote: getRequiredString(formData, "imageNote"),
+        availability: product.availability,
+        badge: product.badge,
+        portion: product.portion,
+        philosophy: product.philosophy,
+        ingredients: product.ingredients,
+        storageTip: product.storageTip,
+        imageNote: product.imageNote,
       },
     });
 
@@ -191,13 +158,21 @@ export async function updateProduct(
     revalidatePath(`/products/${existingProduct.slug}`);
     revalidatePath(`/products/${slug}`);
   } catch (error) {
-    return {
-      error:
-        error instanceof Error
+    console.error("Failed to update product.", error);
+
+    if (!redirectUrl.includes("?error=")) {
+      const message =
+        phase === "upload" && error instanceof Error
           ? error.message
-          : "Produk gagal diperbarui. Periksa kembali data produk.",
-    };
+          : "Failed to update product";
+
+      redirectUrl = productRedirectUrl(
+        productId,
+        "error",
+        message,
+      );
+    }
   }
 
-  redirect("/admin/products");
+  redirect(redirectUrl);
 }
