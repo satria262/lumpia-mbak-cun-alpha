@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import FlipSection from "./components/FlipSection";
 import Navbar from "./components/Navbar";
 import TestimonialCarousel from "./components/TestimonialCarousel";
 import type { TestimonialItem } from "./components/TestimonialCarousel";
@@ -23,7 +24,7 @@ const highlightItems = [
   {
     title: "Rebung Segar",
     description:
-      "Didatangkan setiap hari dari dataran tinggi Jawa Tengah, memastikan tekstur renyah manis tanpa aroma yang menyengat.",
+      "Didatangkan dan diolah dengan kesabaran, memastikan tekstur renyah manis tanpa aroma yang menyengat.",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -41,7 +42,7 @@ const highlightItems = [
   {
     title: "Telur Pilihan",
     description:
-      "Kami hanya menggunakan telur bebek angon untuk isian, menciptakan tekstur yang lebih kaya dan gurih yang mengikat cita rasa.",
+      "Kami hanya menggunakan telur dari supplier langganan untuk isian, menciptakan tekstur yang lebih kaya dan gurih yang mengikat cita rasa.",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -51,8 +52,8 @@ const highlightItems = [
         className="h-7 w-7"
         aria-hidden="true"
       >
-        <path d="M12 4.5c-2.7 3-4.8 5.8-4.8 8.7a4.8 4.8 0 0 0 9.6 0c0-3-2.1-5.7-4.8-8.7Z" />
-        <path d="M12 11.2c-.8.7-1.2 1.5-1.2 2.4" />
+        <path d="M12 3.5c3.4 0 6 5.1 6 9.7 0 4.2-2.5 7.3-6 7.3s-6-3.1-6-7.3c0-4.6 2.6-9.7 6-9.7Z" />
+        <path d="M13.2 7.2l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4.4-.9Z" />
       </svg>
     ),
   },
@@ -94,6 +95,39 @@ function CheckBadgeIcon () {
       <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
     </svg>
   )
+}
+
+function EggIcon() {
+  return (
+    <svg viewBox="0 0 180 220" className="h-32 w-32" fill="none">
+      <defs>
+        <linearGradient id="eggFill" x1="55" y1="20" x2="135" y2="205">
+          <stop stopColor="#FFF8DE" />
+          <stop offset="0.55" stopColor="#F7D77A" />
+          <stop offset="1" stopColor="#D99A2B" />
+        </linearGradient>
+      </defs>
+
+      <path
+        d="M90 18C126 18 151 74 151 126C151 178 124 204 90 204C56 204 29 178 29 126C29 74 54 18 90 18Z"
+        fill="url(#eggFill)"
+      />
+
+      <path
+        d="M63 70C72 47 87 34 102 33"
+        stroke="white"
+        strokeOpacity="0.75"
+        strokeWidth="9"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M118 52L123 64L136 69L123 74L118 87L113 74L100 69L113 64L118 52Z"
+        fill="white"
+        fillOpacity="0.85"
+      />
+    </svg>
+  );
 }
 
 function getProductImage(src: string | null | undefined) {
@@ -181,22 +215,18 @@ export default async function Home() {
       <section className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
         <div className="mx-auto grid max-w-[1360px] gap-12 px-3 sm:px-4 lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-28 lg:px-3">
           <div className="max-w-xl space-y-8 location-hero-copy">
-            <div className="space-y-5">
+            <div className="space-y-5 w-full text-center md:text-start">
               <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[var(--secondary)]">
-                Est. 2013 - Semarang
+                Est. 1998 - Semarang
               </p>
-              <h1 className="max-w-md text-5xl leading-[0.96] font-semibold tracking-[-0.05em] text-[#231f19] sm:text-6xl lg:text-[4.6rem]">
-                Cita Rasa
-                <br />
-                Otentik
-                <br />
-                Semarangan
+              <h1 className="text-5xl leading-[0.9] font-semibold  text-[#231f19] sm:text-6xl lg:text-[4.5rem]">
+                Cita Rasa Otentik Semarangan
               </h1>
               <p className="max-w-lg text-base leading-8 text-[#655f52] sm:text-lg">
                 Temukan resep warisan keluarga yang diturunkan lintas generasi.
                 Kulit lumpia yang digoreng dengan minyak panas yang pas sehingga menciptakan kulit golden brown yang renyah membalut rebung pilihan dan bahan-bahan premium segar dari pertanian.              </p>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-3 sm:flex-row -mt-4">
               <Link
                 href="/#products"
                 className="inline-flex items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
@@ -231,37 +261,53 @@ export default async function Home() {
       <section className="bg-white py-8" id="about">
         <div className="mx-auto grid max-w-[1360px] gap-14 px-3 sm:px-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20 lg:px-3">
           <section id="about" className="contents">
-            <div className="relative min-h-[520px]">
-              <div className="absolute left-2 top-4 w-[62%] rotate-[-4deg] bg-gray-200 p-4 shadow-[0_30px_60px_-36px_rgba(67,48,21,0.35)] sm:w-[56%]">
-                <div className="overflow-hidden bg-[#9d9988]">
-                  <Image
-                    src="/system/amazing-semarang.jpg"
-                    alt="Poster warisan Lumpia Mbak Cun"
-                    width={700}
-                    height={900}
-                    className="h-[360px] w-full object-cover"
-                  />
+            <FlipSection className="relative min-h-[520px]">
+              <div className="flip-card flip-card-primary absolute left-2 top-4 h-[452px] w-[62%] rotate-[-4deg] sm:w-[56%]">
+                <div className="flip-inner">
+                  <div className="flip-front bg-gray-200 p-4 shadow-[0_30px_60px_-36px_rgba(67,48,21,0.35)]">
+                    <div className="overflow-hidden bg-[#9d9988]">
+                      <Image
+                        src="/system/amazing-semarang.jpg"
+                        alt="Poster warisan Lumpia Mbak Cun"
+                        width={700}
+                        height={900}
+                        className="h-[360px] w-full object-cover"
+                      />
+                    </div>
+                    <h1 className="font-whisper pt-2 pb-4 text-center text-3xl text-[#6c6455]">
+                      Semarang Heritage
+                    </h1>
+                  </div>
+                  <div className="flip-back" aria-hidden="true">
+                    <div className="flip-back-mark" />
+                    <div className="flip-back-lines" />
+                  </div>
                 </div>
-                <h1 className="pt-2 pb-4 text-center italic font-[var(--font-noto-serif)] text-xl text-[#6c6455]">
-                  Semarang Heritage
-                </h1>
               </div>
 
-              <div className="absolute top-[5rem] left-[50%] md:left-[40%] z-10 w-[42%] rotate-[6deg] bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)] sm:left-[34%] sm:w-[40%]">
-                <div className="overflow-hidden bg-[#26211b]">
-                  <Image
-                    src="/products/lumpiasemarang.jpg"
-                    alt="Resep warisan Lumpia Mbak Cun"
-                    width={620}
-                    height={760}
-                    className="h-[240px] w-full object-cover"
-                  />
+              <div className="flip-card flip-card-secondary absolute top-[5rem] left-[50%] z-10 h-[320px] w-[42%] rotate-[6deg] md:left-[40%] sm:left-[34%] sm:w-[40%]">
+                <div className="flip-inner">
+                  <div className="flip-front bg-gray-200 p-3 shadow-[0_28px_60px_-32px_rgba(33,24,10,0.4)]">
+                    <div className="overflow-hidden bg-[#26211b]">
+                      <Image
+                        src="/products/lumpiasemarang.jpg"
+                        alt="Resep warisan Lumpia Mbak Cun"
+                        width={620}
+                        height={760}
+                        className="h-[240px] w-full object-cover"
+                      />
+                    </div>
+                    <h1 className="font-whisper pt-2 pb-4 text-center text-2xl text-[#6c6455]">
+                      Resep Warisan
+                    </h1>
+                  </div>
+                  <div className="flip-back" aria-hidden="true">
+                    <div className="flip-back-mark" />
+                    <div className="flip-back-lines" />
+                  </div>
                 </div>
-                <h1 className="pt-2 pb-4 text-center italic font-[var(--font-noto-serif)] text-lg text-[#6c6455]">
-                  Resep Warisan
-                </h1>
               </div>
-            </div>
+            </FlipSection>
 
             <div className="max-w-2xl space-y-8">
               <div className="space-y-6">
@@ -271,7 +317,7 @@ export default async function Home() {
                   Dijaga dengan Cinta
                 </h2>
                 <div className="max-w-xl border-l-2 border-[var(--primary)] pl-5 text-lg leading-8 text-[#6c6455] italic">
-                  &ldquo;Lumpia Mbak Cun sudah berdiri sejak tahun 2013 dan selalu menjaga rasa dan kualitas makanan kami. Kami memiliki banyak pelanggan setia dan kerjasama dengan berbagai warung di sekitar Semarang.&rdquo;
+                  &ldquo;Lumpia Mbak Cun sudah berdiri sejak tahun 1998 dan selalu menjaga rasa dan kualitas makanan kami. Kami memiliki banyak pelanggan setia dan kerjasama dengan berbagai warung di sekitar Semarang.&rdquo;
                 </div>
               </div>
 
