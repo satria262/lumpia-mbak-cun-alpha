@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   ChangeEvent,
   DragEvent,
+  FormEvent,
   useActionState,
   useEffect,
   useRef,
@@ -15,9 +16,10 @@ import { toast } from "sonner";
 
 import { AdminIcon } from "../../_components/AdminIcons";
 import { createTestimonial, updateTestimonial } from "../actions";
-
-const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
-const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+import {
+  compressTestimonialImage,
+  validateTestimonialImage,
+} from "@/lib/testimonials/compressTestimonialImage";
 
 export type TestimonialFormValues = {
   id?: number;
@@ -93,20 +95,29 @@ function TextAreaField({
   );
 }
 
-function SubmitButton({ mode }: { mode: "create" | "edit" }) {
+function SubmitButton({
+  mode,
+  isPreparingAvatar,
+}: {
+  mode: "create" | "edit";
+  isPreparingAvatar: boolean;
+}) {
   const { pending } = useFormStatus();
+  const isDisabled = pending || isPreparingAvatar;
 
   return (
     <button
       type="submit"
-      disabled={pending}
+      disabled={isDisabled}
       className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[#526b2d] px-5 text-sm font-bold text-white transition hover:bg-[#435724] disabled:cursor-not-allowed disabled:opacity-65"
     >
       <AdminIcon
         name={mode === "create" ? "plus" : "edit"}
         className="h-4 w-4"
       />
-      {pending
+      {isPreparingAvatar
+        ? "Mengompres gambar..."
+        : pending
         ? mode === "create"
           ? "Menyimpan..."
           : "Memperbarui..."
@@ -140,7 +151,10 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
   const [selectedAvatarName, setSelectedAvatarName] = useState("");
   const [selectedAvatarPreview, setSelectedAvatarPreview] = useState("");
   const [avatarError, setAvatarError] = useState("");
+  const [isPreparingAvatar, setIsPreparingAvatar] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
+  const isSubmittingCompressedAvatar = useRef(false);
 
   const previewName = testimonial?.userName?.trim() || "Nama Pelanggan";
   const previewOccupation =
@@ -185,15 +199,7 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
   }
 
   function validateAvatarFile(file: File) {
-    if (!ALLOWED_AVATAR_TYPES.has(file.type)) {
-      return "Format avatar harus PNG, JPG, atau WebP.";
-    }
-
-    if (file.size > MAX_AVATAR_SIZE) {
-      return "Ukuran avatar maksimal 5MB.";
-    }
-
-    return "";
+    return validateTestimonialImage(file);
   }
 
   function setPreviewFromFile(file: File | null | undefined) {
@@ -210,6 +216,7 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
       setSelectedAvatarName("");
       setSelectedAvatarPreview("");
       setAvatarError(validationError);
+      toast.error(validationError);
       resetAvatarInput();
       return;
     }
@@ -245,8 +252,55 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
     setPreviewFromFile(file);
   }
 
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    if (isSubmittingCompressedAvatar.current) {
+      isSubmittingCompressedAvatar.current = false;
+      return;
+    }
+
+    const avatarFile = avatarInputRef.current?.files?.[0];
+
+    if (avatarError) {
+      event.preventDefault();
+      toast.error(avatarError);
+      return;
+    }
+
+    if (!avatarFile) {
+      return;
+    }
+
+    event.preventDefault();
+    setIsPreparingAvatar(true);
+
+    try {
+      const compressedAvatar = await compressTestimonialImage(avatarFile);
+      const transfer = new DataTransfer();
+      transfer.items.add(compressedAvatar);
+
+      if (!avatarInputRef.current || !formRef.current) {
+        throw new Error("Gagal mengompres gambar");
+      }
+
+      avatarInputRef.current.files = transfer.files;
+      isSubmittingCompressedAvatar.current = true;
+      formRef.current.requestSubmit();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Gagal mengompres gambar";
+      toast.error(message);
+    } finally {
+      setIsPreparingAvatar(false);
+    }
+  }
+
   return (
-    <form action={formAction} className="space-y-6">
+    <form
+      ref={formRef}
+      action={formAction}
+      onSubmit={handleSubmit}
+      className="space-y-6"
+    >
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-semibold text-[#526b2d]">
@@ -264,7 +318,7 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
           >
             Batal
           </Link>
-          <SubmitButton mode={mode} />
+          <SubmitButton mode={mode} isPreparingAvatar={isPreparingAvatar} />
         </div>
       </div>
 
@@ -355,7 +409,7 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
                   </span>
                   <span className="mt-1 block text-xs leading-5 text-[#8b8578]">
                     Wajib. Tarik gambar ke sini atau klik untuk memilih PNG,
-                    JPG, atau WebP. Maks. 5MB.
+                    JPG, atau WebP. Maks. 9MB.
                   </span>
                 </span>
                 <input

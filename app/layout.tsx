@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   description:
     "Cita rasa otentik Semarang - Lumpia, Tahu Bakso, dan makanan tradisional khas nusantara.",
   icons: {
-    icon: "/system/lumpia-logo.png",
-    shortcut: "/system/lumpia-logo.png",
-    apple: "/system/lumpia-logo.png",
+    icon: "/system/lumpia-ai.png",
+    shortcut: "/system/lumpia-ai.png",
+    apple: "/system/lumpia-ai.png",
   },
 };
 

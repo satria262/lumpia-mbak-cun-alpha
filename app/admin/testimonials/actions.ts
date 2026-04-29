@@ -12,7 +12,7 @@ export type TestimonialFormState = {
   timestamp?: number;
 };
 
-const MAX_AVATAR_SIZE = 5 * 1024 * 1024;
+const MAX_AVATAR_SIZE = 9 * 1024 * 1024;
 const ALLOWED_AVATAR_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 type CloudinaryUploadResponse = {
@@ -34,11 +34,11 @@ function getRequiredString(formData: FormData, name: string) {
 
 async function uploadAvatar(file: File, userName: string) {
   if (!ALLOWED_AVATAR_TYPES.has(file.type)) {
-    throw new Error("Format avatar harus PNG, JPG, atau WebP.");
+    throw new Error("Format gambar tidak didukung");
   }
 
   if (file.size > MAX_AVATAR_SIZE) {
-    throw new Error("Ukuran avatar maksimal 5MB.");
+    throw new Error("Gambar terlalu besar");
   }
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -72,9 +72,7 @@ async function uploadAvatar(file: File, userName: string) {
   const result = (await response.json()) as CloudinaryUploadResponse;
 
   if (!response.ok || !result.secure_url) {
-    throw new Error(
-      result.error?.message ?? "Upload avatar ke Cloudinary gagal.",
-    );
+    throw new Error("Gagal mengupload gambar");
   }
 
   return result.secure_url;
