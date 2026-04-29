@@ -391,6 +391,8 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
               >
                 <span className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-full bg-[#eef3da] font-[var(--font-noto-serif)] text-xl font-semibold text-[#526b2d] ring-4 ring-white">
                   {avatarPreview ? (
+                    // Live upload previews can be blob/data URLs, so keep a native img.
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={avatarPreview}
                       alt={`Avatar ${previewName}`}
@@ -440,6 +442,8 @@ export function TestimonialForm({ mode, testimonial }: TestimonialFormProps) {
             <div className="flex items-center gap-3">
               <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d] ring-4 ring-white">
                 {avatarPreview ? (
+                  // Live upload previews can be blob/data URLs, so keep a native img.
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={avatarPreview}
                     alt={`Avatar ${previewName}`}

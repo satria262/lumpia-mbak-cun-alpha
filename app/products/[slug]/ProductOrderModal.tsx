@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import { useMounted } from "../../../lib/useMounted";
 
 type ProductOrderModalProps = {
@@ -64,10 +65,6 @@ export default function ProductOrderModal({
 }: ProductOrderModalProps) {
   const mounted = useMounted();
   const [isOpen, setIsOpen] = useState(false);
-
-  const encodedOrderText = encodeURIComponent(
-    `Halo, saya ingin pesan ${productName}. Boleh minta info ketersediaan dan cara pemesanannya?`,
-  );
 
   const channels: OrderChannel[] = [
     {
@@ -181,9 +178,11 @@ export default function ProductOrderModal({
                     className="flex items-center gap-3 rounded-2xl border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.82)] px-4 py-3 text-[#423c31] transition hover:bg-[var(--primary-ghost)]"
                   >
                     <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-2xl bg-white">
-                      <img
+                      <Image
                         src={channel.logo}
                         alt=""
+                        width={32}
+                        height={32}
                         className="h-8 w-8 object-contain"
                       />
                     </span>

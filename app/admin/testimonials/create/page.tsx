@@ -4,11 +4,14 @@ import { AdminHeader } from "../../_components/AdminHeader";
 import { AdminSidebar } from "../../_components/AdminSidebar";
 import { TestimonialForm } from "../_components/TestimonialForm";
 import { requireAdminSession } from "@/lib/admin-session";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Buat Testimoni | Lumpia Mbak Cun",
   description: "Buat testimoni pelanggan baru.",
-};
+  path: "/admin/testimonials/create",
+  noIndex: true,
+});
 
 export default async function CreateTestimonialPage() {
   const session = await requireAdminSession();

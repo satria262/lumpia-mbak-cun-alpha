@@ -9,11 +9,14 @@ import { ProductAvailabilityCard } from "./_components/ProductAvailabilityCard";
 import { dashboardSummary } from "./dashboard-data";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Admin Dashboard | Lumpia Mbak Cun",
   description: "Culinary operations dashboard for Lumpia Mbak Cun.",
-};
+  path: "/admin",
+  noIndex: true,
+});
 
 export default async function AdminDashboardPage() {
   const session = await requireAdminSession();

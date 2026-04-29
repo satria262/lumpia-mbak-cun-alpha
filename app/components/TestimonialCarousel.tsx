@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 export type TestimonialItem = {
   id: number;
@@ -138,9 +139,11 @@ export default function TestimonialCarousel({
           </p>
           <div className="flex items-center space-x-4">
             {activeImage ? (
-              <img
+              <Image
                 src={activeImage}
                 alt={active.name}
+                width={52}
+                height={52}
                 className="h-[52px] w-[52px] shrink-0 rounded-lg object-cover object-center"
               />
             ) : (
@@ -164,9 +167,11 @@ export default function TestimonialCarousel({
             </p>
             <div className="flex items-center space-x-4">
               {leavingImage ? (
-                <img
+                <Image
                   src={leavingImage}
                   alt={leaving.name}
+                  width={52}
+                  height={52}
                   className="h-[52px] w-[52px] shrink-0 rounded-lg object-cover object-center"
                 />
               ) : (

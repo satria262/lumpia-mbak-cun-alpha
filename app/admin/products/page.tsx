@@ -10,11 +10,14 @@ import { DeleteProductButton } from "./_components/DeleteProductButton";
 import { getFlashFromSearchParams } from "@/lib/admin-query-flash";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Inventaris Produk | Lumpia Mbak Cun",
   description: "Kelola katalog produk Lumpia Mbak Cun.",
-};
+  path: "/admin/products",
+  noIndex: true,
+});
 
 const fallbackImage = "/system/lumpia-logo.png";
 
@@ -88,9 +91,9 @@ export default async function AdminProductsPage({
 
             <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="max-w-2xl">
-                <h1 className="font-[var(--font-noto-serif)] text-2xl font-semibold text-[#211d16]">
+                <h2 className="font-[var(--font-noto-serif)] text-2xl font-semibold text-[#211d16]">
                   Portofolio Produk
-                </h1>
+                </h2>
                 <p className="mt-2 text-sm leading-6 text-[#6f6a5c]">
                   Pantau stok, harga, dan status produk yang tampil di katalog
                   Lumpia Mbak Cun.

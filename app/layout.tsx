@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono, Noto_Serif } from "next/font/google";
 import { AdminToaster } from "./admin/_components/AdminToaster";
+import { buildPageMetadata, defaultOgImage, getSiteUrl } from "@/lib/seo";
+import { site } from "@/lib/siteData";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,14 +16,39 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteMetadata = buildPageMetadata({
+  title: site.name,
+  description: site.description,
+});
+
 export const metadata: Metadata = {
-  title: "Lumpia Mbak Cun",
-  description:
-    "Cita rasa otentik Semarang - Lumpia, Tahu Bakso, dan makanan tradisional khas nusantara.",
+  ...siteMetadata,
+  metadataBase: getSiteUrl(),
+  applicationName: site.name,
+  title: {
+    default: site.name,
+    template: `%s | ${site.name}`,
+  },
   icons: {
     icon: "/system/lumpia-ai.png",
     shortcut: "/system/lumpia-ai.png",
     apple: "/system/lumpia-ai.png",
+  },
+  openGraph: {
+    title: site.name,
+    description: site.description,
+    url: getSiteUrl(),
+    siteName: site.name,
+    images: [
+      {
+        url: defaultOgImage,
+        width: 1200,
+        height: 630,
+        alt: site.name,
+      },
+    ],
+    locale: "id_ID",
+    type: "website",
   },
 };
 
@@ -37,7 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} min-h-full antialiased`}
       data-scroll-behavior="smooth"
     >

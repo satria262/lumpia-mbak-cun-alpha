@@ -6,6 +6,7 @@ import { AdminSidebar } from "../../../_components/AdminSidebar";
 import { TestimonialForm } from "../../_components/TestimonialForm";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
 
 type EditTestimonialPageProps = {
   params: Promise<{
@@ -13,10 +14,12 @@ type EditTestimonialPageProps = {
   }>;
 };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Edit Testimoni | Lumpia Mbak Cun",
   description: "Edit testimoni pelanggan Lumpia Mbak Cun.",
-};
+  path: "/admin/testimonials/edit",
+  noIndex: true,
+});
 
 export default async function EditTestimonialPage({
   params,

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 import { AdminHeader } from "../_components/AdminHeader";
 import { AdminIcon } from "../_components/AdminIcons";
@@ -7,11 +8,14 @@ import { AdminSidebar } from "../_components/AdminSidebar";
 import { DeleteTestimonialButton } from "./_components/DeleteTestimonialButton";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Testimoni | Lumpia Mbak Cun",
   description: "Kelola testimoni pelanggan Lumpia Mbak Cun.",
-};
+  path: "/admin/testimonials",
+  noIndex: true,
+});
 
 function getInitials(name: string | null | undefined) {
   const initials = (name ?? "")
@@ -54,9 +58,9 @@ export default async function AdminTestimonialsPage() {
           <section className="px-6 py-8 md:px-10">
             <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="max-w-2xl">
-                <h1 className="font-[var(--font-noto-serif)] text-2xl font-semibold text-[#211d16]">
+                <h2 className="font-[var(--font-noto-serif)] text-2xl font-semibold text-[#211d16]">
                   Arsip Testimoni
-                </h1>
+                </h2>
                 <p className="mt-2 text-sm leading-6 text-[#6f6a5c]">
                   Simpan kutipan pelanggan, identitas singkat, dan avatar untuk
                   memperkuat bukti sosial di halaman publik.
@@ -113,9 +117,11 @@ export default async function AdminTestimonialsPage() {
                           <div className="flex items-center space-x-4">
                             <div className="grid h-[52px] w-[52px] shrink-0 place-items-center overflow-hidden rounded-lg bg-[#eef3da] font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
                               {avatarSrc ? (
-                                <img
+                                <Image
                                   src={avatarSrc}
                                   alt={`Avatar ${userName}`}
+                                  width={52}
+                                  height={52}
                                   className="h-full w-full object-cover object-center"
                                 />
                               ) : (

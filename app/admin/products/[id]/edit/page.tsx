@@ -11,6 +11,7 @@ import {
 } from "@/lib/admin-query-flash";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
 
 type EditProductPageProps = {
   params: Promise<{
@@ -22,10 +23,12 @@ type EditProductPageProps = {
   }>;
 };
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Edit Produk | Lumpia Mbak Cun",
   description: "Edit produk Lumpia Mbak Cun.",
-};
+  path: "/admin/products/edit",
+  noIndex: true,
+});
 
 export default async function EditProductPage({
   params,

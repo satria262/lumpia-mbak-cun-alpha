@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import type { CSSProperties } from "react";
 import Navbar from "../../components/Navbar";
 import ProductOrderModal from "./ProductOrderModal";
 import ShareProductButton from "./ShareProductButton";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{
@@ -122,11 +125,11 @@ function getSlugCandidates(value: string) {
   return Array.from(candidates).filter((candidate) => candidate.length > 0);
 }
 
-export default async function ProductPage({ params }: Props) {
-  const { slug } = await params;
+const getProductByRouteParam = cache(async (slug: string) => {
   const slugCandidates = getSlugCandidates(slug);
   const numericId = Number(slugCandidates[0]);
-  const product = await prisma.product
+
+  return prisma.product
     .findFirst({
       where: {
         OR: [
@@ -155,6 +158,40 @@ export default async function ProductPage({ params }: Props) {
       );
       return null;
     });
+});
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductByRouteParam(slug);
+
+  if (!product) {
+    return buildPageMetadata({
+      title: "Produk Tidak Ditemukan",
+      description: "Produk Lumpia Mbak Cun yang Anda cari tidak tersedia.",
+      path: `/products/${encodeURIComponent(slug)}`,
+    });
+  }
+
+  const title = getDisplayText(product.name, "Produk Lumpia Mbak Cun");
+  const description = getDisplayText(
+    product.description,
+    "Informasi produk Lumpia Mbak Cun.",
+  );
+
+  return buildPageMetadata({
+    title,
+    description:
+      description.length > 155
+        ? `${description.slice(0, 152).trim()}...`
+        : description,
+    path: `/products/${encodeURIComponent(product.slug || slug)}`,
+    image: getProductImage(product.image),
+  });
+}
+
+export default async function ProductPage({ params }: Props) {
+  const { slug } = await params;
+  const product = await getProductByRouteParam(slug);
 
   if (!product) {
     notFound();

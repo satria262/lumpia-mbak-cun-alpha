@@ -6,11 +6,14 @@ import { AdminSidebar } from "../../_components/AdminSidebar";
 import { CreateProductForm } from "./_components/CreateProductForm";
 import { getFlashFromSearchParams } from "@/lib/admin-query-flash";
 import { requireAdminSession } from "@/lib/admin-session";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Buat Produk | Lumpia Mbak Cun",
   description: "Buat produk baru untuk Lumpia Mbak Cun.",
-};
+  path: "/admin/products/create",
+  noIndex: true,
+});
 
 type CreateProductPageProps = {
   searchParams?: Promise<{

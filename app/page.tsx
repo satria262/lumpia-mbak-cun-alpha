@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import FlipSection from "./components/FlipSection";
 import Navbar from "./components/Navbar";
 import TestimonialCarousel from "./components/TestimonialCarousel";
@@ -10,6 +11,13 @@ import {
   getSiteContent,
 } from "../lib/content";
 import { prisma } from "@/lib/prisma";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Lumpia Semarang Asli dan Tahu Bakso",
+  description:
+    "Nikmati Lumpia Mbak Cun, lumpia Semarang otentik, tahu bakso, dan menu rumahan segar dengan resep keluarga sejak 1998.",
+});
 
 type HomeProduct = {
   slug: string;
@@ -97,39 +105,6 @@ function CheckBadgeIcon () {
   )
 }
 
-function EggIcon() {
-  return (
-    <svg viewBox="0 0 180 220" className="h-32 w-32" fill="none">
-      <defs>
-        <linearGradient id="eggFill" x1="55" y1="20" x2="135" y2="205">
-          <stop stopColor="#FFF8DE" />
-          <stop offset="0.55" stopColor="#F7D77A" />
-          <stop offset="1" stopColor="#D99A2B" />
-        </linearGradient>
-      </defs>
-
-      <path
-        d="M90 18C126 18 151 74 151 126C151 178 124 204 90 204C56 204 29 178 29 126C29 74 54 18 90 18Z"
-        fill="url(#eggFill)"
-      />
-
-      <path
-        d="M63 70C72 47 87 34 102 33"
-        stroke="white"
-        strokeOpacity="0.75"
-        strokeWidth="9"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M118 52L123 64L136 69L123 74L118 87L113 74L100 69L113 64L118 52Z"
-        fill="white"
-        fillOpacity="0.85"
-      />
-    </svg>
-  );
-}
-
 function getProductImage(src: string | null | undefined) {
   const value = src?.trim();
 
@@ -212,6 +187,7 @@ export default async function Home() {
     <div className="theme-shell">
       <Navbar />
 
+      <main>
       <section className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
         <div className="mx-auto grid max-w-[1360px] gap-12 px-3 sm:px-4 lg:grid-cols-[0.94fr_1.06fr] lg:items-center lg:gap-28 lg:px-3">
           <div className="max-w-xl space-y-8 location-hero-copy">
@@ -274,9 +250,9 @@ export default async function Home() {
                         className="h-[360px] w-full object-cover"
                       />
                     </div>
-                    <h1 className="font-whisper pt-2 pb-4 text-center text-3xl text-[#6c6455]">
+                    <p className="font-whisper pt-2 pb-4 text-center text-3xl text-[#6c6455]">
                       Semarang Heritage
-                    </h1>
+                    </p>
                   </div>
                   <div className="flip-back" aria-hidden="true">
                     <div className="flip-back-mark" />
@@ -297,9 +273,9 @@ export default async function Home() {
                         className="h-[240px] w-full object-cover"
                       />
                     </div>
-                    <h1 className="font-whisper pt-2 pb-4 text-center text-2xl text-[#6c6455]">
+                    <p className="font-whisper pt-2 pb-4 text-center text-2xl text-[#6c6455]">
                       Resep Warisan
-                    </h1>
+                    </p>
                   </div>
                   <div className="flip-back" aria-hidden="true">
                     <div className="flip-back-mark" />
@@ -339,7 +315,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-[1360px] px-3 py-10 sm:px-4 lg:px-3">
+      <div className="mx-auto max-w-[1360px] px-3 py-10 sm:px-4 lg:px-3">
         <section id="products" className="mt-16">
           <div className="text-center">
             <p
@@ -413,7 +389,7 @@ export default async function Home() {
             </div>
           )}
         </section>
-      </main>
+      </div>
 
       <section className="mt-20 bg-white py-10 sm:py-12">
         <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3">
@@ -456,6 +432,7 @@ export default async function Home() {
               <p className="text-[#FCDC31]">Jl. Meranti Barat 1 no. 322 Banyumanik Semarang </p>
             </div>
             <iframe
+              title="Peta lokasi Lumpia Mbak Cun"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.4707680841634!2d110.41851497504511!3d-7.071288692931386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e70895fd178d4d7%3A0xc355f2c536e952d0!2sLumpia%20Semarang%20%7C%20Lumpia%20Mbak%20Cun!5e0!3m2!1sid!2sjp!4v1776675251597!5m2!1sid!2sjp"
               height="450"
               style={{ border: 0 }}
@@ -467,6 +444,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      </main>
 
       <footer className="border-t border-[var(--border)] bg-[rgba(255,253,247,0.9)] py-8">
         <div className="mx-auto flex max-w-[1360px] flex-col gap-4 px-3 text-sm text-[#5f5a4b] sm:px-4 md:flex-row md:items-center md:justify-between lg:px-3">

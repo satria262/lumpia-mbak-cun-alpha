@@ -449,6 +449,8 @@ export function EditProductForm({ product }: { product: EditableProduct }) {
                   }`}
                 >
                   {imagePreview ? (
+                    // Live upload previews can be blob/data URLs, so keep a native img.
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={imagePreview}
                       alt=""

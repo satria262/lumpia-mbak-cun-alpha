@@ -5,11 +5,14 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 
 import { LoginForm } from "./LoginForm";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Admin Login | Lumpia Mbak Cun",
   description: "Secure admin login for Lumpia Mbak Cun.",
-};
+  path: "/admin/login",
+  noIndex: true,
+});
 
 export default async function AdminLoginPage() {
   const session = await auth();

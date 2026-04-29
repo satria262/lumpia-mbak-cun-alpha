@@ -144,10 +144,10 @@ export default function Navbar() {
           className="w-auto object-left object-cover"
           priority
         />
-        <h1 className="italic font-semibold text-xl -ml-24">Lumpia Mbak Cun</h1>
+        <span className="italic font-semibold text-xl -ml-24">Lumpia Mbak Cun</span>
       </Link>
 
-      <nav className="hidden items-center gap-3 text-sm md:flex">
+      <nav className="hidden items-center gap-3 text-sm md:flex" aria-label="Navigasi utama">
         {navItems.map((item) => {
           const isActive = item.matches(pathname, activeHash);
 
@@ -175,6 +175,7 @@ export default function Navbar() {
           target="_blank"
           rel="noreferrer"
           className="desktop-anchor-link"
+          aria-label="Instagram Lumpia Mbak Cun"
         >
           <Image
             src="/system/instagram.svg"
@@ -193,6 +194,7 @@ export default function Navbar() {
           target="_blank"
           rel="noreferrer"
           className="desktop-anchor-link"
+          aria-label="Pesan Lumpia Mbak Cun di GoFood"
         >
           <Image
             src="/system/gojekmitra.png"
@@ -211,6 +213,7 @@ export default function Navbar() {
           target="_blank"
           rel="noreferrer"
           className="desktop-anchor-link"
+          aria-label="Kanal resmi Lumpia Mbak Cun"
         >
           <Image
             src="/system/lumpia-ai.png"
@@ -226,7 +229,7 @@ export default function Navbar() {
   );
 
   const mobileNavContent = (
-    <nav className="mx-auto grid max-w-md grid-cols-4 gap-2">
+    <nav className="mx-auto grid max-w-md grid-cols-4 gap-2" aria-label="Navigasi mobile">
       {navItems.map((item) => {
         const isActive = item.matches(pathname, activeHash);
 

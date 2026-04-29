@@ -1,22 +1,26 @@
 import Navbar from "../components/Navbar";
 import Image from "next/image";
+import type { Metadata } from "next";
 import fork from "../../public/fork.svg";
 import { getLocationContent, getSiteContent } from "../../lib/content";
+import { buildPageMetadata } from "@/lib/seo";
 
 const site = getSiteContent();
 const locationInfo = getLocationContent();
 
-export const metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: `${site.name} — Lokasi & Galeri`,
-  description: "Temukan lokasi Lumpia Mbak Cun dan lihat galeri toko serta menu andalan.",
-};
+  description:
+    "Temukan alamat Lumpia Mbak Cun di Banyumanik Semarang, jam operasional, peta lokasi, dan kanal resmi pemesanan.",
+  path: "/location",
+});
 
 export default function LocationPage() {
   return (
     <div className="theme-shell">
       <Navbar />
 
-      <section className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
+      <main className="overflow-x-clip bg-white py-8 md:py-10 lg:py-12">
         <div className="mx-auto grid max-w-[1360px] gap-12 px-3 sm:px-4 lg:grid-cols-[0.3fr_0.7fr] lg:items-center lg:gap-20 lg:px-3">
           <div className="location-hero-copy max-w-xl space-y-8">
             <div className="space-y-5">
@@ -94,10 +98,10 @@ export default function LocationPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <div className="hidden md:block absolute left-13 bottom-13 rounded-md rounded-bl-none w-80 bg-[rgba(255,252,247,0.94)] px-5 py-4 shadow-[0_18px_40px_-28px_rgba(70,52,26,0.42)] backdrop-blur-sm">
-                <h1 className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--secondary)]">
                   &ldquo;Lumpia terenak yg pernah saya coba. murah, enak dan terjangkau.
                   Recommended👍&rdquo;
-                </h1>
+                </p>
                 <p className="mt-2 uppercase text-sm leading-6 text-[#4f493d]">
                   - Local Reviewer
                 </p>
@@ -105,7 +109,7 @@ export default function LocationPage() {
             </div>
           </div>
         </div>
-      </section>
+      </main>
     </div>
   );
 }

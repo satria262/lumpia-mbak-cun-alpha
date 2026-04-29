@@ -6,12 +6,16 @@ export function LatestOrdersTable() {
     >
       <div className="flex flex-col px-5 py-4 space-y-6">
         <div>
-          <h1 className="text-[#526b2d] font-semibold text-2xl">Informasi Website</h1>
+          <h2 id="latest-orders-title" className="text-[#526b2d] font-semibold text-2xl">
+            Informasi Website
+          </h2>
           <p className="text-sm">Pengaturan konten publik di halaman utama</p>
         </div>
         <div>
           <p className="font-semibold text-[#6f6a5c] text-md uppercase">Headline Utama</p>
-          <h1 className="text-xl border-[#eee8dc] border rounded-lg p-4 mt-2 text-[#526b2d] font-semibold">Cita Rasa Otentik Semarangan</h1>
+          <p className="text-xl border-[#eee8dc] border rounded-lg p-4 mt-2 text-[#526b2d] font-semibold">
+            Cita Rasa Otentik Semarangan
+          </p>
         </div>
         <div>
           <p className="font-semibold text-[#6f6a5c] text-md uppercase">Deskripsi / Sub-Headline</p>
@@ -20,7 +24,7 @@ export function LatestOrdersTable() {
         <div className="flex justify-between items-center font-semibold text-sm">
           <p className="uppercase text-[#6f6a5c]">Seo & Metadata</p>
           <div className="flex items-center space-x-1">
-            <span className="bg-[#22C55E] size-3 rounded-full"></span>
+            <span className="bg-[#22C55E] size-3 rounded-full" aria-hidden="true"></span>
             <p className="text-[#22C55E] uppercase">Optimized</p>
           </div>
         </div>
