@@ -44,7 +44,7 @@ export function AdminHeader({ title, subtitle }: AdminHeaderProps) {
             aria-label="Logout admin"
             title="Logout"
           >
-            <AdminIcon name="user" className="h-5 w-5" />
+            <AdminIcon name="out" className="h-5 w-5" />
           </button>
         </form>
       </div>

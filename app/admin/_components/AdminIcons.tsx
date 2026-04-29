@@ -23,6 +23,7 @@ export function AdminIcon({
     | "tag"
     | "trash"
     | "user"
+    | "out"
     | "x";
 }) {
   const commonProps = {
@@ -160,6 +161,12 @@ export function AdminIcon({
         <svg {...commonProps}>
           <circle cx="12" cy="8" r="3.5" />
           <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+        </svg>
+      );
+    case "out":
+      return (
+        <svg {...commonProps}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
         </svg>
       );
     case "x":

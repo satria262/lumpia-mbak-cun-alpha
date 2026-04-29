@@ -6,7 +6,7 @@ import { DashboardSummaryCard } from "./_components/DashboardSummaryCard";
 import { FloatingActionButton } from "./_components/FloatingActionButton";
 import { LatestOrdersTable } from "./_components/LatestOrdersTable";
 import { ProductAvailabilityCard } from "./_components/ProductAvailabilityCard";
-import { dashboardSummary, latestOrders } from "./dashboard-data";
+import { dashboardSummary } from "./dashboard-data";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
 
@@ -41,9 +41,9 @@ export default async function AdminDashboardPage() {
           />
 
           <div className="px-6 py-8 md:px-10">
-            <div className="grid gap-8 xl:grid-cols-[minmax(0,1.35fr)_minmax(23rem,0.95fr)]">
+            <div className="grid gap-8 xl:grid-cols-[minmax(0,1.35fr)_minmax(23rem,0.75fr)]">
               <ProductAvailabilityCard products={productAvailability} />
-              <LatestOrdersTable orders={latestOrders} />
+              <LatestOrdersTable />
             </div>
 
             <section
