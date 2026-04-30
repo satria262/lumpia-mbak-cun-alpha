@@ -134,43 +134,55 @@ export default function Navbar() {
   const activeHash = mounted ? hash : "";
   const stickyVisible = mounted ? isStickyVisible : false;
 
+  const mainNav = (
+    <nav
+      className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-3 text-sm md:flex"
+      aria-label="Navigasi utama"
+    >
+      {navItems.map((item) => {
+        const isActive = item.matches(pathname, activeHash);
+
+        return (
+          <Link
+            key={item.label}
+            href={item.href}
+            aria-current={isActive ? "page" : undefined}
+            className={[
+              "nav-link px-1 py-2",
+              isActive ? "nav-link-active font-semibold" : "",
+            ].join(" ")}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+
   const navContent = (
-    <div className="mx-auto flex max-w-[1360px] items-center justify-between px-3 py-5 sm:px-4 lg:px-3">
-      <Link href="/" className="flex items-center">
+    <div className="relative mx-auto flex max-w-[1360px] items-center justify-between px-3 py-5 sm:px-4 lg:px-3">
+      <Link href="/" className="relative z-10 flex w-20 items-center">
         <Image
-          src="/system/lumpia-logo.png"
+          src="/system/lumpia-emoji.png"
+          alt="Lumpia Mbak Cun"
+          width={120}
+          height={38}
+          className="h-10 w-auto object-left object-cover"
+          priority
+        />
+        <Image
+          src="/system/lumpia-text.png"
           alt="Lumpia Mbak Cun"
           width={132}
           height={40}
-          className="w-auto object-left object-cover"
+          className="w-auto object-left object-cover invert"
           priority
         />
-        <span className="italic font-semibold text-xl -ml-24">Lumpia Mbak Cun</span>
       </Link>
 
-      <nav className="hidden items-center gap-3 text-sm md:flex" aria-label="Navigasi utama">
-        {navItems.map((item) => {
-          const isActive = item.matches(pathname, activeHash);
+      {mainNav}
 
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              aria-current={isActive ? "page" : undefined}
-              className={[
-                "nav-link px-1 py-2",
-                isActive
-                  ? "nav-link-active font-semibold"
-                  : "",
-              ].join(" ")}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="hidden items-center gap-3 text-sm md:flex">
+      <div className="relative z-10 hidden items-center gap-3 text-sm md:flex">
         <a
           href="https://www.instagram.com/lumpiambakcun?igsh=M2N6dWtnanJ5YTFn"
           target="_blank"
