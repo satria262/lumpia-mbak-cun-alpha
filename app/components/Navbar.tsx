@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useMounted } from "../../lib/useMounted";
+import { OrderModalTrigger } from "./OrderModal";
 
 type NavItem = {
   label: string;
@@ -224,6 +225,14 @@ export default function Navbar() {
             priority
           />
         </a>
+        <span className="desktop-anchor-bullet" aria-hidden="true">
+          •
+        </span>
+        <OrderModalTrigger
+          className="inline-flex items-center justify-center rounded-lg bg-[var(--primary)] px-2 py-2 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
+        >
+          Pesan Sekarang
+        </OrderModalTrigger>
       </div>
     </div>
   );

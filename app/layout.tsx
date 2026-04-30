@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono, Noto_Serif } from "next/font/google";
 import { AdminToaster } from "./admin/_components/AdminToaster";
+import { OrderModalProvider } from "./components/OrderModal";
 import { buildPageMetadata, defaultOgImage, getSiteUrl } from "@/lib/seo";
 import { site } from "@/lib/siteData";
 import "./globals.css";
@@ -69,7 +70,7 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
     >
       <body className="min-h-full">
-        {children}
+        <OrderModalProvider>{children}</OrderModalProvider>
         <AdminToaster />
         <Analytics />
       </body>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import FlipSection from "./components/FlipSection";
 import Navbar from "./components/Navbar";
+import { OrderModalTrigger } from "./components/OrderModal";
 import TestimonialCarousel from "./components/TestimonialCarousel";
 import type { TestimonialItem } from "./components/TestimonialCarousel";
 import {
@@ -203,17 +204,16 @@ export default async function Home() {
                 Kulit lumpia yang digoreng dengan minyak panas yang pas sehingga menciptakan kulit golden brown yang renyah membalut rebung pilihan dan bahan-bahan premium segar dari pertanian.              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row -mt-4">
-              <Link
-                href="/#products"
+              <OrderModalTrigger
                 className="inline-flex items-center justify-center rounded-2xl bg-[var(--primary)] px-6 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
               >
-                Jelajahi Menu
-              </Link>
+                Pesan Sekarang
+              </OrderModalTrigger>
               <Link
-                href="/#about"
+                href="/#product"
                 className="inline-flex items-center justify-center rounded-2xl border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.9)] px-6 py-4 text-sm font-semibold text-[#4e483e] transition hover:border-[var(--primary)] hover:bg-[var(--primary-ghost)] hover:text-[#373119]"
               >
-                Kisah Kami
+                Jelajaih Menu
               </Link>
             </div>
           </div>
@@ -373,12 +373,20 @@ export default async function Home() {
                         {product.description.length > 100 ? product.description.slice(0, 100) + '...' : product.description}
                       </p>
                     </div>
-                    <Link
-                      href={`/products/${encodeURIComponent(product.slug)}`}
-                      className="inline-flex items-center justify-center rounded-md bg-[var(--primary)] px-5 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)] -mt-5"
-                    >
-                      Lihat Detail
-                    </Link>
+                    <div className="-mt-5 grid gap-2">
+                      <Link
+                        href={`/products/${encodeURIComponent(product.slug)}`}
+                        className="inline-flex items-center justify-center rounded-md bg-[var(--primary)] px-5 py-4 text-sm font-semibold text-[#2f2b16] shadow-[0_16px_34px_-20px_var(--shadow)] transition hover:-translate-y-px hover:bg-[var(--primary-strong)] hover:shadow-[0_20px_36px_-20px_rgba(202,166,10,0.38)]"
+                      >
+                        Lihat Detail
+                      </Link>
+                      <OrderModalTrigger
+                        productName={product.name}
+                        className="inline-flex items-center justify-center rounded-md border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.9)] px-5 py-4 text-sm font-semibold text-[#4e483e] transition hover:border-[var(--primary)] hover:bg-[var(--primary-ghost)] hover:text-[#373119]"
+                      >
+                        Pesan Sekarang
+                      </OrderModalTrigger>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -393,7 +401,7 @@ export default async function Home() {
 
       <section className="mt-20 bg-white py-10 sm:py-12">
         <div className="mx-auto max-w-[1360px] px-3 sm:px-4 lg:px-3">
-          <div className="rounded-[44px] bg-[#E7E1DF] px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
+          <div className="rounded-[44px] bg-[#F7F2E6] px-6 py-10 sm:px-8 lg:px-12 lg:py-14">
             <div className="grid gap-10 md:grid-cols-3 md:gap-8">
               {highlightItems.map((item) => (
                   <article
