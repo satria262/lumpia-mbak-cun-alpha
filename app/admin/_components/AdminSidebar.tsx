@@ -11,7 +11,6 @@ const navItems = [
   { label: "Dasbor", href: "/admin", icon: "dashboard" },
   { label: "Inventaris", href: "/admin/products", icon: "inventory" },
   { label: "Testimoni", href: "/admin/testimonials", icon: "message" },
-  { label: "Pesanan", href: "#", icon: "orders" }
 ] as const;
 
 type AdminSidebarProps = {
@@ -34,14 +33,15 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
         } lg:border-b lg:pb-5`}
       >
         <div className="min-w-0">
-          <Link href="/">
-            <p className="truncate font-[var(--font-noto-serif)] text-xl italic text-[#526b2d]">
-              Lumpia Mbak Cun
-            </p>
+          <Link href="/" className="">
+            <Image
+              src="/system/lumpia-logo.png"
+              alt=""
+              width={1024}
+              height={1024}
+              className="w-54 -ml-2"
+            />
           </Link>
-          <p className="truncate text-xs font-bold text-[#526b2d] lg:hidden">
-            Admin Kuliner
-          </p>
         </div>
         <button
           type="button"
@@ -66,7 +66,7 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
       >
         <div className="mt-6 flex items-center gap-3">
           <Image
-            src="/system/lumpia-logo.png"
+            src="/system/lumpia-ai.png"
             alt=""
             width={44}
             height={44}
@@ -74,7 +74,7 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
           />
           <div className="min-w-0">
             <p className="truncate font-[var(--font-noto-serif)] text-lg font-semibold text-[#526b2d]">
-              Admin Kuliner
+              Admin
             </p>
             <p className="truncate text-xs text-[#6f6a5c]">
               {email ?? "Manajemen Dapur"}
@@ -94,7 +94,6 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
         <nav aria-label="Admin navigation" className="mt-8 space-y-2">
           {navItems.map((item) => {
             const isActive =
-              item.href !== "#" &&
               (pathname === item.href ||
                 (item.href !== "/admin" && pathname.startsWith(item.href)));
 
@@ -116,16 +115,6 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
             );
           })}
         </nav>
-
-        <div className="mt-6 rounded-xl bg-white px-4 py-4 shadow-[0_14px_34px_-30px_rgba(70,52,26,0.35)] lg:mt-auto">
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#526b2d]">
-            Status Dapur
-          </p>
-          <div className="mt-2 flex items-center gap-2 text-sm text-[#6f6a5c]">
-            <span className="h-2 w-2 rounded-full bg-[#92a25f]" />
-            Menerima Pesanan
-          </div>
-        </div>
       </div>
     </aside>
   );

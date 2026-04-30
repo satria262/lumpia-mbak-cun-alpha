@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 
 import { AdminHeader } from "./_components/AdminHeader";
 import { AdminSidebar } from "./_components/AdminSidebar";
-import { DashboardSummaryCard } from "./_components/DashboardSummaryCard";
-import { FloatingActionButton } from "./_components/FloatingActionButton";
 import { LatestOrdersTable } from "./_components/LatestOrdersTable";
 import { ProductAvailabilityCard } from "./_components/ProductAvailabilityCard";
-import { dashboardSummary } from "./dashboard-data";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
 import { buildPageMetadata } from "@/lib/seo";
@@ -48,25 +45,9 @@ export default async function AdminDashboardPage() {
               <ProductAvailabilityCard products={productAvailability} />
               <LatestOrdersTable />
             </div>
-
-            <section
-              aria-label="Dashboard summary"
-              className="mt-10 grid gap-5 md:grid-cols-3"
-            >
-              {dashboardSummary.length > 0 ? (
-                dashboardSummary.map((summary) => (
-                  <DashboardSummaryCard key={summary.id} summary={summary} />
-                ))
-              ) : (
-                <div className="rounded-lg border border-dashed border-[#d8cfb5] bg-white p-8 text-sm text-[#6f6a5c] md:col-span-3">
-                  No dashboard summary is available yet.
-                </div>
-              )}
-            </section>
           </div>
         </div>
       </div>
-      <FloatingActionButton />
     </main>
   );
 }

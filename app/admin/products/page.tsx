@@ -101,12 +101,6 @@ export default async function AdminProductsPage({
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  className="inline-flex h-11 items-center justify-center rounded-lg border border-[#e5dfd2] bg-white px-5 text-sm font-bold text-[#575248] transition hover:border-[#92a25f] hover:text-[#526b2d]"
-                >
-                  Ekspor Katalog
-                </button>
                 <Link
                   href="/admin/products/create"
                   className="inline-flex h-11 items-center justify-center rounded-lg bg-[#526b2d] px-5 text-sm font-bold text-white transition hover:bg-[#435724]"
@@ -145,20 +139,7 @@ export default async function AdminProductsPage({
                         className="object-cover"
                       />
                       <div className="absolute inset-x-0 bottom-0 flex translate-y-3 items-center justify-between gap-3 bg-gradient-to-t from-[#211d16]/78 to-transparent p-4 opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-                        <Link
-                          href={`/products/${product.slug}`}
-                          className="inline-flex h-9 items-center gap-2 rounded-full bg-white px-4 text-xs font-bold text-[#211d16] shadow-sm transition hover:bg-[#eef3da] hover:text-[#526b2d]"
-                        >
-                          <AdminIcon name="eye" className="h-4 w-4" />
-                          Lihat
-                        </Link>
-                        <Link
-                          href={`/admin/products/${product.id}/edit`}
-                          className="inline-flex h-9 items-center gap-2 rounded-full bg-[#526b2d] px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#435724]"
-                        >
-                          <AdminIcon name="edit" className="h-4 w-4" />
-                          Edit
-                        </Link>
+                        <h1 className="text-white text-center">{product.imageNote}</h1>
                       </div>
                     </div>
 
@@ -167,8 +148,8 @@ export default async function AdminProductsPage({
                         <h2 className="min-w-0 font-[var(--font-noto-serif)] text-lg font-semibold text-[#211d16]">
                           {product.name || "Produk Tanpa Nama"}
                         </h2>
-                        <div className="flex shrink-0 items-center gap-2">
-                          <span
+                        <div className="flex shrink-0 items-center gap-3">
+                          {/* <span
                             className={`h-3 w-3 rounded-full border ${
                               product.availability
                                 ? "border-[#526b2d] bg-[#526b2d]"
@@ -179,7 +160,8 @@ export default async function AdminProductsPage({
                                 ? "Produk tersedia"
                                 : "Produk tidak tersedia"
                             }
-                          />
+                          /> */}
+                          <p className={`${product.availability ? 'text-[#526b2d]' : 'text-[#717171]'} text-sm font-semibold border-b-2 pb-1`}>{product.availability ? "Ditampilkan" : "Draft"}</p>
                           <Link
                             href={`/admin/products/${product.id}/edit`}
                             className="grid h-8 w-8 place-items-center rounded-full bg-[#eef3da] text-[#526b2d] transition hover:bg-[#526b2d] hover:text-white"
@@ -214,20 +196,13 @@ export default async function AdminProductsPage({
                         ))}
                       </div>
 
-                      <div className="grid grid-cols-3 gap-3 pt-1">
+                      <div className="grid grid-cols-2 gap-3 pt-1">
                         <Link
                           href={`/products/${product.slug}`}
                           className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] text-sm font-bold text-[#575248] transition hover:border-[#92a25f] hover:bg-white hover:text-[#526b2d]"
                         >
                           <AdminIcon name="eye" className="h-4 w-4" />
                           Lihat
-                        </Link>
-                        <Link
-                          href={`/admin/products/${product.id}/edit`}
-                          className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[#526b2d] text-sm font-bold text-white transition hover:bg-[#435724]"
-                        >
-                          <AdminIcon name="edit" className="h-4 w-4" />
-                          Edit
                         </Link>
                         <DeleteProductButton
                           productId={product.id}
