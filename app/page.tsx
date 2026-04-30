@@ -220,13 +220,13 @@ export default async function Home() {
 
           <div className="relative lg:mr-[calc(50%-50vw)] lg:pl-10 location-hero-map">
             <div className="absolute -inset-6 hidden rounded-[48px] bg-[radial-gradient(circle_at_top_right,rgba(252,220,49,0.2),transparent_55%)] lg:block" />
-            <div className="home-hero-image relative overflow-hidden rounded-l-[40px] rounded-r-none bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
+            <div className="home-hero-image relative overflow-hidden rounded-l-[40px] rounded-r-none md:bg-[#e7d7bd] shadow-[0_28px_70px_-34px_rgba(70,52,26,0.38)]">
               <Image
                 src="/system/hero.jpg"
                 alt="Lumpia goreng hangat di atas piring saji"
                 width={1200}
                 height={880}
-                className="h-[320px] w-[710px] rounded-l-[40px] rounded-r-none object-cover object-center sm:h-full"
+                className="h-[320px] w-[710px] rounded-[40px] md:rounded-r-none object-cover object-center sm:h-full"
                 priority
               />
             </div>
