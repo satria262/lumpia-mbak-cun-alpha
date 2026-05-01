@@ -3,7 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import type { ProductAvailability } from "../dashboard-data";
+type ProductAvailability = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  enabled: boolean;
+};
 
 type ProductAvailabilityCardProps = {
   products: ProductAvailability[];

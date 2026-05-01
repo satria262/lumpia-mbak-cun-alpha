@@ -380,12 +380,13 @@ export default async function Home() {
                       >
                         Lihat Detail
                       </Link>
-                      <OrderModalTrigger
-                        productName={product.name}
+                      <a
+                        href={`https://gofood.link/a/C2kf5TE`}
+                        target="_blank"
                         className="inline-flex items-center justify-center rounded-md border border-[rgba(231,223,196,0.92)] bg-[rgba(255,252,247,0.9)] px-5 py-4 text-sm font-semibold text-[#4e483e] transition hover:border-[var(--primary)] hover:bg-[var(--primary-ghost)] hover:text-[#373119]"
                       >
                         Pesan Sekarang
-                      </OrderModalTrigger>
+                      </a>
                     </div>
                   </div>
                 </article>

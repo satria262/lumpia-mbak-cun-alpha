@@ -9,10 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Admin.ts'
-export type * from './models/User.ts'
 export type * from './models/WebConfig.ts'
 export type * from './models/Product.ts'
-export type * from './models/Order.ts'
-export type * from './models/OrderItem.ts'
 export type * from './models/Testimonial.ts'
 export type * from './commonInputTypes.ts'

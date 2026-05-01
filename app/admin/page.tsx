@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import { AdminHeader } from "./_components/AdminHeader";
 import { AdminSidebar } from "./_components/AdminSidebar";
-import { LatestOrdersTable } from "./_components/LatestOrdersTable";
 import { ProductAvailabilityCard } from "./_components/ProductAvailabilityCard";
+import { WebsiteInfoCard } from "./_components/WebsiteInfoCard";
 import { requireAdminSession } from "@/lib/admin-session";
 import { prisma } from "@/lib/prisma";
 import { buildPageMetadata } from "@/lib/seo";
@@ -43,7 +43,7 @@ export default async function AdminDashboardPage() {
           <div className="px-6 py-8 md:px-10">
             <div className="grid gap-8 xl:grid-cols-[minmax(0,1.35fr)_minmax(23rem,0.75fr)]">
               <ProductAvailabilityCard products={productAvailability} />
-              <LatestOrdersTable />
+              <WebsiteInfoCard />
             </div>
           </div>
         </div>

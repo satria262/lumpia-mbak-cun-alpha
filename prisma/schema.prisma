@@ -22,20 +22,6 @@ model Admin {
   @@map("admins")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  username  String
-  email     String   @unique
-  password  String
-  role      String
-  createdAt DateTime @default(now()) @map("created_at")
-
-  orders Order[]
-
-  @@map("users")
-}
-
 model WebConfig {
   id             Int    @id @default(autoincrement())
   siteName       String @map("site_name")
@@ -64,53 +50,7 @@ model Product {
   storageTip   String
   imageNote    String
 
-  orderItems OrderItem[]
-
   @@map("products")
-}
-
-model Order {
-  id              Int      @id @default(autoincrement())
-  invoice         String   @unique
-  userId          Int?     @map("user_id")
-  customerName    String   @map("customer_name")
-  customerPhone   String   @map("customer_phone")
-  deliveryAddress String   @map("delivery_address")
-  notes           String?  @db.Text
-  status          String   @default("pending")
-  subtotal        Int
-  deliveryFee     Int      @default(0) @map("delivery_fee")
-  totalPrice      Int      @map("total_price")
-  paymentMethod   String?  @map("payment_method")
-  paymentStatus   String   @default("unpaid") @map("payment_status")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  user  User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
-  items OrderItem[]
-
-  @@index([userId])
-  @@index([status])
-  @@index([paymentStatus])
-  @@map("orders")
-}
-
-model OrderItem {
-  id           Int      @id @default(autoincrement())
-  orderId      Int      @map("order_id")
-  productId    Int      @map("product_id")
-  productName  String   @map("product_name")
-  productPrice Int      @map("product_price")
-  quantity     Int
-  subtotal     Int
-  createdAt    DateTime @default(now()) @map("created_at")
-
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id])
-
-  @@index([orderId])
-  @@index([productId])
-  @@map("order_items")
 }
 
 model Testimonial {

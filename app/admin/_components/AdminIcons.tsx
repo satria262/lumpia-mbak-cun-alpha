@@ -7,22 +7,17 @@ export function AdminIcon({
   className = "h-5 w-5",
 }: IconProps & {
   name:
-    | "basket"
     | "bell"
-    | "cash"
     | "dashboard"
     | "edit"
     | "eye"
     | "inventory"
     | "menu"
     | "message"
-    | "orders"
     | "plus"
     | "search"
     | "settings"
-    | "tag"
     | "trash"
-    | "user"
     | "out"
     | "x";
 }) {
@@ -38,28 +33,11 @@ export function AdminIcon({
   };
 
   switch (name) {
-    case "basket":
-      return (
-        <svg {...commonProps}>
-          <path d="m7.5 10 2.2-4.5" />
-          <path d="m16.5 10-2.2-4.5" />
-          <path d="M4.8 10h14.4l-1.4 8.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L4.8 10Z" />
-        </svg>
-      );
     case "bell":
       return (
         <svg {...commonProps}>
           <path d="M18 9.6a6 6 0 0 0-12 0c0 6-2 6.4-2 7.4h16c0-1-2-.8-2-7.4Z" />
           <path d="M10 20a2.2 2.2 0 0 0 4 0" />
-        </svg>
-      );
-    case "cash":
-      return (
-        <svg {...commonProps}>
-          <path d="M4 7.5h16v9H4z" />
-          <path d="M7 10.5h.01" />
-          <path d="M17 13.5h.01" />
-          <path d="M12 14.2a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" />
         </svg>
       );
     case "dashboard":
@@ -109,15 +87,6 @@ export function AdminIcon({
           <path d="M8.5 12h4.5" />
         </svg>
       );
-    case "orders":
-      return (
-        <svg {...commonProps}>
-          <path d="M7 4h10v16H7z" />
-          <path d="M9.5 8h5" />
-          <path d="M9.5 12h5" />
-          <path d="M9.5 16h3" />
-        </svg>
-      );
     case "plus":
       return (
         <svg {...commonProps}>
@@ -139,13 +108,6 @@ export function AdminIcon({
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
       );
-    case "tag":
-      return (
-        <svg {...commonProps}>
-          <path d="M20 13.5 13.5 20 4 10.5V4h6.5L20 13.5Z" />
-          <path d="M8 8h.01" />
-        </svg>
-      );
     case "trash":
       return (
         <svg {...commonProps}>
@@ -154,13 +116,6 @@ export function AdminIcon({
           <path d="M14 11v6" />
           <path d="M6 7l1 14h10l1-14" />
           <path d="M9 7V4h6v3" />
-        </svg>
-      );
-    case "user":
-      return (
-        <svg {...commonProps}>
-          <circle cx="12" cy="8" r="3.5" />
-          <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
         </svg>
       );
     case "out":

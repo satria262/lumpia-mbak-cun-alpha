@@ -52,11 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Admin: 'Admin',
-  User: 'User',
   WebConfig: 'WebConfig',
   Product: 'Product',
-  Order: 'Order',
-  OrderItem: 'OrderItem',
   Testimonial: 'Testimonial'
 } as const
 
@@ -86,19 +83,6 @@ export const AdminScalarFieldEnum = {
 } as const
 
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
-
-
-export const UserScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  username: 'username',
-  email: 'email',
-  password: 'password',
-  role: 'role',
-  createdAt: 'createdAt'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const WebConfigScalarFieldEnum = {
@@ -134,41 +118,6 @@ export const ProductScalarFieldEnum = {
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
-export const OrderScalarFieldEnum = {
-  id: 'id',
-  invoice: 'invoice',
-  userId: 'userId',
-  customerName: 'customerName',
-  customerPhone: 'customerPhone',
-  deliveryAddress: 'deliveryAddress',
-  notes: 'notes',
-  status: 'status',
-  subtotal: 'subtotal',
-  deliveryFee: 'deliveryFee',
-  totalPrice: 'totalPrice',
-  paymentMethod: 'paymentMethod',
-  paymentStatus: 'paymentStatus',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
-
-
-export const OrderItemScalarFieldEnum = {
-  id: 'id',
-  orderId: 'orderId',
-  productId: 'productId',
-  productName: 'productName',
-  productPrice: 'productPrice',
-  quantity: 'quantity',
-  subtotal: 'subtotal',
-  createdAt: 'createdAt'
-} as const
-
-export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
-
-
 export const TestimonialScalarFieldEnum = {
   id: 'id',
   testimonial: 'testimonial',
@@ -194,12 +143,4 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

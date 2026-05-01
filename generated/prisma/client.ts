@@ -47,11 +47,6 @@ export { Prisma }
  */
 export type Admin = Prisma.AdminModel
 /**
- * Model User
- * 
- */
-export type User = Prisma.UserModel
-/**
  * Model WebConfig
  * 
  */
@@ -61,16 +56,6 @@ export type WebConfig = Prisma.WebConfigModel
  * 
  */
 export type Product = Prisma.ProductModel
-/**
- * Model Order
- * 
- */
-export type Order = Prisma.OrderModel
-/**
- * Model OrderItem
- * 
- */
-export type OrderItem = Prisma.OrderItemModel
 /**
  * Model Testimonial
  * 
