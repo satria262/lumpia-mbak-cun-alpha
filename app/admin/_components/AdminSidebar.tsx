@@ -11,6 +11,7 @@ const navItems = [
   { label: "Dasbor", href: "/admin", icon: "dashboard" },
   { label: "Inventaris", href: "/admin/products", icon: "inventory" },
   { label: "Testimoni", href: "/admin/testimonials", icon: "message" },
+  { label: "Konfigurasi Web", href: "/admin/web-config", icon: "settings" },
 ] as const;
 
 type AdminSidebarProps = {
@@ -32,14 +33,21 @@ export function AdminSidebar({ email }: AdminSidebarProps) {
           isMobileExpanded ? "border-b border-[#e6dece] pb-4" : ""
         } lg:border-b lg:pb-5`}
       >
-        <div className="min-w-0">
-          <Link href="/" className="">
+        <div className="min-w-0 w-full">
+          <Link href="/" className="flex justify-between">
             <Image
-              src="/system/lumpia-logo.png"
+              src="/system/lumpia-emoji.png"
               alt=""
               width={1024}
               height={1024}
-              className="w-54 -ml-2"
+              className="w-26 -ml-2"
+            />
+            <Image
+              src="/system/lumpia-text.png"
+              alt=""
+              width={1024}
+              height={1024}
+              className="w-26 -ml-2 invert"
             />
           </Link>
         </div>

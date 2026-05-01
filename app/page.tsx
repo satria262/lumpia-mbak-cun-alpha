@@ -365,7 +365,7 @@ export default async function Home() {
                         <h3 className=" text-2xl font-semibold text-[#1f1b15]">
                           {getHomeProductTitle(product)}
                         </h3>
-                        <p className="whitespace-nowrap text-lg font-bold text-right text-[var(--primary-strong)] sm:text-lg">
+                        <p className="whitespace-nowrap text-lg font-bold text-right text-[#C9A300] sm:text-lg">
                           {formatCompactPrice(product.price)}
                         </p>
                       </div>

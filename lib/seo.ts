@@ -9,7 +9,7 @@ export function getSiteUrl() {
     process.env.NEXT_PUBLIC_SITE_URL ??
     process.env.VERCEL_PROJECT_PRODUCTION_URL ??
     process.env.VERCEL_URL ??
-    "https://lumpiambakcun.com";
+    "https://lumpia-mbak-cun-alpha-ten.vercel.app";
   const url = rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`;
 
   return new URL(url);
