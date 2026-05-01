@@ -42,7 +42,14 @@ export function WebConfigTabs({
 }: {
   initialValues: WebConfigValues;
 }) {
-  
+  const [values, setValues] = useState(initialValues)
+
+  const handleChange = (name: string, value: string) => {
+    setValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
   const [activeTab, setActiveTab] = useState<WebConfigTabId>("identity");
   const currentTab = useMemo(
     () => tabs.find((tab) => tab.id === activeTab) ?? tabs[0],
@@ -95,7 +102,7 @@ export function WebConfigTabs({
           <OperationsLinksTab values={initialValues} />
         ) : null}
 
-        {activeTab === "seo" ? <SeoMetaTab values={initialValues} /> : null}
+        {activeTab === "seo" ? <SeoMetaTab values={values} onChange={handleChange} /> : null}
       </div>
     </div>
   );

@@ -9,6 +9,36 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
+const webConfigEntries: Record<string, string> = {
+  siteTitle: "Lumpia Mbak Cun",
+  siteSubtitle: "The Heart of Indonesian Crispy Rolls",
+  logo: "",
+  favicon: "/system/lumpia-ai.png",
+  productSectionTitle: "Varian Unggulan Kami",
+  heroTitle: "Cita Rasa Otentik Semarangan",
+  heroDescription:
+    "Temukan resep warisan keluarga yang diturunkan lintas generasi. Kulit lumpia yang digoreng dengan minyak panas yang pas sehingga menciptakan kulit golden brown yang renyah membalut rebung pilihan dan bahan-bahan premium segar dari pertanian.",
+  heroSubDescription:
+    "Dipilih dengan cermat, disiapkan dengan hormat. Pilih pengalaman warisan Anda.",
+  orderButtonLabel: "Pesan Sekarang",
+  exploreButtonLabel: "Jelajahi Menu",
+  orderButtonLink: "https://gofood.link/a/C2kf5TE",
+  exploreButtonLink: "/#products",
+  foundedYear: "1998",
+  address: "Jl. Meranti Barat 1 no. 322 banyumanik semarang",
+  openDays: "Senin - Sabtu",
+  openHours: "09:00 - 21:00",
+  whatsappLink: "https://api.whatsapp.com/send/?phone=6281227816101",
+  mapsLink:
+    "https://www.google.com/maps/place/Lumpia+Semarang+%7C+Lumpia+Mbak+Cun",
+  goFoodLink: "https://gofood.link/a/C2kf5TE",
+  instagramLink: "https://gofood.link/a/C2kf5TE",
+  grabFoodLink: "https://gofood.link/a/C2kf5TE",
+  homeSeoTitle: "Lumpia Semarang Asli dan Tahu Bakso",
+  homeSeoDescription:
+    "Cita rasa otentik Semarang, Lumpia dan Tahu Bakso khas nusantara yang selalu diracik dengan cinta.",
+};
+
 function parsePrice(price: string) {
   const value = Number(price.replace(/[^\d]/g, ""));
 
@@ -93,9 +123,24 @@ async function seedProducts() {
   console.log(`Seeded ${products.length} products.`);
 }
 
+async function seedWebConfigs() {
+  const entries = Object.entries(webConfigEntries);
+
+  for (const [key, value] of entries) {
+    await prisma.webConfig.upsert({
+      where: { key },
+      update: { value: String(value) },
+      create: { key, value: String(value) },
+    });
+  }
+
+  console.log(`Seeded ${entries.length} web configs.`);
+}
+
 async function main() {
   await seedAdmin();
   await seedProducts();
+  await seedWebConfigs();
 }
 
 main()

@@ -756,11 +756,10 @@ export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof Ad
 
 export const WebConfigScalarFieldEnum = {
   id: 'id',
-  siteName: 'siteName',
-  logo: 'logo',
-  whatsappNumber: 'whatsappNumber',
-  address: 'address',
-  heroBanner: 'heroBanner'
+  key: 'key',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type WebConfigScalarFieldEnum = (typeof WebConfigScalarFieldEnum)[keyof typeof WebConfigScalarFieldEnum]

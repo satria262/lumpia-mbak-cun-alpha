@@ -1,6 +1,8 @@
 export type WebConfigValues = {
   siteTitle: string;
   siteSubtitle: string;
+  favicon: string;
+  logo: string;
   productSectionTitle: string;
   heroTitle: string;
   heroDescription: string;
@@ -16,6 +18,8 @@ export type WebConfigValues = {
   whatsappLink: string;
   mapsLink: string;
   goFoodLink: string;
+  instagramLink: string;
+  grabFoodLink: string;
   homeSeoTitle: string;
   homeSeoDescription: string;
 };

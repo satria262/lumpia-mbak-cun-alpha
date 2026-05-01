@@ -20,82 +20,58 @@ export type WebConfigModel = runtime.Types.Result.DefaultSelection<Prisma.$WebCo
 
 export type AggregateWebConfig = {
   _count: WebConfigCountAggregateOutputType | null
-  _avg: WebConfigAvgAggregateOutputType | null
-  _sum: WebConfigSumAggregateOutputType | null
   _min: WebConfigMinAggregateOutputType | null
   _max: WebConfigMaxAggregateOutputType | null
 }
 
-export type WebConfigAvgAggregateOutputType = {
-  id: number | null
-}
-
-export type WebConfigSumAggregateOutputType = {
-  id: number | null
-}
-
 export type WebConfigMinAggregateOutputType = {
-  id: number | null
-  siteName: string | null
-  logo: string | null
-  whatsappNumber: string | null
-  address: string | null
-  heroBanner: string | null
+  id: string | null
+  key: string | null
+  value: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WebConfigMaxAggregateOutputType = {
-  id: number | null
-  siteName: string | null
-  logo: string | null
-  whatsappNumber: string | null
-  address: string | null
-  heroBanner: string | null
+  id: string | null
+  key: string | null
+  value: string | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type WebConfigCountAggregateOutputType = {
   id: number
-  siteName: number
-  logo: number
-  whatsappNumber: number
-  address: number
-  heroBanner: number
+  key: number
+  value: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
 
-export type WebConfigAvgAggregateInputType = {
-  id?: true
-}
-
-export type WebConfigSumAggregateInputType = {
-  id?: true
-}
-
 export type WebConfigMinAggregateInputType = {
   id?: true
-  siteName?: true
-  logo?: true
-  whatsappNumber?: true
-  address?: true
-  heroBanner?: true
+  key?: true
+  value?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WebConfigMaxAggregateInputType = {
   id?: true
-  siteName?: true
-  logo?: true
-  whatsappNumber?: true
-  address?: true
-  heroBanner?: true
+  key?: true
+  value?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type WebConfigCountAggregateInputType = {
   id?: true
-  siteName?: true
-  logo?: true
-  whatsappNumber?: true
-  address?: true
-  heroBanner?: true
+  key?: true
+  value?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -137,18 +113,6 @@ export type WebConfigAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: WebConfigAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: WebConfigSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: WebConfigMinAggregateInputType
@@ -179,22 +143,17 @@ export type WebConfigGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: WebConfigCountAggregateInputType | true
-  _avg?: WebConfigAvgAggregateInputType
-  _sum?: WebConfigSumAggregateInputType
   _min?: WebConfigMinAggregateInputType
   _max?: WebConfigMaxAggregateInputType
 }
 
 export type WebConfigGroupByOutputType = {
-  id: number
-  siteName: string
-  logo: string
-  whatsappNumber: string
-  address: string
-  heroBanner: string
+  id: string
+  key: string
+  value: string
+  createdAt: Date
+  updatedAt: Date
   _count: WebConfigCountAggregateOutputType | null
-  _avg: WebConfigAvgAggregateOutputType | null
-  _sum: WebConfigSumAggregateOutputType | null
   _min: WebConfigMinAggregateOutputType | null
   _max: WebConfigMaxAggregateOutputType | null
 }
@@ -218,214 +177,179 @@ export type WebConfigWhereInput = {
   AND?: Prisma.WebConfigWhereInput | Prisma.WebConfigWhereInput[]
   OR?: Prisma.WebConfigWhereInput[]
   NOT?: Prisma.WebConfigWhereInput | Prisma.WebConfigWhereInput[]
-  id?: Prisma.IntFilter<"WebConfig"> | number
-  siteName?: Prisma.StringFilter<"WebConfig"> | string
-  logo?: Prisma.StringFilter<"WebConfig"> | string
-  whatsappNumber?: Prisma.StringFilter<"WebConfig"> | string
-  address?: Prisma.StringFilter<"WebConfig"> | string
-  heroBanner?: Prisma.StringFilter<"WebConfig"> | string
+  id?: Prisma.StringFilter<"WebConfig"> | string
+  key?: Prisma.StringFilter<"WebConfig"> | string
+  value?: Prisma.StringFilter<"WebConfig"> | string
+  createdAt?: Prisma.DateTimeFilter<"WebConfig"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WebConfig"> | Date | string
 }
 
 export type WebConfigOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  siteName?: Prisma.SortOrder
-  logo?: Prisma.SortOrder
-  whatsappNumber?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  heroBanner?: Prisma.SortOrder
+  key?: Prisma.SortOrder
+  value?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WebConfigWhereUniqueInput = Prisma.AtLeast<{
-  id?: number
+  id?: string
+  key?: string
   AND?: Prisma.WebConfigWhereInput | Prisma.WebConfigWhereInput[]
   OR?: Prisma.WebConfigWhereInput[]
   NOT?: Prisma.WebConfigWhereInput | Prisma.WebConfigWhereInput[]
-  siteName?: Prisma.StringFilter<"WebConfig"> | string
-  logo?: Prisma.StringFilter<"WebConfig"> | string
-  whatsappNumber?: Prisma.StringFilter<"WebConfig"> | string
-  address?: Prisma.StringFilter<"WebConfig"> | string
-  heroBanner?: Prisma.StringFilter<"WebConfig"> | string
-}, "id">
+  value?: Prisma.StringFilter<"WebConfig"> | string
+  createdAt?: Prisma.DateTimeFilter<"WebConfig"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"WebConfig"> | Date | string
+}, "id" | "key">
 
 export type WebConfigOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  siteName?: Prisma.SortOrder
-  logo?: Prisma.SortOrder
-  whatsappNumber?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  heroBanner?: Prisma.SortOrder
+  key?: Prisma.SortOrder
+  value?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.WebConfigCountOrderByAggregateInput
-  _avg?: Prisma.WebConfigAvgOrderByAggregateInput
   _max?: Prisma.WebConfigMaxOrderByAggregateInput
   _min?: Prisma.WebConfigMinOrderByAggregateInput
-  _sum?: Prisma.WebConfigSumOrderByAggregateInput
 }
 
 export type WebConfigScalarWhereWithAggregatesInput = {
   AND?: Prisma.WebConfigScalarWhereWithAggregatesInput | Prisma.WebConfigScalarWhereWithAggregatesInput[]
   OR?: Prisma.WebConfigScalarWhereWithAggregatesInput[]
   NOT?: Prisma.WebConfigScalarWhereWithAggregatesInput | Prisma.WebConfigScalarWhereWithAggregatesInput[]
-  id?: Prisma.IntWithAggregatesFilter<"WebConfig"> | number
-  siteName?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
-  logo?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
-  whatsappNumber?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
-  address?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
-  heroBanner?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
+  id?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
+  key?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
+  value?: Prisma.StringWithAggregatesFilter<"WebConfig"> | string
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"WebConfig"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WebConfig"> | Date | string
 }
 
 export type WebConfigCreateInput = {
-  siteName: string
-  logo: string
-  whatsappNumber: string
-  address: string
-  heroBanner: string
+  id?: string
+  key: string
+  value: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WebConfigUncheckedCreateInput = {
-  id?: number
-  siteName: string
-  logo: string
-  whatsappNumber: string
-  address: string
-  heroBanner: string
+  id?: string
+  key: string
+  value: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WebConfigUpdateInput = {
-  siteName?: Prisma.StringFieldUpdateOperationsInput | string
-  logo?: Prisma.StringFieldUpdateOperationsInput | string
-  whatsappNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  heroBanner?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  key?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WebConfigUncheckedUpdateInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  siteName?: Prisma.StringFieldUpdateOperationsInput | string
-  logo?: Prisma.StringFieldUpdateOperationsInput | string
-  whatsappNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  heroBanner?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  key?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WebConfigCreateManyInput = {
-  id?: number
-  siteName: string
-  logo: string
-  whatsappNumber: string
-  address: string
-  heroBanner: string
+  id?: string
+  key: string
+  value: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type WebConfigUpdateManyMutationInput = {
-  siteName?: Prisma.StringFieldUpdateOperationsInput | string
-  logo?: Prisma.StringFieldUpdateOperationsInput | string
-  whatsappNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  heroBanner?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  key?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WebConfigUncheckedUpdateManyInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  siteName?: Prisma.StringFieldUpdateOperationsInput | string
-  logo?: Prisma.StringFieldUpdateOperationsInput | string
-  whatsappNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  address?: Prisma.StringFieldUpdateOperationsInput | string
-  heroBanner?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  key?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type WebConfigCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  siteName?: Prisma.SortOrder
-  logo?: Prisma.SortOrder
-  whatsappNumber?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  heroBanner?: Prisma.SortOrder
-}
-
-export type WebConfigAvgOrderByAggregateInput = {
-  id?: Prisma.SortOrder
+  key?: Prisma.SortOrder
+  value?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WebConfigMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  siteName?: Prisma.SortOrder
-  logo?: Prisma.SortOrder
-  whatsappNumber?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  heroBanner?: Prisma.SortOrder
+  key?: Prisma.SortOrder
+  value?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type WebConfigMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  siteName?: Prisma.SortOrder
-  logo?: Prisma.SortOrder
-  whatsappNumber?: Prisma.SortOrder
-  address?: Prisma.SortOrder
-  heroBanner?: Prisma.SortOrder
-}
-
-export type WebConfigSumOrderByAggregateInput = {
-  id?: Prisma.SortOrder
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+  key?: Prisma.SortOrder
+  value?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 
 
 export type WebConfigSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  siteName?: boolean
-  logo?: boolean
-  whatsappNumber?: boolean
-  address?: boolean
-  heroBanner?: boolean
+  key?: boolean
+  value?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["webConfig"]>
 
 export type WebConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  siteName?: boolean
-  logo?: boolean
-  whatsappNumber?: boolean
-  address?: boolean
-  heroBanner?: boolean
+  key?: boolean
+  value?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["webConfig"]>
 
 export type WebConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  siteName?: boolean
-  logo?: boolean
-  whatsappNumber?: boolean
-  address?: boolean
-  heroBanner?: boolean
+  key?: boolean
+  value?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["webConfig"]>
 
 export type WebConfigSelectScalar = {
   id?: boolean
-  siteName?: boolean
-  logo?: boolean
-  whatsappNumber?: boolean
-  address?: boolean
-  heroBanner?: boolean
+  key?: boolean
+  value?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type WebConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "logo" | "whatsappNumber" | "address" | "heroBanner", ExtArgs["result"]["webConfig"]>
+export type WebConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "key" | "value" | "createdAt" | "updatedAt", ExtArgs["result"]["webConfig"]>
 
 export type $WebConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "WebConfig"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: number
-    siteName: string
-    logo: string
-    whatsappNumber: string
-    address: string
-    heroBanner: string
+    id: string
+    key: string
+    value: string
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["webConfig"]>
   composites: {}
 }
@@ -849,12 +773,11 @@ export interface Prisma__WebConfigClient<T, Null = never, ExtArgs extends runtim
  * Fields of the WebConfig model
  */
 export interface WebConfigFieldRefs {
-  readonly id: Prisma.FieldRef<"WebConfig", 'Int'>
-  readonly siteName: Prisma.FieldRef<"WebConfig", 'String'>
-  readonly logo: Prisma.FieldRef<"WebConfig", 'String'>
-  readonly whatsappNumber: Prisma.FieldRef<"WebConfig", 'String'>
-  readonly address: Prisma.FieldRef<"WebConfig", 'String'>
-  readonly heroBanner: Prisma.FieldRef<"WebConfig", 'String'>
+  readonly id: Prisma.FieldRef<"WebConfig", 'String'>
+  readonly key: Prisma.FieldRef<"WebConfig", 'String'>
+  readonly value: Prisma.FieldRef<"WebConfig", 'String'>
+  readonly createdAt: Prisma.FieldRef<"WebConfig", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"WebConfig", 'DateTime'>
 }
     
 

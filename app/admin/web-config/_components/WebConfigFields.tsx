@@ -15,11 +15,13 @@ export function TextField({
   name,
   value,
   type = "text",
+  onChange
 }: {
   label: string;
   name: string;
   value: string;
   type?: "text" | "url";
+  onChange?: (name: string, value: string) => void;
 }) {
   return (
     <div className="space-y-2">
@@ -28,7 +30,7 @@ export function TextField({
         type={type}
         name={name}
         defaultValue={value}
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => onChange?.(name, e.target.value)}
         className="h-12 w-full rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 text-sm font-medium text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
       />
     </div>
@@ -40,11 +42,13 @@ export function TextAreaField({
   name,
   value,
   rows = 4,
+  onChange
 }: {
   label: string;
   name: string;
   value: string;
   rows?: number;
+  onChange?: (name: string, value: string) => void;
 }) {
   return (
     <div className="space-y-2">
@@ -53,6 +57,7 @@ export function TextAreaField({
         name={name}
         defaultValue={value}
         rows={rows}
+        onChange={(e) => onChange?.(name, e.target.value)}
         className="w-full resize-y rounded-lg border border-[#e5dfd2] bg-[#fbfaf6] px-4 py-3 text-sm leading-6 text-[#211d16] outline-none transition placeholder:text-[#a9a397] focus:border-[#92a25f] focus:bg-white focus:ring-4 focus:ring-[#eef3da]"
       />
     </div>

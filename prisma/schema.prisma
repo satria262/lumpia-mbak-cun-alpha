@@ -23,12 +23,11 @@ model Admin {
 }
 
 model WebConfig {
-  id             Int    @id @default(autoincrement())
-  siteName       String @map("site_name")
-  logo           String
-  whatsappNumber String @map("whatsapp_number")
-  address        String
-  heroBanner     String @map("hero_banner")
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("web_configs")
 }

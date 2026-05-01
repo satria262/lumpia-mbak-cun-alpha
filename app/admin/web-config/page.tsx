@@ -55,6 +55,8 @@ export default async function WebConfigPage() {
               initialValues={{
                 siteTitle: site.name,
                 siteSubtitle: "The Heart of Indonesian Crispy Rolls",
+                logo: '',
+                favicon: "/system/lumpia-ai.png",
                 productSectionTitle: "Varian Unggulan Kami",
                 heroTitle: "Cita Rasa Otentik Semarangan",
                 heroDescription:
@@ -74,6 +76,8 @@ export default async function WebConfigPage() {
                 mapsLink:
                   "https://www.google.com/maps/place/Lumpia+Semarang+%7C+Lumpia+Mbak+Cun",
                 goFoodLink: "https://gofood.link/a/C2kf5TE",
+                instagramLink: "https://gofood.link/a/C2kf5TE",
+                grabFoodLink: "https://gofood.link/a/C2kf5TE",
                 homeSeoTitle: "Lumpia Semarang Asli dan Tahu Bakso",
                 homeSeoDescription: site.description,
               }}
